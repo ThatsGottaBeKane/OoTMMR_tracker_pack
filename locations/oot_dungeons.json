@@ -1522,10 +1522,10 @@
         "name": "First Room Big Fairy",
         "short_name": "Big Fairy",
         "access_rules": [
-          "$oot|Ice Cavern Big Fairy"
+          "$oot|Ice Cavern Entrance Big Fairy"
         ],
         "visibility_rules": [
-          "setting_ShuffleBigFairiesOoT_none"
+          "setting_ShuffleBigFairiesOoT_true"
         ],
         "chest_unopened_img": "images/BigFairyStorms.png",
         "chest_opened_img": "images/BigFairyStormsGrey.png",
@@ -3206,7 +3206,7 @@
           "$oot|Shadow Temple Beamos Big Fairy"
         ],
         "visibility_rules": [
-          "setting_ShuffleBigFairiesOoT_none"
+          "setting_ShuffleBigFairiesOoT_true"
         ],
         "chest_unopened_img": "images/BigFairyStorms.png",
         "chest_opened_img": "images/BigFairyStormsGrey.png",
@@ -3219,7 +3219,7 @@
           "$oot|Shadow Temple Stalfos Big Fairy"
         ],
         "visibility_rules": [
-          "setting_ShuffleBigFairiesOoT_none"
+          "setting_ShuffleBigFairiesOoT_true"
         ],
         "chest_unopened_img": "images/BigFairyStorms.png",
         "chest_opened_img": "images/BigFairyStormsGrey.png",
@@ -3348,10 +3348,10 @@
         "name": "After Wind Room Big Fairy",
         "short_name": "Big Fairy 3",
         "access_rules": [
-          "$oot|Shadow Temple After Wind Room Big Fairy"
+          "$oot|Shadow Temple Big Fairy After Win"
         ],
         "visibility_rules": [
-          "setting_ShuffleBigFairiesOoT_none"
+          "setting_ShuffleBigFairiesOoT_true"
         ],
         "chest_unopened_img": "images/BigFairySun.png",
         "chest_opened_img": "images/BigFairySunGrey.png",
@@ -4134,13 +4134,13 @@
         "item_count": 1
       },
       {
-        "name": "Near Four Armos Big Fairy",
+        "name": "Near Four Armos Sunlight Big Fairy",
         "short_name": "Armos Big Fairy",
         "access_rules": [
-          "$ootmq|Spirit Temple Near Four Armos Big Fairy"
+          "$ootmq|Spirit Temple Adult Sunlight Big Fairy"
         ],
         "visibility_rules": [
-          "setting_ShuffleBigFairiesOoT_none"
+          "setting_ShuffleBigFairiesOoT_true"
         ],
         "chest_unopened_img": "images/BigFairySun.png",
         "chest_opened_img": "images/BigFairySunGrey.png",
@@ -4254,10 +4254,10 @@
         "name": "Big Fairy Symphony Room",
         "short_name": "Symphony Big Fairy",
         "access_rules": [
-          "$ootmq|MQ Spirit Temple Fairy Symphony Room"
+          "$ootmq|Spirit Temple Adult Silver Rupees Big Fairy"
         ],
         "visibility_rules": [
-          "setting_ShuffleBigFairiesOoT_none,setting_mq_SpiritTemple_true"
+          "setting_ShuffleBigFairiesOoT_true,setting_mq_SpiritTemple_true"
         ],
         "chest_unopened_img": "images/BigFairySun.png",
         "chest_opened_img": "images/BigFairySunsGrey.png",
@@ -4774,13 +4774,13 @@
         "item_count": 2
       },
       {
-        "name": "Big Fairy Basement",
+        "name": "Basement Big Fairy",
         "short_name": "Fairy Basement",
         "access_rules": [
-          "$oot|Bottom of the Well Big Fairy Basement"
+          "$oot|Bottom of the Well Basement Big Fairy"
         ],
         "visibility_rules": [
-          "setting_ShuffleBigFairiesOoT_none"
+          "setting_ShuffleBigFairiesOoT_true"
         ],
         "chest_unopened_img": "images/BigFairySun.png",
         "chest_opened_img": "images/BigFairySunGrey.png",
@@ -4947,7 +4947,7 @@
           "$oot|Ganon Castle Spirit Big Fairy"
         ],
         "visibility_rules": [
-          "setting_mq_GanonCastle_false,setting_ShuffleBigFairiesOoT_none"
+          "setting_mq_GanonCastle_false,setting_ShuffleBigFairiesOoT_true"
         ],
         "item_count": 1
       },
@@ -5161,6 +5161,19 @@
           "setting_mq_GerudoTrainingGrounds_false"
         ],
         "item_count": 2
+      },
+      {
+        "name": "Entrance Big Fairy",
+        "short_name": "Big Fairy",
+        "access_rules": [
+          "$oot|Gerudo Training Grounds Entrance Big Fairy"
+        ],
+        "visibility_rules": [
+          "setting_ShuffleBigFairiesOoT_true"
+        ],
+        "chest_unopened_img": "images/BigFairyStorms.png",
+        "chest_opened_img": "images/BigFairyStormsGrey.png",
+        "item_count": 1
       },
       {
         "name": "Lobby Hearts",
