@@ -777,7 +777,7 @@
         "chest_unopened_img": "images/PFHearts.png",
         "chest_opened_img": "images/PFHeartsGrey.png",
         "access_rules": [
-          "$mm|Pirate Fortress Freestanding Hearts"
+          "$mm|Pirate Fortress Interior Heart 1"
         ],
         "force_invisibility_rules": [
           "setting_heartShuffleMM_false"
