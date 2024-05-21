@@ -31,7 +31,7 @@
       {
         "name": "Lobby Hearts",
         "access_rules": [
-          "$oot|Deku Tree Lobby Hearts"
+          "$oot|Deku Tree Heart Main Room Lower"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -237,7 +237,7 @@
       {
         "name": "Pre-Boss Hearts",
         "access_rules": [
-          "$oot|Deku Tree Pre-Boss Hearts"
+          "$oot|Deku Tree Heart Pre-Boss 1"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -286,7 +286,7 @@
       {
         "name": "Lobby Heart",
         "access_rules": [
-          "$ootmq|MQ Deku Tree Lobby Heart"
+          "$ootmq|Deku Tree Heart Pre-Boss 2"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -321,7 +321,7 @@
       {
         "name": "Slingshot Room Heart",
         "access_rules": [
-          "$ootmq|MQ Deku Slingshot Room Heart"
+          "$ootmq|MQ Deku Tree Heart Slingshot Room"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -368,7 +368,7 @@
       {
         "name": "Before Compass Room Heart",
         "access_rules": [
-          "$ootmq|MQ Deku Tree Before Compass Room Heart"
+          "$ootmq|MQ Deku Tree Heart Before Compass"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -387,18 +387,6 @@
           "setting_mq_DekuTree_true"
         ],
         "chest_unopened_img": "images/chest_brown_compass.png",
-        "item_count": 1
-      },
-      {
-        "name": "Compass Room Heart",
-        "access_rules": [
-          "$ootmq|MQ Deku Tree Compass Room Heart"
-        ],
-        "visibility_rules": [
-          "setting_heartShuffleOOT_true"
-        ],
-        "chest_unopened_img": "images/Heart.png",
-        "chest_opened_img": "images/Heart_Grey.png",
         "item_count": 1
       },
       {
@@ -572,7 +560,7 @@
       {
         "name": "Pre-Boss Heart",
         "access_rules": [
-          "$ootmq|MQ Deku Pre-Boss Heart"
+          "$ootmq|MQ Deku Tree Heart Before Boss 1"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -634,7 +622,7 @@
       {
         "name": "Lava Heart",
         "access_rules": [
-          "$oot|Dodongo Cavern Lava Heart"
+          "$oot|Dodongo Cavern Heart Miniboss Lava"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -747,7 +735,7 @@
       {
         "name": "Miniboss II Hearts",
         "access_rules": [
-          "$oot|Dodongo Miniboss II Hearts"
+          "$oot|Dodongo Cavern Heart Miniboss Upper 1"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -782,7 +770,7 @@
       {
         "name": "Bomb Bag Room Heart",
         "access_rules": [
-          "$oot|Dodongo Bomb Bag Room Heart"
+          "$oot|Dodongo Cavern Heart Bomb Bag Room"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -891,7 +879,7 @@
       {
         "name": "Vanilla Bomb Bag Room Heart",
         "access_rules": [
-          "$ootmq|Dodongo Cavern Vanilla Bomb Bag Room Heart"
+          "$ootmq|MQ Dodongo Cavern Heart Vanilla Bomb Bag Room"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -1399,7 +1387,7 @@
       {
         "name": "Jabu Jabu Hearts",
         "access_rules": [
-          "$ootmq|MQ Jabu-Jabu Hearts"
+          "$ootmq|MQ Jabu-Jabu Heart 1"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -1634,7 +1622,7 @@
       {
         "name": "Ice Cavern Hearts",
         "access_rules": [
-          "$oot|Ice Cavern Hearts"
+          "$oot|Ice Cavern Heart 1"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -2869,7 +2857,7 @@
       {
         "name": "Water Temple Hearts",
         "access_rules": [
-          "$oot|Water Temple Hearts"
+          "$oot|Water Temple Heart 1"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -3178,7 +3166,7 @@
       {
         "name": "Scythe Hearts",
         "access_rules": [
-          "$oot|Shadow Temple Scythe Hearts"
+          "$oot|Shadow Temple Heart Scythe 1"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -3190,7 +3178,7 @@
       {
         "name": "Scythe Shortcut Hearts",
         "access_rules": [
-          "$oot|Shadow Temple Scythe Shortcut Hearts"
+          "$oot|Shadow Temple Heart Shortcut 1"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -3458,7 +3446,7 @@
       {
         "name": "Pre-Boss Hearts",
         "access_rules": [
-          "$oot|Shadow Temple Pre-Boss Hearts"
+          "$oot|Shadow Temple Heart Pre-Boss 1"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -3793,7 +3781,7 @@
       {
         "name": "Spirit Temple Hearts",
         "access_rules": [
-          "$oot|Shadow Temple Hearts"
+          "$oot|Spirit Temple Heart 1"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -4629,7 +4617,7 @@
       {
         "name": "Basement Hearts",
         "access_rules": [
-          "$oot|Bottom of the Well Hearts"
+          "$oot|Bottom of the Well Heart 1"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -4641,7 +4629,7 @@
       {
         "name": "Main Room Hearts",
         "access_rules": [
-          "$ootmq|MQ Bottom of the Well Main Room Hearts"
+          "$ootmq|MQ Bottom of the Well Heart Main Room 1"
         ],
         "force_invisibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -4678,7 +4666,7 @@
       {
         "name": "Coffin Hearts",
         "access_rules": [
-          "$ootmq|MQ Bottom of the Well Coffin Hearts"
+          "$ootmq|MQ Bottom of the Well Heart Coffin 1"
         ],
         "force_invisibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -4764,7 +4752,7 @@
       {
         "name": "Basement Hearts",
         "access_rules": [
-          "$ootmq|MQ Bottom of the Well Basement Hearts"
+          "$ootmq|MQ Bottom of the Well Heart Basement 1"
         ],
         "force_invisibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -4828,7 +4816,7 @@
       {
         "name": "Fire Trial Heart",
         "access_rules": [
-          "$oot|Ganon Castle Fire Heart"
+          "$oot|Ganon Castle Heart Fire"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -4851,7 +4839,7 @@
       {
         "name": "Shadow Trial Hearts",
         "access_rules": [
-          "$oot|Ganon Castle Shadow Hearts"
+          "$oot|Ganon Castle Heart Shadow 1"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -4931,7 +4919,7 @@
       {
         "name": "Spirit Trial Heart",
         "access_rules": [
-          "$oot|Ganon Castle Spirit Heart"
+          "$oot|Ganon Castle Heart Spirit"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
@@ -5178,7 +5166,7 @@
       {
         "name": "Lobby Hearts",
         "access_rules": [
-          "$oot|Gerudo Training Grounds Entrance Hearts"
+          "$oot|Gerudo Training Grounds Heart 1s"
         ],
         "visibility_rules": [
           "setting_heartShuffleOOT_true"
