@@ -76,7 +76,7 @@
               {
                 "name": "KF Saria's House Hearts",
                 "access_rules": [
-                  "$oot|Kokiri Forest Saria Hearts"
+                  "$oot|Saria's House Heart 1"
                 ],
                 "chest_unopened_img": "images/Heart.png",
                 "chest_opened_img": "images/Heart_Grey.png",
@@ -85,7 +85,7 @@
               {
                 "name": "KF Saria's House Hearts Roof",
                 "access_rules": [
-                  "$oot|Kokiri Forest Saria Hearts Roof"
+                  "$oot|Kokiri Forest Heart 1"
                 ],
                 "chest_unopened_img": "images/Heart.png",
                 "chest_opened_img": "images/Heart_Grey.png",
@@ -1646,231 +1646,229 @@
           }
         ]
       },
-          {
-            "name": "LH Big Fairy",
-            "short_name": "LH Big Fairy",
-            "access_rules": [
-              "$oot|Lake Hylia Island Big Fairy"
-            ],
-            "visibility_rules": [
-              "setting_bigFairyShuffleOOT_true"
-            ],
-            "chest_unopened_img": "images/BigFairyStorms.png",
-            "chest_opened_img": "images/BigFairyStormsGrey.png",
-            "item_count": 1
-          }
+      {
+        "name": "LH Big Fairy",
+        "short_name": "LH Big Fairy",
+        "access_rules": [
+          "$oot|Lake Hylia Island Big Fairy"
         ],
-        "map_locations": [
-          {
-            "map": "oot",
-            "x": 1135,
-            "y": 1417
-          },
-          {
-            "map": "oot_er_locations",
-            "x": 1135,
-            "y": 1417
-          }
-        ]
+        "visibility_rules": [
+          "setting_bigFairyShuffleOOT_true"
+        ],
+        "chest_unopened_img": "images/BigFairyStorms.png",
+        "chest_opened_img": "images/BigFairyStormsGrey.png",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "oot",
+        "x": 1135,
+        "y": 1417
       },
       {
-        "name": "LH Lab Tower",
-        "sections": [
-          {
-            "name": "LH Freestanding PoH",
-            "short_name": "HP",
-            "access_rules": [
-              "$oot|Lake Hylia HP"
-            ],
-            "chest_unopened_img": "images/HP.png",
-            "chest_opened_img": "images/HP_grey.png",
-            "item_count": 1
-          }
+        "map": "oot_er_locations",
+        "x": 1135,
+        "y": 1417
+      }
+    ]
+  },
+  {
+    "name": "LH Lab Tower",
+    "sections": [
+      {
+        "name": "LH Freestanding PoH",
+        "short_name": "HP",
+        "access_rules": [
+          "$oot|Lake Hylia HP"
         ],
-        "map_locations": [
-          {
-            "map": "oot",
-            "x": 960,
-            "y": 1160
-          },
-          {
-            "map": "oot_er_locations",
-            "x": 960,
-            "y": 1160
-          }
-        ]
+        "chest_unopened_img": "images/HP.png",
+        "chest_opened_img": "images/HP_grey.png",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "oot",
+        "x": 960,
+        "y": 1160
       },
       {
-        "name": "LH Lab",
-        "sections": [
-          {
-            "name": "LH Lab Dive",
-            "access_rules": [
-              "$oot|Laboratory Dive"
-            ],
-            "chest_unopened_img": "images/chest_brown_closed.png",
-            "chest_opened_img": "images/chest_brown_open.png",
-            "item_count": 1
-          },
-          {
-            "name": "Give Frog",
-            "access_rules": [
-              "$oot|Laboratory Eye Drops"
-            ],
-            "chest_unopened_img": "images/Eyeball_Frog.png",
-            "chest_opened_img": "images/Eyeball_Frog_Grey.png",
-            "item_count": 1
-          },
-          {
-            "name": "LH GS Lab Crate",
-            "short_name": "GS",
-            "access_rules": [
-              "$oot|Laboratory GS Crate"
-            ],
-            "visibility_rules": [
-              "setting_goldSkulltulaTokens_overworld"
-            ],
-            "chest_unopened_img": "images/skulltula.png",
-            "chest_opened_img": "images/skulltula_token.png",
-            "item_count": 1
-          }
+        "map": "oot_er_locations",
+        "x": 960,
+        "y": 1160
+      }
+    ]
+  },
+  {
+    "name": "LH Lab",
+    "sections": [
+      {
+        "name": "LH Lab Dive",
+        "access_rules": [
+          "$oot|Laboratory Dive"
         ],
-        "map_locations": [
-          {
-            "map": "oot",
-            "x": 960,
-            "y": 1200
-          },
-          {
-            "map": "oot_er_locations",
-            "x": 960,
-            "y": 1200
-          }
-        ]
+        "chest_unopened_img": "images/chest_brown_closed.png",
+        "chest_opened_img": "images/chest_brown_open.png",
+        "item_count": 1
       },
       {
-        "name": "LH Grotto",
-        "sections": [
-          {
-            "name": "LH Deku Scrubs Grotto",
-            "short_name": "Deku Scrubs",
-            "access_rules": [
-              "$oot|Lake Hylia Grotto Center Scrub"
-            ],
-            "chest_unopened_img": "images/deku_scrub.png",
-            "chest_opened_img": "images/deku_scrub_grey.png",
-            "clear_as_group": false,
-            "item_count": 3
-          }
+        "name": "Give Frog",
+        "access_rules": [
+          "$oot|Laboratory Eye Drops"
         ],
-        "map_locations": [
-          {
-            "map": "oot",
-            "force_invisibility_rules": [
-              "setting_scrubShuffleOot_false"
-            ],
-            "x": 870,
-            "y": 1310
-          },
-          {
-            "map": "oot_er_locations",
-            "force_invisibility_rules": [
-              "setting_scrubShuffleOot_false"
-            ],
-            "x": 870,
-            "y": 1310
-          }
-        ]
+        "chest_unopened_img": "images/Eyeball_Frog.png",
+        "chest_opened_img": "images/Eyeball_Frog_Grey.png",
+        "item_count": 1
       },
       {
-        "name": "LH Bean Patch",
-        "sections": [
-          {
-            "name": "LH GS Bean Patch",
-            "short_name": "GS",
-            "access_rules": [
-              "$oot|Lake Hylia GS Soil"
-            ],
-            "visibility_rules": [
-              "setting_goldSkulltulaTokens_overworld"
-            ],
-            "chest_unopened_img": "images/skulltula.png",
-            "chest_opened_img": "images/skulltula_token.png",
-            "item_count": 1
-          }
+        "name": "LH GS Lab Crate",
+        "short_name": "GS",
+        "access_rules": [
+          "$oot|Laboratory GS Crate"
         ],
-        "map_locations": [
-          {
-            "map": "oot",
-            "x": 1000,
-            "y": 1180
-          },
-          {
-            "map": "oot_er_locations",
-            "x": 1000,
-            "y": 1180
-          }
-        ]
+        "visibility_rules": [
+          "setting_goldSkulltulaTokens_overworld"
+        ],
+        "chest_unopened_img": "images/skulltula.png",
+        "chest_opened_img": "images/skulltula_token.png",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "oot",
+        "x": 960,
+        "y": 1200
       },
       {
-        "name": "LH Lab Wall",
-        "sections": [
-          {
-            "name": "LH GS Lab Wall (N)",
-            "short_name": "GS",
-            "access_rules": [
-              "$oot|Lake Hylia GS Lab Wall"
-            ],
-            "visibility_rules": [
-              "setting_goldSkulltulaTokens_overworld"
-            ],
-            "chest_unopened_img": "images/skulltula.png",
-            "chest_opened_img": "images/skulltula_token.png",
-            "item_count": 1
-          }
+        "map": "oot_er_locations",
+        "x": 960,
+        "y": 1200
+      }
+    ]
+  },
+  {
+    "name": "LH Grotto",
+    "sections": [
+      {
+        "name": "LH Deku Scrubs Grotto",
+        "short_name": "Deku Scrubs",
+        "access_rules": [
+          "$oot|Lake Hylia Grotto Center Scrub"
         ],
-        "map_locations": [
-          {
-            "map": "oot",
-            "x": 930,
-            "y": 1200
-          },
-          {
-            "map": "oot_er_locations",
-            "x": 930,
-            "y": 1200
-          }
-        ]
+        "chest_unopened_img": "images/deku_scrub.png",
+        "chest_opened_img": "images/deku_scrub_grey.png",
+        "clear_as_group": false,
+        "item_count": 3
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "oot",
+        "force_invisibility_rules": [
+          "setting_scrubShuffleOot_false"
+        ],
+        "x": 870,
+        "y": 1310
       },
       {
-        "name": "LH Tree",
-        "sections": [
-          {
-            "name": "LH GS Tree (N)",
-            "short_name": "GS",
-            "access_rules": [
-              "$oot|Lake Hylia GS Big Tree"
-            ],
-            "visibility_rules": [
-              "setting_goldSkulltulaTokens_overworld"
-            ],
-            "chest_unopened_img": "images/skulltula.png",
-            "chest_opened_img": "images/skulltula_token.png",
-            "item_count": 1
-          }
+        "map": "oot_er_locations",
+        "force_invisibility_rules": [
+          "setting_scrubShuffleOot_false"
         ],
-        "map_locations": [
-          {
-            "map": "oot",
-            "x": 1010,
-            "y": 1415
-          },
-          {
-            "map": "oot_er_locations",
-            "x": 1010,
-            "y": 1415
-          }
-        ]
+        "x": 870,
+        "y": 1310
+      }
+    ]
+  },
+  {
+    "name": "LH Bean Patch",
+    "sections": [
+      {
+        "name": "LH GS Bean Patch",
+        "short_name": "GS",
+        "access_rules": [
+          "$oot|Lake Hylia GS Soil"
+        ],
+        "visibility_rules": [
+          "setting_goldSkulltulaTokens_overworld"
+        ],
+        "chest_unopened_img": "images/skulltula.png",
+        "chest_opened_img": "images/skulltula_token.png",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "oot",
+        "x": 1000,
+        "y": 1180
+      },
+      {
+        "map": "oot_er_locations",
+        "x": 1000,
+        "y": 1180
+      }
+    ]
+  },
+  {
+    "name": "LH Lab Wall",
+    "sections": [
+      {
+        "name": "LH GS Lab Wall (N)",
+        "short_name": "GS",
+        "access_rules": [
+          "$oot|Lake Hylia GS Lab Wall"
+        ],
+        "visibility_rules": [
+          "setting_goldSkulltulaTokens_overworld"
+        ],
+        "chest_unopened_img": "images/skulltula.png",
+        "chest_opened_img": "images/skulltula_token.png",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "oot",
+        "x": 930,
+        "y": 1200
+      },
+      {
+        "map": "oot_er_locations",
+        "x": 930,
+        "y": 1200
+      }
+    ]
+  },
+  {
+    "name": "LH Tree",
+    "sections": [
+      {
+        "name": "LH GS Tree (N)",
+        "short_name": "GS",
+        "access_rules": [
+          "$oot|Lake Hylia GS Big Tree"
+        ],
+        "visibility_rules": [
+          "setting_goldSkulltulaTokens_overworld"
+        ],
+        "chest_unopened_img": "images/skulltula.png",
+        "chest_opened_img": "images/skulltula_token.png",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "oot",
+        "x": 1010,
+        "y": 1415
+      },
+      {
+        "map": "oot_er_locations",
+        "x": 1010,
+        "y": 1415
       }
     ]
   },
@@ -3439,7 +3437,7 @@
           {
             "name": "DMT Cow Grotto Hearts",
             "access_rules": [
-              "$oot|Death Mountain Cow Grotto Hearts"
+              "$oot|Death Mountain Trail Cow Grotto Heart 1"
             ],
             "visibility_rules": [
               "setting_HeartShuffleOOT_true"
