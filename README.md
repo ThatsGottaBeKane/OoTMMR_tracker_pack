@@ -32,12 +32,35 @@ Green markings indicate that a check is logically reachable. Yellow markings mea
   
 ## Unsupported Settings
 
-- Dungeon Reward Shuffle Anywhere - In Testing
-- Boss Entrance Shuffle - In testing
-- Dungeon Entrance Shuffle - In Testing
+- Chest Game Small Key Shuffle
+- Silver Rupees Shuffle
+- Pot Shuffle
+- Grass Shuffle
+- Freestanding Rupees Shuffle
+- Freestanding Hearts Shuffle
+- Fishing Pond Fish Shuffle
+- Fairy Spot Shuffle
+- Ganon Trials
+- Open Dungeons
+- Clear State Dungeons
+- Age Change Upon Song of Time
+- Pre-Completed Dungeons
+- Most OOT items in MM
+- Extra Child Sword in OOT
+- MM items in OOT
+- Ocarina Buttons Shuffle
+- Soul Shuffle
+- Clock Shuffle
+- Entrance Shuffle
 
 ## TODOs:
 
+- [ ] Add Silver Rupees to the item grid (jupiterfire)
+- [ ] Add Map Locations for Pot/Grass/Freestanding/FairySpot Shuffle (jupiterfire)
+- [ ] Adjust Tree Search for Age Change Upon Song of Time (wbsch)
+- [ ] Implement flags for cleared/uncleared dungeon states (wbsch)
+- [ ] Add new Items to Item Grid (jupiterfire)
+- [ ] Adjust Tree Search for ER Options (wbsch)
 - [ ] Delete unused lua/json parts
 - [X] Add new items within tracker on MM side
 - [X] Add new items within tracker on OOT side
@@ -83,8 +106,6 @@ Green markings indicate that a check is logically reachable. Yellow markings mea
 
 ## Credits
 
-- Big thanks to [Hamsda](https://github.com/Hamsda/EmoTrackerPacks) and Pink Switch who let me use their OOTR/MMR tracker packs as the base for this tracker pack.
-- JupiterFire anmd Wbsch for creating the OOTMM Tracker Map and all original work
-- [That's Gotta Be Kane!](https://github.com/ThatsGottaBeKane) - Shuffles, logic and misc updates
-- PouhPouhh - Entrance Randomizer and misc updates
-- BusinessAlex - MM Clock Icon Design
+Big thanks to [Hamsda](https://github.com/Hamsda/EmoTrackerPacks) and Pink Switch who let me use their OOTR/MMR tracker packs as the base for this tracker pack.
+
+Thanks to [ThatsGottaBeKane](https://github.com/ThatsGottaBeKane) for help with locations and the item grid.

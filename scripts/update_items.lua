@@ -55,6 +55,7 @@ end
 
 local OOTMM_SHARED = {
     ["BombBags"] = { "BOMB_BAG" },
+    ["BombchuBags"] = { "BOMBCHU" },
     ["Bows"] = { "BOW" },
     ["Magic"] = { "MAGIC_UPGRADE" },
     ["NutsSticks"] = { "NUT", "STICK" },
@@ -67,10 +68,17 @@ local OOTMM_SHARED = {
     ["SongStorms"] = { "SONG_STORMS" },
     ["SongTime"] = { "SONG_TIME" },
     ["Hookshot"] = { "HOOKSHOT" },
-    ["Lens"] = { "LENS" }
+    ["Lens"] = { "LENS" },
+    ["MaskGoron"] = { "MASK_GORON" },
+    ["MaskZora"] = { "MASK_ZORA" },
+    ["MaskBunny"] = { "MASK_BUNNY" },
+    ["MaskKeaton"] = { "MASK_KEATON" },
+    ["MaskTruth"] = { "MASK_TRUTH" },
+    ["Shields"] = { "SHIELD_HYLIAN", "SHIELD_MIRROR"}
 }
 local OOTMM_SHARED_PREV = {
     ["BombBags"] = { 0 },
+    ["BombchuBags"] = { 0 },
     ["Bows"] = { 0 },
     ["Magic"] = { 0 },
     ["NutsSticks"] = { 0, 0 },
@@ -83,7 +91,13 @@ local OOTMM_SHARED_PREV = {
     ["SongStorms"] = { 0 },
     ["SongTime"] = { 0 },
     ["Hookshot"] = { 0 },
-    ["Lens"] = { 0 }
+    ["Lens"] = { 0 },
+    ["MaskGoron"] = { 0 },
+    ["MaskZora"] = { 0 },
+    ["MaskBunny"] = { 0 },
+    ["MaskKeaton"] = { 0 },
+    ["MaskTruth"] = { 0 },
+    ["Shields"] = { 0, 0 }
 }
 function on_update_shared_items()
     for setting, items in pairs(OOTMM_SHARED) do
@@ -200,7 +214,7 @@ local OOTMM_SMALL_KEY_AMOUNTS = {
         end,
     },
 }
-function on_update_small_key_amounts()
+function on_update_oot_small_key_amounts()
     local oot_smallkeysanity_active = Tracker:ProviderCountForCode("setting_smallKeyShuffleOot_removed") > 0
     for key_code, key_data in pairs(OOTMM_SMALL_KEY_AMOUNTS) do
         local item = Tracker:FindObjectForCode(key_code)

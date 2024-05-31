@@ -20,8 +20,8 @@ function tracker_on_accessibility_updating()
     -- Handle skipped stages in EmoTracker's GUI
     on_update_skip_stages()
 
-    -- Handle max amounts for small keys in EmoTracker's GUI
-    on_update_small_key_amounts()
+    -- Handle max amounts for OoT small keys in EmoTracker's GUI
+    on_update_oot_small_key_amounts()
 
     -- Handle max amounts for OoT boss keys in EmoTracker's GUI
     on_update_oot_boss_key_amounts()
@@ -55,9 +55,7 @@ function tracker_on_accessibility_updated()
 end
 
 function tracker_on_pack_ready()
+  PACK_READY = true
   OOTMM_RESET_LOGIC()
   get_object("dummy").Active = not get_object("dummy").Active
-
-
-  PACK_READY = true
 end

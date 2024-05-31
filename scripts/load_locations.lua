@@ -10,3 +10,7 @@ else
 	Tracker:AddLocations("locations/mm_dungeons.json")
 end
 Tracker:AddLocations("locations/overworld.json")
+=======
+    Tracker:AddLayouts("layouts/item_grids_er.json")
+    Tracker:AddLocations("locations/exits_entrance.json")
+end
