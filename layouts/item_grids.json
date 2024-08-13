@@ -69,6 +69,14 @@
             "OOT_MAGIC_UPGRADE",
             "OOT_STRENGTH",
             "OOT_WALLET1"
+          ],
+          [
+            "OOT_SKELETON_KEY",
+            "OOT_BUTTON_A",
+            "OOT_BUTTON_C_DOWN",
+            "OOT_BUTTON_C_LEFT",
+            "OOT_BUTTON_C_RIGHT",
+            "OOT_BUTTON_C_UP"
           ]
         ]
       },
@@ -1021,7 +1029,7 @@
         "type": "itemgrid",
         "h_alignment": "left",
         "item_margin": "1,1",
-        "item_size": 28,
+        "scale": 0.875,
         "rows": [
           [
             "MM_OCARINA",
@@ -1112,18 +1120,29 @@
             "MM_MASK_FIERCE_DEITY",
             "MM_GS_TOKEN_SWAMP",
             "MM_GS_TOKEN_OCEAN"
-          ]
-        ]
-      },
-      {
-        "type": "itemgrid",
-        "h_alignment": "left",
-        "item_margin": "1,1",
-        "scale": 0.7,
-        "rows": [
+          ],
           [
+            "MM_SKELETON_KEY",
+            "MM_SPELL_FIRE",
+            "MM_SPELL_WIND",
+            "MM_SPELL_LOVE",
+            "MM_BOOTS_IRON",
+            "MM_BOOTS_HOVER",
+            "MM_TUNIC_ZORA",
+            "MM_SCALE"
+          ],
+          [
+            "MM_STRENGTH",
             "MM_OWL_CLOCK_TOWN",
             "MM_OWL_SOUTHERN_SWAMP",
+            "MM_BUTTON_A",
+            "MM_BUTTON_C_DOWN",
+            "MM_BUTTON_C_LEFT",
+            "MM_BUTTON_C_RIGHT",
+            "MM_BUTTON_C_UP"
+          ],
+          [
+
             "MM_OWL_WOODFALL",
             "MM_OWL_MILK_ROAD",
             "MM_OWL_MOUNTAIN_VILLAGE",

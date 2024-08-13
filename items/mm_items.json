@@ -24,46 +24,46 @@
     ]
   },
   {
-    "name": "MM Fire Arrows",
+    "name": "Fire Arrows",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
       {
-        "img": "images/items/mm_firearrow.png",
+        "img": "images/arrow_fire.png",
         "img_mods": "@disabled"
       },
       {
-        "img": "images/items/mm_firearrow.png",
+        "img": "images/arrow_fire.png",
         "codes": "MM_ARROW_FIRE"
       }
     ]
   },
   {
-    "name": "MM Ice Arrows",
+    "name": "Ice Arrows",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
       {
-        "img": "images/items/mm_icearrow.png",
+        "img": "images/arrow_ice.png",
         "img_mods": "@disabled"
       },
       {
-        "img": "images/items/mm_icearrow.png",
+        "img": "images/arrow_ice.png",
         "codes": "MM_ARROW_ICE"
       }
     ]
   },
   {
-    "name": "MM Light Arrows",
+    "name": "Light Arrows",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
       {
-        "img": "images/items/mm_lightarrow.png",
+        "img": "images/arrow_light.png",
         "img_mods": "@disabled"
       },
       {
-        "img": "images/items/mm_lightarrow.png",
+        "img": "images/arrow_light.png",
         "codes": "MM_ARROW_LIGHT"
       }
     ]
@@ -75,25 +75,25 @@
     "codes": "MM_MAGIC_BEAN, MM_MAGIC_BEANS_PALACE"
   },
   {
-    "name": "MM Deku Sticks",
+    "name": "Deku Sticks",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
       {
-        "img": "images/stick.png",
+        "img": "images/deku_stick.png",
         "img_mods": "@disabled"
       },
       {
-        "img": "images/stick.png",
+        "img": "images/deku_stick.png",
         "img_mods": "overlay|images/overlay_10.png",
         "codes": "MM_STICK"
       },
       {
-        "img": "images/stick.png",
+        "img": "images/deku_stick.png",
         "img_mods": "overlay|images/overlay_20.png"
       },
       {
-        "img": "images/stick.png",
+        "img": "images/deku_stick.png",
         "img_mods": "overlay|images/overlay_30_green.png"
       }
     ]
@@ -123,25 +123,25 @@
     ]
   },
   {
-    "name": "MM Bombs",
+    "name": "Bombs",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
       {
-        "img": "images/items/mm_bomb.png",
+        "img": "images/bomb.png",
         "img_mods": "@disabled"
       },
       {
-        "img": "images/items/mm_bomb.png",
+        "img": "images/bomb.png",
         "img_mods": "overlay|images/system/mm_overlay_20.png",
         "codes": "MM_BOMB_BAG"
       },
       {
-        "img": "images/items/mm_bomb.png",
+        "img": "images/bomb.png",
         "img_mods": "overlay|images/system/mm_overlay_30.png"
       },
       {
-        "img": "images/items/mm_bomb.png",
+        "img": "images/bomb.png",
         "img_mods": "overlay|images/system/mm_overlay_40_green.png"
       }
     ]
@@ -185,16 +185,16 @@
     "codes": "mm_seahorselocated"
   },
   {
-    "name": "MM Bombchu",
+    "name": "Bombchu",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
       {
-        "img": "images/items/mm_bombchu.png",
+        "img": "images/bombchu.png",
         "img_mods": "@disabled"
       },
       {
-        "img": "images/items/mm_bombchu.png",
+        "img": "images/bombchu.png",
         "codes": "MM_BOMBCHU"
       }
     ]
@@ -484,7 +484,7 @@
     ]
   },
   {
-    "name": "MM Ocarina",
+    "name": "Ocarina",
     "type": "progressive",
     "loop": true,
     "stages": [
@@ -1357,5 +1357,109 @@
     "type": "toggle",
     "img": "images/items/mm_pendant.png",
     "codes": "MM_PENDANT_OF_MEMORIES"
+  },
+  {
+    "name": "Skeleton Key",
+    "type": "toggle",
+    "img": "images/key_skeleton.png",
+    "codes": "MM_SKELETON_KEY"
+  },
+  {
+    "name": "Din's Fire",
+    "type": "toggle",
+    "img": "images/din.png",
+    "codes": "MM_SPELL_FIRE"
+  },
+  {
+    "name": "Farore's Wind",
+    "type": "toggle",
+    "img": "images/farore.png",
+    "codes": "MM_SPELL_WIND"
+  },
+  {
+    "name": "Nayru's Love",
+    "type": "toggle",
+    "img": "images/nayru.png",
+    "codes": "MM_SPELL_LOVE"
+  },
+  {
+    "name": "Iron Boots",
+    "type": "toggle",
+    "img": "images/boots_iron.png",
+    "codes": "MM_BOOTS_IRON"
+  },
+  {
+    "name": "Hover Boots",
+    "type": "toggle",
+    "img": "images/boots_hover.png",
+    "codes": "MM_BOOTS_HOVER"
+  },
+  {
+    "name": "Zora Tunic",
+    "type": "toggle",
+    "img": "images/bluetunic.png",
+    "codes": "MM_TUNIC_ZORA"
+  },
+  {
+    "name": "Zora Scales",
+    "type": "progressive",
+    "stages": [
+      {
+        "img": "images/scale1.png",
+        "codes": "MM_SCALE"
+      },
+      {
+        "img": "images/scale2.png",
+        "codes": "MM_GOLDSCALE"
+      }
+    ]
+  },
+  {
+    "name": "Strength Upgrades",
+    "type": "progressive",
+    "stages": [
+      {
+        "img": "images/lift1.png",
+        "codes": "MM_STRENGTH"
+      },
+      {
+        "img": "images/lift2.png",
+        "codes": "MM_STRENGTH2"
+      },
+      {
+        "img": "images/lift3.png",
+        "codes": "MM_STRENGTH3"
+      }
+    ]
+  },
+  {
+    "name": "A Button",
+    "type": "toggle",
+    "img": "images/button_a.png",
+    "codes": "MM_BUTTON_A"
+  },
+  {
+    "name": "C Down Button",
+    "type": "toggle",
+    "img": "images/button_down.png",
+    "codes": "MM_BUTTON_C_DOWN"
+  },
+  {
+    "name": "C Left Button",
+    "type": "toggle",
+    "img": "images/button_left.png",
+    "codes": "MM_BUTTON_C_LEFT"
+  },
+  {
+    "name": "C Right Button",
+    "type": "toggle",
+    "img": "images/button_right.png",
+    "codes": "MM_BUTTON_C_RIGHT"
+  },
+  {
+    "name": "C Up Button",
+    "type": "toggle",
+    "img": "images/button_up.png",
+    "codes": "MM_BUTTON_C_UP"
   }
 ]
