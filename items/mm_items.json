@@ -1522,45 +1522,5 @@
     "type": "toggle",
     "img": "images/boots_hover.png",
     "codes": "MM_BOOTS_HOVER"
-  },
-  {
-    "name": "Hyrule Bass (Child)",
-    "type": "toggle",
-    "img": "images/Hyrule_Bass_Child.png",
-    "codes": "OOT_HYRULE_BASS_CHILD"
-  },
-  {
-    "name": "Hyrule Bass (Adult)",
-    "type": "toggle",
-    "img": "images/Hyrule_Bass_Adult.png",
-    "codes": "OOT_HYRULE_BASS_ADULT"
-  },
-  {
-    "name": "Red Coin",
-    "type": "consumable",
-    "img": "images/coin_red.png",
-    "codes": "COIN_RED",
-    "max_quantity": 256
-  },
-  {
-    "name": "Blue Coin",
-    "type": "consumable",
-    "img": "images/coin_blue.png",
-    "codes": "COIN_BLUE",
-    "max_quantity": 256
-  },
-  {
-    "name": "Green Coin",
-    "type": "consumable",
-    "img": "images/coin_green.png",
-    "codes": "COIN_GREEN",
-    "max_quantity": 256
-  },
-  {
-    "name": "Yellow Coin",
-    "type": "consumable",
-    "img": "images/coin_yellow.png",
-    "codes": "COIN_YELLOW",
-    "max_quantity": 256
   }
 ]
