@@ -828,18 +828,60 @@
     "img": "images/skeleton_key.png",
     "codes": "OOT_SKELETON_KEY"
   },
-    {
+  {
     "name": "Blast Mask",
     "type": "toggle",
     "loop": true,
     "img": "images/oot_mask_blast.png",
     "codes": "OOT_MASK_BLAST"
   },
-   {
+  {
     "name": "Stone Mask",
     "type": "toggle",
     "loop": true,
     "img": "images/oot_mask_stone.png",
     "codes": "OOT_MASK_STONE"
+  },
+  {
+    "name": "Hyrule Bass (Child)",
+    "type": "consumable",
+    "img": "images/Hyrule_Bass_Child.png",
+    "codes": "OOT_HYRULE_BASS_CHILD",
+    "max_quantity": 15
+  },
+  {
+    "name": "Hyrule Bass (Adult)",
+    "type": "consumable",
+    "img": "images/Hyrule_Bass_Adult.png",
+    "codes": "OOT_HYRULE_BASS_ADULT",
+    "max_quantity": 15
+  },
+  {
+    "name": "Red Coin",
+    "type": "consumable",
+    "img": "images/coin_red.png",
+    "codes": "COIN_RED",
+    "max_quantity": 256
+  },
+  {
+    "name": "Blue Coin",
+    "type": "consumable",
+    "img": "images/coin_blue.png",
+    "codes": "COIN_BLUE",
+    "max_quantity": 256
+  },
+  {
+    "name": "Green Coin",
+    "type": "consumable",
+    "img": "images/coin_green.png",
+    "codes": "COIN_GREEN",
+    "max_quantity": 256
+  },
+  {
+    "name": "Yellow Coin",
+    "type": "consumable",
+    "img": "images/coin_yellow.png",
+    "codes": "COIN_YELLOW",
+    "max_quantity": 256
   }
 ]
