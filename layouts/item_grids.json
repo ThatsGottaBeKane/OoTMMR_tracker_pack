@@ -128,7 +128,7 @@
           [
             "OOT_GS_TOKEN",
             "OOT_STONE_OF_AGONY",
-            "OOT_SKELETON_KEY",
+            "OOT_KEY_SKELETON",
             "OOT_GERUDO_CARD",
             "triforce",
             "COIN_RED",
@@ -582,7 +582,7 @@
             "OOT_ARROW_ICE",
             "OOT_ARROW_LIGHT",
             "OOT_SLINGSHOT",
-            "MM_BUTTON_A"
+            "OOT_BUTTON_A"
           ],
           [
             "OOT_SHIELD_DEKU",
@@ -593,7 +593,7 @@
             "OOT_BOOMERANG",
             "OOT_HAMMER",
             "OOT_OCARINA",
-            "MM_BUTTON_C_UP"
+            "OOT_BUTTON_C_UP"
           ],
           [
             "OOT_STRENGTH",
@@ -604,18 +604,18 @@
             "OOT_GERUDO_CARD",
             "OOT_WALLET1",
             "OOT_TUNIC_GORON",
-            "MM_BUTTON_C_DOWN"
+            "OOT_BUTTON_C_DOWN"
           ],
           [
             "OOT_MASK_BLAST",
             "OOT_MASK_STONE",
             "OOT_LENS",
-            "OOT_KEY_SKELETON",
+            "OOT_SKELETON_KEY",
             "triforce",
             "OOT_SPELL_FIRE",
             "faroreswind",
             "OOT_SPELL_LOVE",
-            "MM_BUTTON_C_LEFT"
+            "OOT_BUTTON_C_LEFT"
           ],
           [
             "OOT_SONG_ZELDA",
@@ -626,7 +626,7 @@
             "OOT_SONG_STORMS",
             "OOT_MAGIC_BEAN",
             "OOT_TUNIC_ZORA",
-            "MM_BUTTON_C_RIGHT"
+            "OOT_BUTTON_C_RIGHT"
           ],
           [
             "OOT_SONG_TP_FOREST",
@@ -1127,7 +1127,7 @@
             "MM_STRAY_FAIRY_TOWN",
             "MM_ROOM_KEY",
             "MM_DEED_LAND",
-            "BOOTS_IRON"
+            "MM_BOOTS_IRON"
           ],
           [
             "MM_MASK_POSTMAN",
@@ -1138,7 +1138,7 @@
             "MM_MASK_DEKU",
             "MM_PENDANT_OF_MEMORIES",
             "MM_DEED_SWAMP",
-            "BOOTS_HOVER"
+            "MM_BOOTS_HOVER"
           ],
           [
             "MM_MASK_KEATON",
@@ -1149,7 +1149,7 @@
             "MM_MASK_GORON",
             "MM_LETTER_TO_KAFEI",
             "MM_DEED_MOUNTAIN",
-            "TUNIC_GORON"
+            "MM_TUNIC_GORON"
           ],
           [
             "MM_MASK_ROMANI",
@@ -1160,7 +1160,7 @@
             "MM_MASK_ZORA",
             "MM_LETTER_TO_MAMA",
             "MM_DEED_OCEAN",
-            "TUNIC_ZORA"
+            "MM_TUNIC_ZORA"
           ],
           [
             "MM_MASK_KAMARO",
@@ -1171,7 +1171,7 @@
             "MM_MASK_FIERCE_DEITY",
             "MM_GS_TOKEN_SWAMP",
             "MM_GS_TOKEN_OCEAN",
-            "MM_SKELETON_KEY"
+            "MM_KEY_SKELETON"
           ]
         ]
       },
@@ -1182,13 +1182,13 @@
         "scale": 1,
         "rows": [
           [
-            "BUTTON_A",
-            "BUTTON_C_UP",
-            "BUTTON_C_DOWN",
-            "BUTTON_C_LEFT",
-            "BUTTON_C_RIGHT",
-            "CLOCK_1",
-            "CLOCK_2"
+            "MM_BUTTON_A",
+            "MM_BUTTON_C_UP",
+            "MM_BUTTON_C_DOWN",
+            "MM_BUTTON_C_LEFT",
+            "MM_BUTTON_C_RIGHT",
+            "MM_CLOCK_1",
+            "MM_CLOCK_2"
           ],
           [
             "MM_OWL_CLOCK_TOWN",
@@ -1196,8 +1196,8 @@
             "MM_OWL_SOUTHERN_SWAMP",
             "MM_OWL_WOODFALL",
             "MM_OWL_MOUNTAIN_VILLAGE",
-            "CLOCK_3",
-            "CLOCK_4"
+            "MM_CLOCK_3",
+            "MM_CLOCK_4"
           ],
           [
             "MM_OWL_SNOWHEAD",
@@ -1205,8 +1205,8 @@
             "MM_OWL_ZORA_CAPE",
             "MM_OWL_IKANA_CANYON",
             "MM_OWL_STONE_TOWER",
-            "CLOCK_5",
-            "CLOCK_6"
+            "MM_CLOCK_5",
+            "MM_CLOCK_6"
           ]
         ]
       },
@@ -1386,7 +1386,7 @@
             "mm_spinattack",
             "MM_SHIELD_HERO",
             "MM_SHIELD_MIRROR",
-            "BUTTON_A"
+            "MM_BUTTON_A"
           ],
           [
             "MM_BOMB_BAG",
@@ -1397,7 +1397,7 @@
             "MM_PICTOGRAPH_BOX",
             "MM_LENS",
             "MM_HOOKSHOT",
-            "BUTTON_C_UP"
+            "MM_BUTTON_C_UP"
           ],
           [
             "MM_MOON_TEAR",
@@ -1408,7 +1408,7 @@
             "MM_ROOM_KEY",
             "MM_LETTER_TO_KAFEI",
             "MM_LETTER_TO_MAMA",
-            "BUTTON_C_DOWN"
+            "MM_BUTTON_C_DOWN"
           ],
           [
             "MM_SONG_TIME",
@@ -1419,7 +1419,7 @@
             "MM_WALLET",
             "MM_MAGIC_UPGRADE",
             "MM_PENDANT_OF_MEMORIES",
-            "BUTTON_C_LEFT"
+            "MM_BUTTON_C_LEFT"
           ],
           [
             "MM_SONG_AWAKENING",
@@ -1430,7 +1430,7 @@
             "MM_STRAY_FAIRY_TOWN",
             "MM_GS_TOKEN_SWAMP",
             "MM_GS_TOKEN_OCEAN",
-            "MM_BUTTON_CRIGHT"
+            "MM_BUTTON_C_RIGHT"
           ],
           [
             "MM_MASK_DEKU",
@@ -1443,22 +1443,22 @@
             "MM_MASK_FIERCE_DEITY"
           ],
           [
-            "SPELL_FIRE",
-            "SPELL_WIND",
-            "SPELL_LOVE",
+            "MM_SPELL_FIRE",
+            "MM_SPELL_WIND",
+            "MM_SPELL_LOVE",
             "MM_STRENGTH",
-            "BOOTS_IRON",
-            "BOOTS_HOVER",
-            "TUNIC_GORON",
-            "TUNIC_ZORA"
+            "MM_BOOTS_IRON",
+            "MM_BOOTS_HOVER",
+            "MM_TUNIC_GORON",
+            "MM_TUNIC_ZORA"
           ],
           [
-            "CLOCK_1",
-            "CLOCK_2",
-            "CLOCK_3",
-            "CLOCK_4",
-            "CLOCK_5",
-            "CLOCK_6"
+            "MM_CLOCK_1",
+            "MM_CLOCK_2",
+            "MM_CLOCK_3",
+            "MM_CLOCK_4",
+            "MM_CLOCK_5",
+            "MM_CLOCK_6"
           ]
         ]
       },
