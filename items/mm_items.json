@@ -1466,61 +1466,61 @@
     "name": "Clock - Day 1",
     "type": "toggle",
     "img": "images/items/clock_1.png",
-    "codes": "CLOCK_1"
+    "codes": "MM_CLOCK_1"
   },
   {
     "name": "Clock - Day 2",
     "type": "toggle",
     "img": "images/items/clock_3.png",
-    "codes": "CLOCK_3"
+    "codes": "MM_CLOCK_3"
   },
   {
     "name": "Clock - Day 3",
     "type": "toggle",
     "loop": true,
     "img": "images/items/clock_5.png",
-    "codes": "CLOCK_5"
+    "codes": "MM_CLOCK_5"
   },
   {
     "name": "Clock - Night 1",
     "type": "toggle",
     "img": "images/items/clock_2.png",
-    "codes": "CLOCK_2"
+    "codes": "MM_CLOCK_2"
   },
   {
     "name": "Clock - Night 2",
     "type": "toggle",
     "img": "images/items/clock_4.png",
-    "codes": "CLOCK_4"
+    "codes": "MM_CLOCK_4"
   },
   {
     "name": "Clock - Night 3",
     "type": "toggle",
     "img": "images/items/clock_6.png",
-    "codes": "CLOCK_6"
+    "codes": "MM_CLOCK_6"
   },
    {
     "name": "Goron Tunic",
     "type": "toggle",
     "img": "images/items/redtunic.png",
-    "codes": "TUNIC_GORON"
+    "codes": "MM_TUNIC_GORON"
   },
   {
     "name": "Zora Tunic",
     "type": "toggle",
     "img": "images/items/bluetunic.png",
-    "codes": "TUNIC_ZORA"
+    "codes": "MM_TUNIC_ZORA"
   },
   {
     "name": "Iron Boots",
     "type": "toggle",
     "img": "images/items/ironboots.png",
-    "codes": "BOOTS_IRON"
+    "codes": "MM_BOOTS_IRON"
   },
   {
     "name": "Hover Boots",
     "type": "toggle",
     "img": "images/items/hoverboots.png",
-    "codes": "BOOTS_HOVER"
+    "codes": "MM_BOOTS_HOVER"
   }
 ]
