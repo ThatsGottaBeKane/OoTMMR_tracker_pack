@@ -128,15 +128,15 @@
           [
             "OOT_GS_TOKEN",
             "OOT_STONE_OF_AGONY",
-            "OOT_KEY_SKELETON",
+            "OOT_SKELETON_KEY",
             "OOT_GERUDO_CARD",
             "triforce",
             "COIN_RED",
             "COIN_GREEN",
             "COIN_BLUE",
             "COIN_YELLOW",
-            "HYRULE_BASS_CHILD",
-            "HYRULE_BASS_ADULT"
+            "OOT_HYRULE_BASS_CHILD",
+            "OOT_HYRULE_BASS_ADULT"
           ]
         ]
       },
@@ -1171,7 +1171,7 @@
             "MM_MASK_FIERCE_DEITY",
             "MM_GS_TOKEN_SWAMP",
             "MM_GS_TOKEN_OCEAN",
-            "MM_KEY_SKELETON"
+            "MM_SKELETON_KEY"
           ]
         ]
       },
