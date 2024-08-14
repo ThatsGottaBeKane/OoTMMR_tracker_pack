@@ -1,5 +1,14 @@
 # Releases
 
+## v24.1.2
+
+- Added Full Razor Sword and Gilded Sword Support for OoT (click on Kokiri sword multiple times to cyvcle through
+- Updated logic and item grid
+- You can now track the following Coins and Fish
+- Blast Mask and Stone mask available in OoT.
+- Farore's Wind, Din's Fire, Nayru's Love added To MM
+- All tricks, shuffles, etc added from original map tracker
+
 ## v24.1.1
 
 Logic updated to version v24.1 of the OOTMM Randomizer.
