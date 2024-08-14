@@ -2,12 +2,14 @@
 
 ## v24.1.2
 
-- Added Full Razor Sword and Gilded Sword Support for OoT (click on Kokiri sword multiple times to cyvcle through
+- Added Full Razor Sword and Gilded Sword Support for OoT (click on Kokiri sword multiple times to cycle through)
 - Updated logic and item grid
-- You can now track the following Coins and Fish
+- Ocarina Button Shuffle
+- You can now track Coins and Fish
 - Blast Mask and Stone mask available in OoT.
-- Farore's Wind, Din's Fire, Nayru's Love added To MM
-- All tricks, shuffles, etc added from original map tracker
+- Farore's Wind, Din's Fire, Nayru's Love, OoT Tunics and OoT Strength items added To MM
+- All new tricks, shuffles, etc added from original map tracker
+- Bottomless Wallets supported
 
 ## v24.1.1
 
