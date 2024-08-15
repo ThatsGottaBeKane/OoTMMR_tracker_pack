@@ -764,6 +764,33 @@
         "item_count": 1
       },
       {
+        "name": "Freestanding Heart 1",
+        "chest_unopened_img": "images/heart.png",
+        "chest_opened_img": "images/heart_grey.png",
+        "access_rules": [
+          "$mm|Pirate Fortress Interior Heart 1"
+        ],
+        "item_count": 1
+      },
+      {
+        "name": "Freestanding Heart 2",
+        "chest_unopened_img": "images/heart.png",
+        "chest_opened_img": "images/heart_grey.png",
+        "access_rules": [
+          "$mm|Pirate Fortress Interior Heart 2"
+        ],
+        "item_count": 1
+      },
+      {
+        "name": "Freestanding Heart 3",
+        "chest_unopened_img": "images/heart.png",
+        "chest_opened_img": "images/heart_grey.png",
+        "access_rules": [
+          "$mm|Pirate Fortress Interior Heart 3"
+        ],
+        "item_count": 1
+      },
+      {
         "name": "Hookshot Chest",
         "chest_unopened_img": "images/system/chest_unopened_big.png",
         "chest_opened_img": "images/system/chest_open_big.png",
