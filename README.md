@@ -35,7 +35,6 @@ Green markings indicate that a check is logically reachable. Yellow markings mea
 - Pot Shuffle
 - Freestanding Rupees Shuffle
 - Freestanding Hearts Shuffle
-- Fishing Pond Fish Shuffle
 - Fairy Spot Shuffle
 - Ganon Trials
 - Open Dungeons
@@ -45,9 +44,7 @@ Green markings indicate that a check is logically reachable. Yellow markings mea
 - Most OOT items in MM
 - Extra Child Sword in OOT
 - MM items in OOT
-- Ocarina Buttons Shuffle
 - Soul Shuffle
-- Clock Shuffle
 - Entrance Shuffle
 
 ## TODOs:
