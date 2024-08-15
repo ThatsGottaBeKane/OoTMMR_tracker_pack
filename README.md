@@ -41,9 +41,8 @@ Green markings indicate that a check is logically reachable. Yellow markings mea
 - Clear State Dungeons
 - Age Change Upon Song of Time
 - Pre-Completed Dungeons
-- Most OOT items in MM
-- Extra Child Sword in OOT
-- MM items in OOT
+- Some OOT items in MM
+- Some MM items in OOT
 - Soul Shuffle
 - Entrance Shuffle
 
