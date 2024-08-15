@@ -5,6 +5,7 @@
 - Added Full Razor Sword and Gilded Sword Support for OoT (click on Kokiri sword multiple times to cycle through)
 - Updated logic and item grid
 - Ocarina Button Shuffle
+- Clock Shuffle
 - You can now track Coins and Fish
 - Blast Mask and Stone mask available in OoT.
 - Farore's Wind, Din's Fire, Nayru's Love, OoT Tunics and OoT Strength items added To MM
