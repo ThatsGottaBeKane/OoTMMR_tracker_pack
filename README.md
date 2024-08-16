@@ -34,7 +34,7 @@ Green markings indicate that a check is logically reachable. Yellow markings mea
 - Silver Rupees Shuffle
 - Pot Shuffle
 - Freestanding Rupees Shuffle
-- Freestanding Hearts Shuffle
+- OoT Freestanding Hearts Shuffle
 - Fairy Spot Shuffle
 - Ganon Trials
 - Open Dungeons
