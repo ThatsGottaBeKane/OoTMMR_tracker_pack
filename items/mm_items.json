@@ -1,6 +1,6 @@
 [
   {
-    "name": "Bow",
+    "name": "MM Bow",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
@@ -69,7 +69,7 @@
     ]
   },
   {
-    "name": "Magic Beans",
+    "name": "MM Magic Beans",
     "type": "toggle",
     "img": "images/items/mm_bean.png",
     "codes": "MM_MAGIC_BEAN, MM_MAGIC_BEANS_PALACE"
@@ -99,7 +99,7 @@
     ]
   },
   {
-    "name": "Deku Nuts",
+    "name": "MM Deku Nuts",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
@@ -147,7 +147,7 @@
     ]
   },
   {
-    "name": "Hookshot",
+    "name": "MM Hookshot",
     "type": "progressive",
     "stages": [
       {
@@ -159,6 +159,30 @@
         "codes": "MM_LONGSHOT"
       }
     ]
+  },
+  {
+    "name": "MM Milk",
+    "type": "toggle",
+    "img": "images/items/mm_milk.png",
+    "codes": "mm_milklocated"
+  },
+  {
+    "name": "MM Gold Dust",
+    "type": "toggle",
+    "img": "images/items/mm_dust.png",
+    "codes": "mm_dustlocated"
+  },
+  {
+    "name": "MM Chateau Romani",
+    "type": "toggle",
+    "img": "images/items/mm_chateau.png",
+    "codes": "mm_chateaulocated"
+  },
+  {
+    "name": "MM Seahorse",
+    "type": "toggle",
+    "img": "images/items/mm_seahorse.png",
+    "codes": "mm_seahorselocated"
   },
   {
     "name": "Bombchu",
@@ -176,13 +200,13 @@
     ]
   },
   {
-    "name": "Powder Keg",
+    "name": "MM Powder Keg",
     "type": "toggle",
     "img": "images/items/mm_keg.png",
     "codes": "MM_POWDER_KEG"
   },
   {
-    "name": "Lens of Truth",
+    "name": "MM Lens of Truth",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
@@ -197,7 +221,7 @@
     ]
   },
   {
-    "name": "Song of Time",
+    "name": "MM Song of Time",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
@@ -212,7 +236,15 @@
     ]
   },
   {
-    "name": "Song of Healing",
+    "name": "MM Song of Time Check",
+    "type": "toggle_badged",
+    "base_item": "mm_songoftime",
+    "img": "images/system/mm_check.png",
+    "initial_active_state": true,
+    "codes": "mm_songoftime_check,mm_time_check,mm_sot_check"
+  },
+  {
+    "name": "MM Song of Healing",
     "type": "toggle",
     "loop": true,
     "img": "images/items/mm_healing.png",
@@ -220,7 +252,15 @@
     "codes": "MM_SONG_HEALING"
   },
   {
-    "name": "Epona's Song",
+    "name": "MM Song of Healing Check",
+    "type": "toggle_badged",
+    "base_item": "mm_healing",
+    "img": "images/system/mm_check.png",
+    "initial_active_state": true,
+    "codes": "mm_healing_check,mm_soh_check,mm_songofhealing_check,mm_heal_check"
+  },
+  {
+    "name": "MM Epona's Song",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
@@ -235,7 +275,14 @@
     ]
   },
   {
-    "name": "Song of Storms",
+    "name": "MM Epona's Song Check",
+    "type": "toggle_badged",
+    "base_item": "mm_epona",
+    "img": "images/system/mm_check.png",
+    "codes": "mm_epona_check,mm_eponas_check,mm_epona_song_check,mm_eponasong_check"
+  },
+  {
+    "name": "MM Song of Storms",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
@@ -250,21 +297,58 @@
     ]
   },
   {
-    "name": "Song of Soaring",
+    "name": "MM Song of Storms Check",
+    "type": "toggle_badged",
+    "base_item": "mm_songofstorms",
+    "img": "images/system/mm_check.png",
+    "codes": "mm_songofstorms_check,mm_storm_check,mm_storms_check,mm_sos_check"
+  },
+  {
+    "name": "MM Song of Soaring",
     "type": "toggle",
     "loop": true,
     "img": "images/items/mm_soaring.png",
     "codes": "MM_SONG_SOARING"
   },
   {
-    "name": "Sonata of Awakening",
+    "name": "MM Song of Soaring",
+    "type": "toggle",
+    "loop": true,
+    "img": "images/items/mm_soaring.png",
+    "initial_active_state": true,
+    "codes": "mm_soaringaccessible"
+  },
+  {
+    "name": "MM Song of Soaring Check",
+    "type": "toggle_badged",
+    "base_item": "mm_soaringaccessible",
+    "img": "images/system/mm_check.png",
+    "initial_active_state": true,
+    "codes": "mm_soaringaccessible_check"
+  },
+  {
+    "name": "MM Song of Soaring Check",
+    "type": "toggle_badged",
+    "base_item": "mm_soaring",
+    "img": "images/system/mm_check.png",
+    "codes": "mm_soaring_check,mm_sos_check,mm_songofsoaring_check,mm_song_of_soaring_check,mm_soar_check,mm_soaringaccessible"
+  },
+  {
+    "name": "MM Sonata of Awakening",
     "type": "toggle",
     "loop": true,
     "img": "images/items/mm_sonata.png",
     "codes": "MM_SONG_AWAKENING"
   },
   {
-    "name": "Goron Lullaby",
+    "name": "MM Sonata of Awakening Check",
+    "type": "toggle_badged",
+    "base_item": "mm_sonata",
+    "img": "images/system/mm_check.png",
+    "codes": "mm_sonata_check,mm_awakening_check,mm_soa_check,mm_sonata_of_awakening_check,mm_awake_check"
+  },
+  {
+    "name": "MM Goron Lullaby",
     "type": "progressive",
     "loop": true,
     "stages": [
@@ -279,40 +363,74 @@
     ]
   },
   {
-    "name": "New Wave Bossa Nova",
+    "name": "MM Goron Lullaby Check",
+    "type": "toggle_badged",
+    "base_item": "mm_lullaby",
+    "img": "images/system/mm_check.png",
+    "codes": "mm_lullaby_check,mm_goronslullaby_check,mm_goronlullaby_check,mm_goron_lullaby_check"
+  },
+  {
+    "name": "MM New Wave Bossa Nova",
     "type": "toggle",
     "loop": true,
     "img": "images/items/mm_bossanova.png",
     "codes": "MM_SONG_ZORA"
   },
   {
-    "name": "Elegy of Emptiness",
+    "name": "MM New Wave Bossa Nova Check",
+    "type": "toggle_badged",
+    "base_item": "mm_bossanova",
+    "img": "images/system/mm_check.png",
+    "codes": "mm_bossanova_check,mm_newwavebossanova_check,mm_nova_check,mm_bossa_check,mm_wave_check"
+  },
+  {
+    "name": "MM Elegy of Emptiness",
     "type": "toggle",
     "loop": true,
     "img": "images/items/mm_elegy.png",
     "codes": "MM_SONG_EMPTINESS"
   },
   {
-    "name": "Oath to Order",
+    "name": "MM Elegy of Emptiness Check",
+    "type": "toggle_badged",
+    "base_item": "mm_elegy",
+    "img": "images/system/mm_check.png",
+    "codes": "mm_elegy_check,mm_emptiness_check,mm_elegyofemptiness_check,mm_eoe_check,mm_elegy_of_emptiness_check"
+  },
+  {
+    "name": "MM Oath to Order",
     "type": "toggle",
     "loop": true,
     "img": "images/items/mm_oath.png",
     "codes": "MM_SONG_ORDER"
   },
   {
-    "name": "Great Fairy Sword",
+    "name": "MM Oath to Order Check",
+    "type": "toggle_badged",
+    "base_item": "mm_oath",
+    "img": "images/system/mm_check.png",
+    "codes": "mm_oath_check,mm_oathcheck,mm_ordercheck,mm_otocheck,mm_oath_to_order_check"
+  },
+  {
+    "name": "MM Great Fairy Sword",
     "type": "toggle",
     "img": "images/items/mm_fairysword.png",
     "codes": "MM_GREAT_FAIRY_SWORD"
   },
   {
-    "name": "Pictograph Box",
+    "name": "MM Pictograph Box",
     "type": "toggle",
     "img": "images/items/mm_box.png",
     "codes": "MM_PICTOGRAPH_BOX"
   },
   {
-    "name": "Sword",
+    "name": "MM Bomber Notebook",
+    "type": "toggle",
+    "img": "images/items/mm_bomber.png",
+    "codes": "mm_bomber,mm_bombernotebook,mm_notebook,mm_book"
+  },
+  {
+    "name": "MM Sword",
     "type": "progressive",
     "loop": true,
     "stages": [
@@ -336,7 +454,7 @@
     "codes": "mm_spinattack,MM_SPIN_UPGRADE"
   },
   {
-    "name": "Shield",
+    "name": "MM Shield",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
@@ -351,7 +469,7 @@
     ]
   },
   {
-    "name": "Mirror Shield",
+    "name": "MM Shield",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
@@ -567,21 +685,21 @@
     ]
   },
   {
-    "name": "Woodfall Skulltullas",
+    "name": "MM Woodfall Skulltullas",
     "type": "consumable",
     "img": "images/items/mm_skulltulla_woodfall.png",
     "codes": "MM_GS_TOKEN_SWAMP",
     "max_quantity": 30
   },
   {
-    "name": "Great Bay Skulltullas",
+    "name": "MM Great Bay Skulltullas",
     "type": "consumable",
     "img": "images/items/mm_skulltulla_greatbay.png",
     "codes": "MM_GS_TOKEN_OCEAN",
     "max_quantity": 30
   },
   {
-    "name": "Wallet",
+    "name": "MM Wallet",
     "type": "progressive",
     "allow_disabled": false,
     "initial_stage_idx": 1,
@@ -611,7 +729,7 @@
     ]
   },
   {
-    "name": "Clock Town Owl Statue",
+    "name": "MM Clock Town Owl Statue",
     "type": "progressive",
     "allow_disabled": false,
     "initial_stage_idx": 0,
@@ -628,7 +746,7 @@
     ]
   },
   {
-    "name": "Southern Swamp Owl Statue",
+    "name": "MM Southern Swamp Owl Statue",
     "type": "progressive",
     "allow_disabled": false,
     "initial_stage_idx": 0,
@@ -645,7 +763,7 @@
     ]
   },
   {
-    "name": "Woodfall Owl Statue",
+    "name": "MM Woodfall Owl Statue",
     "type": "progressive",
     "allow_disabled": false,
     "initial_stage_idx": 0,
@@ -662,7 +780,7 @@
     ]
   },
   {
-    "name": "Milk Road Owl Statue",
+    "name": "MM Milk Road Owl Statue",
     "type": "progressive",
     "allow_disabled": false,
     "initial_stage_idx": 0,
@@ -679,7 +797,7 @@
     ]
   },
   {
-    "name": "Mountain Village Owl Statue",
+    "name": "MM Mountain Village Owl Statue",
     "type": "progressive",
     "allow_disabled": false,
     "initial_stage_idx": 0,
@@ -696,7 +814,7 @@
     ]
   },
   {
-    "name": "Snowhead Owl Statue",
+    "name": "MM Snowhead Owl Statue",
     "type": "progressive",
     "allow_disabled": false,
     "initial_stage_idx": 0,
@@ -713,7 +831,7 @@
     ]
   },
   {
-    "name": "Great Bay Owl Statue",
+    "name": "MM Great Bay Owl Statue",
     "type": "progressive",
     "allow_disabled": false,
     "initial_stage_idx": 0,
@@ -730,7 +848,7 @@
     ]
   },
   {
-    "name": "Zora Cape Owl Statue",
+    "name": "MM Zora Cape Owl Statue",
     "type": "progressive",
     "allow_disabled": false,
     "initial_stage_idx": 0,
@@ -747,7 +865,7 @@
     ]
   },
   {
-    "name": "Ikana Canyon Owl Statue",
+    "name": "MM Ikana Canyon Owl Statue",
     "type": "progressive",
     "allow_disabled": false,
     "initial_stage_idx": 0,
@@ -764,7 +882,7 @@
     ]
   },
   {
-    "name": "Stone Tower Owl Statue",
+    "name": "MM Stone Tower Owl Statue",
     "type": "progressive",
     "allow_disabled": false,
     "initial_stage_idx": 0,
@@ -781,7 +899,7 @@
     ]
   },
   {
-    "name": "Magic",
+    "name": "MM Magic",
     "type": "progressive",
     "stages": [
       {
@@ -794,13 +912,13 @@
     ]
   },
   {
-    "name": "Deku Mask",
+    "name": "MM Deku Mask",
     "type": "toggle",
     "img": "images/items/mm_deku.png",
     "codes": "MM_MASK_DEKU,MM_MASK_TRANSFORM,MM_MASK"
   },
   {
-    "name": "Goron Mask",
+    "name": "MM Goron Mask",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
@@ -815,7 +933,7 @@
     ]
   },
   {
-    "name": "Zora Mask",
+    "name": "MM Zora Mask",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
@@ -830,37 +948,37 @@
     ]
   },
   {
-    "name": "Fierce Deity Mask",
+    "name": "MM Fierce Deity Mask",
     "type": "toggle",
     "img": "images/items/mm_fiercedeity.png",
     "codes": "MM_MASK_FIERCE_DEITY,MM_MASK_TRANSFORM,MM_MASK"
   },
   {
-    "name": "Giant Mask",
+    "name": "MM Giant Mask",
     "type": "toggle",
     "img": "images/items/mm_giant.png",
     "codes": "MM_MASK_GIANT,MM_MASK_REGULAR,MM_MASK"
   },
   {
-    "name": "Blast Mask",
+    "name": "MM Blast Mask",
     "type": "toggle",
     "img": "images/items/mm_blast.png",
     "codes": "MM_MASK_BLAST,MM_MASK_REGULAR,MM_MASK"
   },
   {
-    "name": "All Night Mask",
+    "name": "MM All Night Mask",
     "type": "toggle",
     "img": "images/items/mm_allnight.png",
     "codes": "MM_MASK_ALL_NIGHT,MM_MASK_REGULAR,MM_MASK"
   },
   {
-    "name": "Bremen Mask",
+    "name": "MM Bremen Mask",
     "type": "toggle",
     "img": "images/items/mm_bremen.png",
     "codes": "MM_MASK_BREMEN,MM_MASK_REGULAR,MM_MASK"
   },
   {
-    "name": "Bunny Hood",
+    "name": "MM Bunny Hood",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
@@ -875,43 +993,43 @@
     ]
   },
   {
-    "name": "Captain Hat",
+    "name": "MM Captain Hat",
     "type": "toggle",
     "img": "images/items/mm_captain.png",
     "codes": "MM_MASK_CAPTAIN,MM_MASK_REGULAR,MM_MASK"
   },
   {
-    "name": "Couple Mask",
+    "name": "MM Couple Mask",
     "type": "toggle",
     "img": "images/items/mm_couple.png",
     "codes": "MM_MASK_COUPLE,MM_MASK_REGULAR,MM_MASK"
   },
   {
-    "name": "Don Gero Mask",
+    "name": "MM Don Gero Mask",
     "type": "toggle",
     "img": "images/items/mm_dongero.png",
     "codes": "MM_MASK_DON_GERO,MM_MASK_REGULAR,MM_MASK"
   },
   {
-    "name": "Garo Mask",
+    "name": "MM Garo Mask",
     "type": "toggle",
     "img": "images/items/mm_garo.png",
     "codes": "MM_MASK_GARO,MM_MASK_REGULAR,MM_MASK"
   },
   {
-    "name": "Gibdo Mask",
+    "name": "MM Gibdo Mask",
     "type": "toggle",
     "img": "images/items/mm_gibdo.png",
     "codes": "MM_MASK_GIBDO,MM_MASK_REGULAR,MM_MASK"
   },
   {
-    "name": "Great Fairy Mask",
+    "name": "MM Great Fairy Mask",
     "type": "toggle",
     "img": "images/items/mm_greatfairy.png",
     "codes": "MM_MASK_GREAT_FAIRY,MM_MASK_REGULAR,MM_MASK"
   },
   {
-    "name": "Keaton Mask",
+    "name": "MM Keaton Mask",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
@@ -926,19 +1044,19 @@
     ]
   },
   {
-    "name": "Kafei Mask",
+    "name": "MM Kafei Mask",
     "type": "toggle",
     "img": "images/items/mm_kafeimask.png",
     "codes": "MM_MASK_KAFEI,MM_MASK_REGULAR,MM_MASK"
   },
   {
-    "name": "Kamaro Mask",
+    "name": "MM Kamaro Mask",
     "type": "toggle",
     "img": "images/items/mm_kamaro.png",
     "codes": "MM_MASK_KAMARO,MM_MASK_REGULAR,MM_MASK"
   },
   {
-    "name": "Mask of Truth",
+    "name": "MM Mask of Truth",
     "type": "progressive",
     "allow_disabled": false,
     "stages": [
@@ -953,229 +1071,229 @@
     ]
   },
   {
-    "name": "Postman Hat",
+    "name": "MM Postman Hat",
     "type": "toggle",
     "img": "images/items/mm_postman.png",
     "codes": "MM_MASK_POSTMAN,MM_MASK_REGULAR,MM_MASK"
   },
   {
-    "name": "Romani Mask",
+    "name": "MM Romani Mask",
     "type": "toggle",
     "img": "images/items/mm_romanimask.png",
     "codes": "MM_MASK_ROMANI,MM_MASK_REGULAR,MM_MASK"
   },
   {
-    "name": "Mask of Scents",
+    "name": "MM Mask of Scents",
     "type": "toggle",
     "img": "images/items/mm_scents.png",
     "codes": "MM_MASK_SCENTS,MM_MASK_REGULAR,MM_MASK"
   },
   {
-    "name": "Stone Mask",
+    "name": "MM Stone Mask",
     "type": "toggle",
     "img": "images/items/mm_stone.png",
     "codes": "MM_MASK_STONE,MM_MASK_REGULAR,MM_MASK"
   },
   {
-    "name": "Troupe Leader Mask",
+    "name": "MM Troupe Leader Mask",
     "type": "toggle",
     "img": "images/items/mm_troupe.png",
     "codes": "MM_MASK_TROUPE_LEADER,MM_MASK_REGULAR,MM_MASK"
   },
   {
-    "name": "Odolwa Remains",
+    "name": "MM Odolwa Remains",
     "type": "toggle",
     "img": "images/items/mm_odolwa.png",
     "codes": "mm_odolwa,mm_odolwaremains,mm_odolwa_remains"
   },
   {
-    "name": "Goht Remains",
+    "name": "MM Goht Remains",
     "type": "toggle",
     "img": "images/items/mm_goht.png",
     "codes": "mm_goht,mm_gohtremains,mm_goht_remains"
   },
   {
-    "name": "Gyorg Remains",
+    "name": "MM Gyorg Remains",
     "type": "toggle",
     "img": "images/items/mm_gyorg.png",
     "codes": "mm_gyorg,mm_gyorgremains,mm_gyorg_remains"
   },
   {
-    "name": "Twinmold Remains",
+    "name": "MM Twinmold Remains",
     "type": "toggle",
     "img": "images/items/mm_twinmold.png",
     "codes": "mm_twinmold,mm_twinmoldremains,mm_twin,mm_twinmold_remains,mm_twinremains"
   },
   {
-    "name": "Woodfall Label",
+    "name": "MM Woodfall Label",
     "type": "static",
     "allow_disabled": false,
     "img": "images/system/mm_label_woodfall.png",
     "codes": "mm_woodfall_label,mm_woodfall_reg"
   },
   {
-    "name": "Woodfall Stray Fairies",
+    "name": "MM Woodfall Stray Fairies",
     "type": "consumable",
     "img": "images/items/mm_woodfall_stray_fairy.png",
     "codes": "MM_STRAY_FAIRY_WF",
     "max_quantity": 15
   },
   {
-    "name": "Woodfall Small Keys",
+    "name": "MM Woodfall Small Keys",
     "type": "consumable",
     "img": "images/keys/mm_small_key.png",
     "codes": "MM_SMALL_KEY_WF",
     "max_quantity": 1
   },
   {
-    "name": "Woodfall Boss Key",
+    "name": "MM Woodfall Boss Key",
     "type": "toggle",
     "img": "images/keys/mm_bosskey_woodfall.png",
     "codes": "MM_BOSS_KEY_WF"
   },
   {
-    "name": "Snowhead Label",
+    "name": "MM Snowhead Label",
     "type": "static",
     "allow_disabled": false,
     "img": "images/system/mm_label_snowhead.png",
     "codes": "mm_snowhead_label,mm_snowhead_reg"
   },
   {
-    "name": "Snowhead Stray Fairies",
+    "name": "MM Snowhead Stray Fairies",
     "type": "consumable",
     "img": "images/items/mm_snowhead_stray_fairy.png",
     "codes": "MM_STRAY_FAIRY_SH",
     "max_quantity": 15
   },
   {
-    "name": "Snowhead Small Keys",
+    "name": "MM Snowhead Small Keys",
     "type": "consumable",
     "img": "images/keys/mm_small_key.png",
     "codes": "MM_SMALL_KEY_SH",
     "max_quantity": 3
   },
   {
-    "name": "Snowhead Boss Key",
+    "name": "MM Snowhead Boss Key",
     "type": "toggle",
     "img": "images/keys/mm_boss_key.png",
     "codes": "MM_BOSS_KEY_SH"
   },
   {
-    "name": "Great Bay Label",
+    "name": "MM Great Bay Label",
     "type": "static",
     "allow_disabled": false,
     "img": "images/system/mm_label_greatbay.png",
     "codes": "mm_greatbay_label,mm_greatbay_reg,mm_great_bay_label"
   },
   {
-    "name": "Great Bay Stray Fairies",
+    "name": "MM Great Bay Stray Fairies",
     "type": "consumable",
     "img": "images/items/mm_greatbay_stray_fairy.png",
     "codes": "MM_STRAY_FAIRY_GB",
     "max_quantity": 15
   },
   {
-    "name": "Great Bay Small Keys",
+    "name": "MM Great Bay Small Keys",
     "type": "consumable",
     "img": "images/keys/mm_small_key.png",
     "codes": "MM_SMALL_KEY_GB",
     "max_quantity": 1
   },
   {
-    "name": "Great Bay Boss Key",
+    "name": "MM Great Bay Boss Key",
     "type": "toggle",
     "img": "images/keys/mm_bosskey_greatbay.png",
     "codes": "MM_BOSS_KEY_GB"
   },
   {
-    "name": "Stone Tower Label",
+    "name": "MM Stone Tower Label",
     "type": "static",
     "allow_disabled": false,
     "img": "images/system/mm_label_stonetower.png",
     "codes": "mm_stonetower_label,mm_stonetower_reg,mm_stone_tower_label"
   },
   {
-    "name": "Stone Tower Stray Fairies",
+    "name": "MM Stone Tower Stray Fairies",
     "type": "consumable",
     "img": "images/items/mm_stonetower_stray_fairy.png",
     "codes": "MM_STRAY_FAIRY_ST",
     "max_quantity": 15
   },
   {
-    "name": "Stone Tower Small Keys",
+    "name": "MM Stone Tower Small Keys",
     "type": "consumable",
     "img": "images/keys/mm_small_key.png",
     "codes": "MM_SMALL_KEY_ST",
     "max_quantity": 4
   },
   {
-    "name": "Stone Tower Boss Key",
+    "name": "MM Stone Tower Boss Key",
     "type": "toggle",
     "img": "images/keys/mm_bosskey_stonetower.png",
     "codes": "MM_BOSS_KEY_ST"
   },
   {
-    "name": "Clock Town Stray Fairies",
+    "name": "MM Clock Town Stray Fairies",
     "type": "toggle",
     "img": "images/items/mm_clocktown_stray_fairy.png",
     "codes": "MM_STRAY_FAIRY_TOWN"
   },
   {
-    "name": "Bombs",
+    "name": "MM Bombs",
     "type": "toggle",
     "img": "images/items/mm_bomb.png",
     "codes": "mm_bombsnoammo,mm_bombbagnoammo,mm_bombnoammo,mm_bombs_no_ammo,mm_bombs_noammo"
   },
   {
-    "name": "Moon Tear",
+    "name": "MM Moon Tear",
     "type": "toggle",
     "img": "images/items/mm_tear.png",
     "codes": "MM_MOON_TEAR"
   },
   {
-    "name": "Town Title Deed",
+    "name": "MM Town Title Deed",
     "type": "toggle",
     "img": "images/items/mm_deed1.png",
     "codes": "MM_DEED_LAND"
   },
   {
-    "name": "Swamp Title Deed",
+    "name": "MM Swamp Title Deed",
     "type": "toggle",
     "img": "images/items/mm_deed2.png",
     "codes": "MM_DEED_SWAMP"
   },
   {
-    "name": "Mountain Title Deed",
+    "name": "MM Mountain Title Deed",
     "type": "toggle",
     "img": "images/items/mm_deed3.png",
     "codes": "MM_DEED_MOUNTAIN"
   },
   {
-    "name": "Ocean Title Deed",
+    "name": "MM Ocean Title Deed",
     "type": "toggle",
     "img": "images/items/mm_deed4.png",
     "codes": "MM_DEED_OCEAN"
   },
   {
-    "name": "Room Key Static",
+    "name": "MM Room Key Static",
     "type": "toggle",
     "img": "images/items/mm_roomkey.png",
     "codes": "MM_ROOM_KEY"
   },
   {
-    "name": "Special Delivery",
+    "name": "MM Special Delivery",
     "type": "toggle",
     "img": "images/items/mm_delivery.png",
     "codes": "MM_LETTER_TO_MAMA"
   },
   {
-    "name": "Letter to Kafei",
+    "name": "MM Letter to Kafei",
     "type": "toggle",
     "img": "images/items/mm_letter.png",
     "codes": "MM_LETTER_TO_KAFEI"
   },
   {
-    "name": "Pendant of Memories",
+    "name": "MM Pendant of Memories",
     "type": "toggle",
     "img": "images/items/mm_pendant.png",
     "codes": "MM_PENDANT_OF_MEMORIES"
@@ -1183,7 +1301,7 @@
   {
     "name": "Skeleton Key",
     "type": "toggle",
-    "img": "images/key_skeleton.png",
+    "img": "images/skeleton_key.png",
     "codes": "MM_SKELETON_KEY"
   },
   {
@@ -1215,6 +1333,12 @@
     "type": "toggle",
     "img": "images/boots_hover.png",
     "codes": "MM_BOOTS_HOVER"
+  },
+  {
+    "name": "Goron Tunic",
+    "type": "toggle",
+    "img": "images/redtunic.png",
+    "codes": "MM_TUNIC_GORON"
   },
   {
     "name": "Zora Tunic",
@@ -1283,5 +1407,42 @@
     "type": "toggle",
     "img": "images/button_up.png",
     "codes": "MM_BUTTON_C_UP"
+  },
+  {
+    "name": "Clock - Day 1",
+    "type": "toggle",
+    "img": "images/clock_1.png",
+    "codes": "MM_CLOCK_1"
+  },
+  {
+    "name": "Clock - Day 2",
+    "type": "toggle",
+    "img": "images/clock_3.png",
+    "codes": "MM_CLOCK_3"
+  },
+  {
+    "name": "Clock - Day 3",
+    "type": "toggle",
+    "loop": true,
+    "img": "images/clock_5.png",
+    "codes": "MM_CLOCK_5"
+  },
+  {
+    "name": "Clock - Night 1",
+    "type": "toggle",
+    "img": "images/clock_2.png",
+    "codes": "MM_CLOCK_2"
+  },
+  {
+    "name": "Clock - Night 2",
+    "type": "toggle",
+    "img": "images/clock_4.png",
+    "codes": "MM_CLOCK_4"
+  },
+  {
+    "name": "Clock - Night 3",
+    "type": "toggle",
+    "img": "images/clock_6.png",
+    "codes": "MM_CLOCK_6"
   }
 ]
