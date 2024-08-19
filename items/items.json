@@ -787,12 +787,6 @@
     "codes": "OOT_SONG_EMPTINESS"
   },
   {
-    "name": "Dummy",
-    "type": "toggle",
-    "img": "images/rupee.png",
-    "codes": "dummy"
-  },
-  {
     "name": "A Button",
     "type": "toggle",
     "img": "images/button_a.png",
@@ -831,14 +825,12 @@
   {
     "name": "Blast Mask",
     "type": "toggle",
-    "loop": true,
     "img": "images/oot_mask_blast.png",
     "codes": "OOT_MASK_BLAST"
   },
   {
     "name": "Stone Mask",
     "type": "toggle",
-    "loop": true,
     "img": "images/oot_mask_stone.png",
     "codes": "OOT_MASK_STONE"
   },
@@ -883,5 +875,11 @@
     "img": "images/coin_yellow.png",
     "codes": "COIN_YELLOW",
     "max_quantity": 256
+  },
+  {
+    "name": "Dummy",
+    "type": "toggle",
+    "img": "images/rupee.png",
+    "codes": "dummy"
   }
 ]
