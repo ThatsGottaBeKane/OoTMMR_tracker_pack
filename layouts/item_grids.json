@@ -66,10 +66,10 @@
             "OOT_BUTTON_C_RIGHT"
           ],
           [
+            "OOT_RUTO_LETTER",
             "bottle1",
             "bottle2",
             "bottle3",
-            "bottle4",
             "OOT_SCALE",
             "OOT_MAGIC_UPGRADE",
             "OOT_STRENGTH",
@@ -1092,9 +1092,9 @@
             "MM_STICK",
             "MM_NUT",
             "MM_MAGIC_BEAN",
+            "MM_BOTTLED_GOLD_DUST",
             "mm_bottle1",
             "mm_bottle2",
-            "mm_bottle3",
             "MM_SPELL_WIND"
           ],
           [
@@ -1103,9 +1103,9 @@
             "MM_LENS",
             "MM_HOOKSHOT",
             "MM_GREAT_FAIRY_SWORD",
+            "mm_bottle3",
             "mm_bottle4",
             "mm_bottle5",
-            "mm_bottle6",
             "MM_SPELL_LOVE"
           ],
           [
