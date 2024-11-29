@@ -25,6 +25,7 @@ function _oot_logic()
         ipairs = ipairs,
         new_node = new_node,
         print = print,
+        load = load,
         setmetatable = setmetatable,
         string = string,
         tonumber = tonumber,
@@ -157,6 +158,24 @@ function _oot_logic()
         for k, v in pairs(stuff) do
             M[k] = v
         end
+    end
+
+    -- Override rules for various exits, locations, events, (...), mostly for ER so we can
+    -- happily move things around.
+    function override_place_attribute(place, category, attribute, rule_string)
+        if not rule_string then
+            -- Unset this rule
+            logic[place][category][attribute] = nil
+
+            return
+        end
+
+        local rule = load("return " .. rule_string, "rule for " .. place .. " " .. category .. " " .. attribute, "t", M)
+        if not rule then
+            error("Failed to parse rule: " .. rule_string)
+        end
+
+        logic[place][category][attribute] = rule
     end
 
     -- "STRENGTH:3" ---> STRENGTH, 3
@@ -1112,6 +1131,10 @@ function _oot_logic()
 		return cond(setting('sharedSongElegy'), has('SHARED_SONG_EMPTINESS'), has('SONG_EMPTINESS'))
 	end
 
+	function has_hammer_raw()
+		return cond(setting('sharedHammer'), has('SHARED_HAMMER'), has('HAMMER'))
+	end
+
 	function has_scale_raw(x)
 		return cond(setting('sharedScales'), has('SHARED_SCALE', x), has('SCALE', x))
 	end
@@ -1120,104 +1143,112 @@ function _oot_logic()
 		return cond(setting('sharedStrength'), has('SHARED_STRENGTH', x), has('STRENGTH', x))
 	end
 
+	function shared_soul_enemy(a, b)
+		return cond(setting('sharedSoulsEnemy'), soul_enemy(b), soul_enemy(a))
+	end
+
 	function soul_octorok()
-		return soul_enemy(SOUL_ENEMY_OCTOROK) or soul_enemy(SHARED_SOUL_ENEMY_OCTOROK)
+		return shared_soul_enemy(SOUL_ENEMY_OCTOROK, SHARED_SOUL_ENEMY_OCTOROK)
 	end
 
 	function soul_wallmaster()
-		return soul_enemy(SOUL_ENEMY_WALLMASTER) or soul_enemy(SHARED_SOUL_ENEMY_WALLMASTER)
+		return shared_soul_enemy(SOUL_ENEMY_WALLMASTER, SHARED_SOUL_ENEMY_WALLMASTER)
 	end
 
 	function soul_dodongo()
-		return soul_enemy(SOUL_ENEMY_DODONGO) or soul_enemy(SHARED_SOUL_ENEMY_DODONGO)
+		return shared_soul_enemy(SOUL_ENEMY_DODONGO, SHARED_SOUL_ENEMY_DODONGO)
 	end
 
 	function soul_keese()
-		return soul_enemy(SOUL_ENEMY_KEESE) or soul_enemy(SHARED_SOUL_ENEMY_KEESE)
+		return shared_soul_enemy(SOUL_ENEMY_KEESE, SHARED_SOUL_ENEMY_KEESE)
 	end
 
 	function soul_tektite()
-		return soul_enemy(SOUL_ENEMY_TEKTITE) or soul_enemy(SHARED_SOUL_ENEMY_TEKTITE)
+		return shared_soul_enemy(SOUL_ENEMY_TEKTITE, SHARED_SOUL_ENEMY_TEKTITE)
 	end
 
 	function soul_peahat()
-		return soul_enemy(SOUL_ENEMY_PEAHAT) or soul_enemy(SHARED_SOUL_ENEMY_PEAHAT)
+		return shared_soul_enemy(SOUL_ENEMY_PEAHAT, SHARED_SOUL_ENEMY_PEAHAT)
 	end
 
 	function soul_lizalfos_dinalfos()
-		return soul_enemy(SOUL_ENEMY_LIZALFOS_DINALFOS) or soul_enemy(SHARED_SOUL_ENEMY_LIZALFOS_DINALFOS)
+		return shared_soul_enemy(SOUL_ENEMY_LIZALFOS_DINALFOS, SHARED_SOUL_ENEMY_LIZALFOS_DINALFOS)
 	end
 
 	function soul_skulltula()
-		return soul_enemy(SOUL_ENEMY_SKULLTULA) or soul_enemy(SHARED_SOUL_ENEMY_SKULLTULA)
+		return shared_soul_enemy(SOUL_ENEMY_SKULLTULA, SHARED_SOUL_ENEMY_SKULLTULA)
 	end
 
 	function soul_armos()
-		return soul_enemy(SOUL_ENEMY_ARMOS) or soul_enemy(SHARED_SOUL_ENEMY_ARMOS)
+		return shared_soul_enemy(SOUL_ENEMY_ARMOS, SHARED_SOUL_ENEMY_ARMOS)
 	end
 
 	function soul_deku_baba()
-		return soul_enemy(SOUL_ENEMY_DEKU_BABA) or soul_enemy(SHARED_SOUL_ENEMY_DEKU_BABA)
+		return shared_soul_enemy(SOUL_ENEMY_DEKU_BABA, SHARED_SOUL_ENEMY_DEKU_BABA)
 	end
 
 	function soul_deku_scrub()
-		return soul_enemy(SOUL_ENEMY_DEKU_SCRUB) or soul_enemy(SHARED_SOUL_ENEMY_DEKU_SCRUB)
+		return shared_soul_enemy(SOUL_ENEMY_DEKU_SCRUB, SHARED_SOUL_ENEMY_DEKU_SCRUB)
 	end
 
 	function soul_bubble()
-		return soul_enemy(SOUL_ENEMY_BUBBLE) or soul_enemy(SHARED_SOUL_ENEMY_BUBBLE)
+		return shared_soul_enemy(SOUL_ENEMY_BUBBLE, SHARED_SOUL_ENEMY_BUBBLE)
 	end
 
 	function soul_beamos()
-		return soul_enemy(SOUL_ENEMY_BEAMOS) or soul_enemy(SHARED_SOUL_ENEMY_BEAMOS)
+		return shared_soul_enemy(SOUL_ENEMY_BEAMOS, SHARED_SOUL_ENEMY_BEAMOS)
 	end
 
 	function soul_redead_gibdo()
-		return soul_enemy(SOUL_ENEMY_REDEAD_GIBDO) or soul_enemy(SHARED_SOUL_ENEMY_REDEAD_GIBDO)
+		return shared_soul_enemy(SOUL_ENEMY_REDEAD_GIBDO, SHARED_SOUL_ENEMY_REDEAD_GIBDO)
 	end
 
 	function soul_skullwalltula()
-		return soul_enemy(SOUL_ENEMY_SKULLWALLTULA) or soul_enemy(SHARED_SOUL_ENEMY_SKULLWALLTULA)
+		return shared_soul_enemy(SOUL_ENEMY_SKULLWALLTULA, SHARED_SOUL_ENEMY_SKULLWALLTULA)
 	end
 
 	function soul_shell_blade()
-		return soul_enemy(SOUL_ENEMY_SHELL_BLADE) or soul_enemy(SHARED_SOUL_ENEMY_SHELL_BLADE)
+		return shared_soul_enemy(SOUL_ENEMY_SHELL_BLADE, SHARED_SOUL_ENEMY_SHELL_BLADE)
 	end
 
 	function soul_like_like()
-		return soul_enemy(SOUL_ENEMY_LIKE_LIKE) or soul_enemy(SHARED_SOUL_ENEMY_LIKE_LIKE)
+		return shared_soul_enemy(SOUL_ENEMY_LIKE_LIKE, SHARED_SOUL_ENEMY_LIKE_LIKE)
 	end
 
 	function soul_iron_knuckle()
-		return soul_enemy(SOUL_ENEMY_IRON_KNUCKLE) or soul_enemy(SHARED_SOUL_ENEMY_IRON_KNUCKLE)
+		return shared_soul_enemy(SOUL_ENEMY_IRON_KNUCKLE, SHARED_SOUL_ENEMY_IRON_KNUCKLE)
 	end
 
 	function soul_freezard()
-		return soul_enemy(SOUL_ENEMY_FREEZARD) or soul_enemy(SHARED_SOUL_ENEMY_FREEZARD)
+		return shared_soul_enemy(SOUL_ENEMY_FREEZARD, SHARED_SOUL_ENEMY_FREEZARD)
 	end
 
 	function soul_wolfos()
-		return soul_enemy(SOUL_ENEMY_WOLFOS) or soul_enemy(SHARED_SOUL_ENEMY_WOLFOS)
+		return shared_soul_enemy(SOUL_ENEMY_WOLFOS, SHARED_SOUL_ENEMY_WOLFOS)
 	end
 
 	function soul_guay()
-		return soul_enemy(SOUL_ENEMY_GUAY) or soul_enemy(SHARED_SOUL_ENEMY_GUAY)
+		return shared_soul_enemy(SOUL_ENEMY_GUAY, SHARED_SOUL_ENEMY_GUAY)
 	end
 
 	function soul_flying_pot()
-		return soul_enemy(SOUL_ENEMY_FLYING_POT) or soul_enemy(SHARED_SOUL_ENEMY_FLYING_POT)
+		return shared_soul_enemy(SOUL_ENEMY_FLYING_POT, SHARED_SOUL_ENEMY_FLYING_POT)
 	end
 
 	function soul_floormaster()
-		return soul_enemy(SOUL_ENEMY_FLOORMASTER) or soul_enemy(SHARED_SOUL_ENEMY_FLOORMASTER)
+		return shared_soul_enemy(SOUL_ENEMY_FLOORMASTER, SHARED_SOUL_ENEMY_FLOORMASTER)
 	end
 
 	function soul_leever()
-		return soul_enemy(SOUL_ENEMY_LEEVER) or soul_enemy(SHARED_SOUL_ENEMY_LEEVER)
+		return shared_soul_enemy(SOUL_ENEMY_LEEVER, SHARED_SOUL_ENEMY_LEEVER)
 	end
 
 	function soul_stalchild()
-		return soul_enemy(SOUL_ENEMY_STALCHILD) or soul_enemy(SHARED_SOUL_ENEMY_STALCHILD)
+		return shared_soul_enemy(SOUL_ENEMY_STALCHILD, SHARED_SOUL_ENEMY_STALCHILD)
+	end
+
+	function soul_thief_fighter()
+		return shared_soul_enemy(SOUL_ENEMY_THIEVES, SHARED_SOUL_ENEMY_THIEVES)
 	end
 
 	function shared_soul_misc(a, b)
@@ -1374,6 +1405,10 @@ function _oot_logic()
 
 	function soul_old_hag()
 		return shared_soul_npc(SOUL_NPC_OLD_HAG, SHARED_SOUL_NPC_OLD_HAG)
+	end
+
+	function soul_thief_guard()
+		return shared_soul_npc(SOUL_NPC_THIEVES, SHARED_SOUL_NPC_THIEVES)
 	end
 
 	function is_goal_triforce()
@@ -1617,7 +1652,7 @@ function _oot_logic()
 	end
 
 	function can_hammer()
-		return age_hammer() and has('HAMMER')
+		return age_hammer() and has_hammer_raw()
 	end
 
 	function has_bottle()
@@ -1693,7 +1728,7 @@ function _oot_logic()
 	end
 
 	function starts_with_master_sword()
-		return setting('startingAge', 'adult') and (not setting('swordlessAdult'))
+		return setting('startingAge', 'adult') and (not setting('swordlessAdult') or (not setting('shuffleMasterSword') and setting('timeTravelSword')))
 	end
 
 	function has_sword_child(n)
@@ -1720,6 +1755,10 @@ function _oot_logic()
 		return cond(setting('progressiveSwordsOot', 'progressive'), cond(starts_with_master_sword(), has('SWORD', 2), has('SWORD', 3)), cond(setting('progressiveSwordsOot', 'goron'), has('SWORD_GORON'), has('SWORD_KNIFE') or has('SWORD_BIGGORON')))
 	end
 
+	function has_sword_biggoron()
+		return cond(setting('progressiveSwordsOot', 'progressive'), cond(starts_with_master_sword(), has('SWORD', 3), has('SWORD', 4)), cond(setting('progressiveSwordsOot', 'goron'), has('SWORD_GORON', 2), has('SWORD_BIGGORON')))
+	end
+
 	function can_use_sword_kokiri()
 		return age_sword_child() and has_sword_kokiri()
 	end
@@ -1738,6 +1777,10 @@ function _oot_logic()
 
 	function can_use_sword_goron()
 		return age_sword_adult() and has_sword_goron()
+	end
+
+	function can_use_sword_biggoron()
+		return age_sword_adult() and has_sword_biggoron()
 	end
 
 	function can_use_sword()
@@ -1789,7 +1832,7 @@ function _oot_logic()
 	end
 
 	function stone_of_agony()
-		return has('STONE_OF_AGONY') or trick('OOT_HIDDEN_GROTTOS')
+		return cond(setting('sharedStoneAgony'), has('SHARED_STONE_OF_AGONY'), has('STONE_OF_AGONY')) or trick('OOT_HIDDEN_GROTTOS')
 	end
 
 	function has_tunic_goron_strict()
@@ -2017,7 +2060,7 @@ function _oot_logic()
 	end
 
 	function can_rescue_carpenter()
-		return small_keys_hideout_all() and (can_use_sword() or ((can_boomerang() or has_nuts()) and can_use_sticks())) and soul_carpenters()
+		return small_keys_hideout_all() and (can_use_sword() or ((can_boomerang() or has_nuts()) and can_use_sticks())) and soul_carpenters() and soul_thief_fighter()
 	end
 
 	function carpenters_rescued()
@@ -2524,7 +2567,7 @@ function _oot_logic()
     },
     ["Bottom of the Well"] = {
         ["exits"] = {
-            ["Kakariko"] = function () return true end,
+            ["Kakariko Well"] = function () return true end,
             ["Bottom of the Well Main"] = function () return is_child() and (has_nuts() or can_use_sword() or has_explosives_or_hammer() or has_ranged_weapon() or can_use_din()) or time_travel_at_will() end,
         },
         ["age_change"] = true,
@@ -2740,7 +2783,7 @@ function _oot_logic()
             ["Dodongo Cavern Right Corridor"] = function () return true end,
             ["Dodongo Cavern Main Ledge"] = function () return is_adult() or climb_anywhere() or hookshot_anywhere() end,
             ["Dodongo Cavern Stairs"] = function () return event('DC_MAIN_SWITCH') end,
-            ["Dodongo Cavern Skull"] = function () return event('DC_BOMB_EYES') end,
+            ["Dodongo Cavern Pre-Boss Lobby"] = function () return event('DC_BOMB_EYES') end,
         },
         ["locations"] = {
             ["Dodongo Cavern Map Chest"] = function () return true end,
@@ -2927,7 +2970,7 @@ function _oot_logic()
         },
         ["age_change"] = true,
     },
-    ["Dodongo Cavern Skull"] = {
+    ["Dodongo Cavern Pre-Boss Lobby"] = {
         ["exits"] = {
             ["Dodongo Cavern Main"] = function () return true end,
             ["Dodongo Cavern Boss"] = function () return true end,
@@ -3171,8 +3214,8 @@ function _oot_logic()
     },
     ["Forest Temple Garden West"] = {
         ["events"] = {
-            ["STICKS"] = function () return can_hookshot() or can_hammer() or can_boomerang() or (has_nuts() and can_use_sword()) end,
-            ["NUTS"] = function () return can_use_sword() or has_explosives() or can_use_slingshot() end,
+            ["STICKS"] = function () return soul_deku_baba() and (can_hookshot() or can_hammer() or can_boomerang() or (has_nuts() and can_use_sword())) end,
+            ["NUTS"] = function () return soul_deku_baba() and (can_use_sword() or has_explosives() or can_use_slingshot()) end,
         },
         ["exits"] = {
             ["Forest Temple Main"] = function () return true end,
@@ -3229,8 +3272,8 @@ function _oot_logic()
     },
     ["Forest Temple Garden East"] = {
         ["events"] = {
-            ["STICKS"] = function () return can_hookshot() or can_hammer() or can_boomerang() or (has_nuts() and can_use_sword()) end,
-            ["NUTS"] = function () return can_use_sword() or has_explosives() or can_use_slingshot() end,
+            ["STICKS"] = function () return soul_deku_baba() and (can_hookshot() or can_hammer() or can_boomerang() or (has_nuts() and can_use_sword())) end,
+            ["NUTS"] = function () return soul_deku_baba() and (can_use_sword() or has_explosives() or can_use_slingshot()) end,
         },
         ["exits"] = {
             ["Forest Temple Well"] = function () return event('FOREST_WELL') or can_dive_big() end,
@@ -3447,7 +3490,6 @@ function _oot_logic()
     },
     ["Ganon Castle Light 2"] = {
         ["exits"] = {
-            ["Ganon Castle Light Wallmaster"] = function () return true end,
             ["Ganon Castle Light End"] = function () return silver_rupees_ganon_light() and has_lens() end,
         },
         ["locations"] = {
@@ -3463,6 +3505,9 @@ function _oot_logic()
     ["Ganon Castle Light End"] = {
         ["events"] = {
             ["GANON_TRIAL_LIGHT"] = function () return can_use_light_arrows() end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Light Wallmaster"] = function () return soul_wallmaster() end,
         },
         ["locations"] = {
             ["Ganon Castle Pot Light End 1"] = function () return true end,
@@ -3629,26 +3674,78 @@ function _oot_logic()
     ["Ganon Castle Tower"] = {
         ["exits"] = {
             ["Ganon Castle Stairs"] = function () return true end,
-            ["Ganon Castle Tower Pre-Boss"] = function () return can_use_sword() and soul_lizalfos_dinalfos() and soul_enemy(SOUL_ENEMY_STALFOS) and soul_iron_knuckle() end,
-        },
-        ["locations"] = {
-            ["Ganon Castle Boss Key"] = function () return can_use_sword() and soul_lizalfos_dinalfos() and soul_enemy(SOUL_ENEMY_STALFOS) end,
+            ["Ganon Castle Tower Lobby"] = function () return true end,
         },
         ["age_change"] = true,
     },
-    ["Ganon Castle Tower Pre-Boss"] = {
+    ["Ganon Castle Tower Lobby"] = {
+        ["exits"] = {
+            ["Ganon Castle Tower"] = function () return true end,
+            ["Ganon Castle Tower Dinalfos Room"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Tower Dinalfos Room"] = {
+        ["events"] = {
+            ["GANON_TOWER_LIZALFOS_CLEAR"] = function () return soul_lizalfos_dinalfos() and (can_use_sticks() or has_weapon() or can_use_slingshot()) end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Tower Lobby"] = function () return event('GANON_TOWER_LIZALFOS_CLEAR') end,
+            ["Ganon Castle Tower First Transitional Staircase"] = function () return event('GANON_TOWER_LIZALFOS_CLEAR') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Tower First Transitional Staircase"] = {
+        ["exits"] = {
+            ["Ganon Castle Tower Dinalfos Room"] = function () return true end,
+            ["Ganon Castle Tower Stalfos Room"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Tower Stalfos Room"] = {
+        ["events"] = {
+            ["GANON_TOWER_STALFOS_CLEAR"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and has_weapon() end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Tower First Transitional Staircase"] = function () return event('GANON_TOWER_STALFOS_CLEAR') end,
+            ["Ganon Castle Tower Second Transitional Staircase"] = function () return event('GANON_TOWER_STALFOS_CLEAR') end,
+        },
+        ["locations"] = {
+            ["Ganon Castle Boss Key"] = function () return event('GANON_TOWER_STALFOS_CLEAR') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Tower Second Transitional Staircase"] = {
+        ["exits"] = {
+            ["Ganon Castle Tower Stalfos Room"] = function () return true end,
+            ["Ganon Castle Tower Iron Knuckle Room"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Tower Iron Knuckle Room"] = {
+        ["events"] = {
+            ["GANON_TOWER_IRON_KNUCKLE_CLEAR"] = function () return soul_iron_knuckle() and has_weapon() end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Tower Second Transitional Staircase"] = function () return event('GANON_TOWER_IRON_KNUCKLE_CLEAR') end,
+            ["Ganon Castle Tower Staircase Before Boss Door"] = function () return event('GANON_TOWER_IRON_KNUCKLE_CLEAR') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Tower Staircase Before Boss Door"] = {
+        ["exits"] = {
+            ["Ganon Castle Tower Iron Knuckle Room"] = function () return true end,
+            ["Ganon Castle Tower Lower Arena"] = function () return setting('ganonBossKey', 'removed') or has('BOSS_KEY_GANON') or (setting('ganonBossKey', 'custom') and special(GANON_BK)) end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Tower Lower Arena"] = {
         ["events"] = {
             ["GANON_PRE_BOSS"] = function () return true end,
         },
         ["exits"] = {
-            ["Ganon Castle Tower Boss"] = function () return setting('ganonBossKey', 'removed') or has('BOSS_KEY_GANON') or (setting('ganonBossKey', 'custom') and special(GANON_BK)) end,
-        },
-        ["age_change"] = true,
-    },
-    ["Ganon Castle Tower Boss"] = {
-        ["events"] = {
-            ["GANON_START"] = function () return not is_goal_triforce() end,
-            ["GANON"] = function () return event('GANON_START') and can_use_light_arrows() and soul_npc(SOUL_NPC_ZELDA) and can_use_sword_master() end,
+            ["Ganon Castle Tower Staircase Before Boss Door"] = function () return false end,
+            ["Ganon Castle Tower Final Staircase"] = function () return true end,
         },
         ["locations"] = {
             ["Ganon Tower Pot 01"] = function () return true end,
@@ -3670,6 +3767,20 @@ function _oot_logic()
             ["Ganon Tower Pot 17"] = function () return true end,
             ["Ganon Tower Pot 18"] = function () return true end,
         },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Tower Final Staircase"] = {
+        ["exits"] = {
+            ["Ganon Castle Tower Lower Arena"] = function () return false end,
+            ["Ganon Castle Tower Boss"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Tower Boss"] = {
+        ["events"] = {
+            ["GANON_START"] = function () return not is_goal_triforce() end,
+            ["GANON"] = function () return event('GANON_START') and can_use_light_arrows() and soul_npc(SOUL_NPC_ZELDA) and can_use_sword_master() end,
+        },
         ["age_change"] = false,
     },
     ["Gerudo Fortress Carpenter 1 Left"] = {
@@ -3684,7 +3795,7 @@ function _oot_logic()
             ["Gerudo Fortress Carpenter 1 Right"] = function () return true end,
         },
         ["locations"] = {
-            ["Gerudo Fortress Jail 1"] = function () return (can_use_sword() or ((can_boomerang() or has_nuts()) and can_use_sticks())) and soul_carpenters() end,
+            ["Gerudo Fortress Jail 1"] = function () return (can_use_sword() or ((can_boomerang() or has_nuts()) and can_use_sticks())) and soul_carpenters() and soul_thief_fighter() end,
             ["Gerudo Member Card"] = function () return carpenters_rescued() end,
             ["Gerudo Fortress Pot Jail 1 1"] = function () return true end,
             ["Gerudo Fortress Pot Jail 1 2"] = function () return true end,
@@ -3712,7 +3823,7 @@ function _oot_logic()
             ["Gerudo Fortress Carpenter 2 Top"] = function () return true end,
         },
         ["locations"] = {
-            ["Gerudo Fortress Jail 2"] = function () return (can_use_sword() or ((can_boomerang() or has_nuts()) and can_use_sticks())) and soul_carpenters() end,
+            ["Gerudo Fortress Jail 2"] = function () return (can_use_sword() or ((can_boomerang() or has_nuts()) and can_use_sticks())) and soul_carpenters() and soul_thief_fighter() end,
             ["Gerudo Member Card"] = function () return carpenters_rescued() end,
             ["Gerudo Fortress Pot Jail 2 1"] = function () return true end,
             ["Gerudo Fortress Pot Jail 2 2"] = function () return true end,
@@ -3752,7 +3863,7 @@ function _oot_logic()
             ["Gerudo Fortress Carpenter 4 Bottom"] = function () return true end,
         },
         ["locations"] = {
-            ["Gerudo Fortress Jail 4"] = function () return (can_use_sword() or ((can_boomerang() or has_nuts()) and can_use_sticks())) and soul_carpenters() end,
+            ["Gerudo Fortress Jail 4"] = function () return (can_use_sword() or ((can_boomerang() or has_nuts()) and can_use_sticks())) and soul_carpenters() and soul_thief_fighter() end,
             ["Gerudo Member Card"] = function () return carpenters_rescued() end,
             ["Gerudo Fortress Wonder Item Jail 4 1"] = function () return can_use_bow() end,
             ["Gerudo Fortress Wonder Item Jail 4 2"] = function () return can_use_bow() end,
@@ -3820,7 +3931,7 @@ function _oot_logic()
             ["Gerudo Fortress Center Ledge"] = function () return true end,
         },
         ["locations"] = {
-            ["Gerudo Fortress Jail 3"] = function () return (can_use_sword() or ((can_boomerang() or has_nuts()) and can_use_sticks())) and soul_carpenters() end,
+            ["Gerudo Fortress Jail 3"] = function () return (can_use_sword() or ((can_boomerang() or has_nuts()) and can_use_sticks())) and soul_carpenters() and soul_thief_fighter() end,
             ["Gerudo Member Card"] = function () return carpenters_rescued() end,
             ["Gerudo Fortress Pot Jail 3 1"] = function () return true end,
             ["Gerudo Fortress Pot Jail 3 2"] = function () return true end,
@@ -4131,47 +4242,157 @@ function _oot_logic()
     ["Jabu-Jabu"] = {
         ["exits"] = {
             ["Zora Fountain"] = function () return true end,
-            ["Jabu-Jabu Main"] = function () return has_ranged_weapon() or has_explosives() end,
+            ["Jabu-Jabu Elevator"] = function () return has_ranged_weapon() or has_explosives() end,
         },
         ["age_change"] = true,
     },
-    ["Jabu-Jabu Main"] = {
-        ["events"] = {
-            ["BIG_OCTO"] = function () return soul_octorok() and event('PARASITE') and soul_ruto() and (can_use_sword() or can_use_sticks()) end,
-            ["PARASITE"] = function () return soul_enemy(SOUL_ENEMY_PARASITE) and can_boomerang() and (soul_ruto() or can_play_elegy()) end,
-        },
+    ["Jabu-Jabu Elevator"] = {
         ["exits"] = {
             ["Jabu-Jabu"] = function () return true end,
-            ["Jabu-Jabu Pre-Boss"] = function () return event('BIG_OCTO') or (has_hover_boots() and (trick('OOT_JABU_BOSS_HOVER') or can_play_elegy())) or climb_anywhere() or (glitch_megaflip() and (trick('OOT_JJB_BOXLESS') and can_jump_slash() or can_play_elegy())) end,
+            ["Jabu-Jabu Pre-Boss Room"] = function () return event('BIG_OCTO') or (has_hover_boots() and (trick('OOT_JABU_BOSS_HOVER') or can_play_elegy())) or climb_anywhere() or (glitch_megaflip() and (trick('OOT_JJB_BOXLESS') and can_jump_slash() or can_play_elegy())) end,
+            ["Jabu-Jabu Hole Room"] = function () return true end,
         },
         ["locations"] = {
-            ["Jabu-Jabu Map Chest"] = function () return event('PARASITE') end,
-            ["Jabu-Jabu Compass Chest"] = function () return event('PARASITE') and soul_enemy(SOUL_ENEMY_SHABOM) end,
-            ["Jabu-Jabu Boomerang Chest"] = function () return soul_enemy(SOUL_ENEMY_STINGER) and soul_ruto() end,
-            ["Jabu-Jabu GS Bottom Lower"] = function () return gs() and (can_collect_distance() or climb_anywhere()) end,
-            ["Jabu-Jabu GS Bottom Upper"] = function () return gs() and (can_collect_distance() or climb_anywhere()) end,
-            ["Jabu-Jabu GS Water Switch"] = function () return gs() end,
             ["Jabu-Jabu Scrub"] = function () return (is_child() or can_dive_small() or time_travel_at_will()) and business_scrub(32) end,
-            ["Jabu-Jabu Pot Big Octo Room 1"] = function () return event('BIG_OCTO') or climb_anywhere() end,
-            ["Jabu-Jabu Pot Big Octo Room 2"] = function () return event('BIG_OCTO') or climb_anywhere() end,
-            ["Jabu-Jabu Pot Big Octo Room 3"] = function () return event('BIG_OCTO') or climb_anywhere() end,
-            ["Jabu-Jabu Pot Muscle Block Room 1"] = function () return can_boomerang() or climb_anywhere() end,
-            ["Jabu-Jabu Pot Muscle Block Room 2"] = function () return can_boomerang() or climb_anywhere() end,
-            ["Jabu-Jabu Pot Muscle Block Room 3"] = function () return can_boomerang() or climb_anywhere() end,
-            ["Jabu-Jabu Pot Muscle Block Room 4"] = function () return can_boomerang() or climb_anywhere() end,
-            ["Jabu-Jabu Pot Muscle Block Room 5"] = function () return can_boomerang() or climb_anywhere() end,
-            ["Jabu-Jabu Pot Alcove 1"] = function () return true end,
-            ["Jabu-Jabu Pot Alcove 2"] = function () return true end,
-            ["Jabu-Jabu Pot Alcove 3"] = function () return true end,
             ["Jabu-Jabu Small Crate 1"] = function () return true end,
             ["Jabu-Jabu Small Crate 2"] = function () return true end,
         },
         ["age_change"] = true,
     },
-    ["Jabu-Jabu Pre-Boss"] = {
+    ["Jabu-Jabu Hole Room"] = {
+        ["exits"] = {
+            ["Jabu-Jabu Elevator"] = function () return true end,
+            ["Jabu-Jabu Parasite Fork"] = function () return true end,
+            ["Jabu-Jabu Basement"] = function () return true end,
+            ["Jabu-Jabu Before Big Octo"] = function () return event('PARASITE') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Parasite Fork"] = {
+        ["events"] = {
+            ["PARASITE"] = function () return event('RED_PARASITE') and event('BLUE_PARASITE') and event('GREEN_PARASITE') end,
+        },
+        ["exits"] = {
+            ["Jabu-Jabu Hole Room"] = function () return true end,
+            ["Jabu-Jabu Boomerang Room"] = function () return true end,
+            ["Jabu-Jabu Map Room"] = function () return soul_ruto() or can_play_elegy() end,
+            ["Jabu-Jabu Compass Room"] = function () return event('RED_PARASITE') end,
+            ["Jabu-Jabu Blue Parasite"] = function () return event('RED_PARASITE') end,
+            ["Jabu-Jabu Green Parasite"] = function () return event('BLUE_PARASITE') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Boomerang Room"] = {
+        ["exits"] = {
+            ["Jabu-Jabu Parasite Fork"] = function () return true end,
+        },
+        ["locations"] = {
+            ["Jabu-Jabu Boomerang Chest"] = function () return soul_enemy(SOUL_ENEMY_STINGER) and soul_ruto() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Map Room"] = {
+        ["events"] = {
+            ["RED_PARASITE"] = function () return soul_enemy(SOUL_ENEMY_PARASITE) and can_boomerang() end,
+        },
+        ["exits"] = {
+            ["Jabu-Jabu Parasite Fork"] = function () return true end,
+        },
+        ["locations"] = {
+            ["Jabu-Jabu Map Chest"] = function () return event('RED_PARASITE') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Compass Room"] = {
+        ["exits"] = {
+            ["Jabu-Jabu Parasite Fork"] = function () return soul_enemy(SOUL_ENEMY_SHABOM) end,
+        },
+        ["locations"] = {
+            ["Jabu-Jabu Compass Chest"] = function () return soul_enemy(SOUL_ENEMY_SHABOM) end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Blue Parasite"] = {
+        ["events"] = {
+            ["BLUE_PARASITE"] = function () return soul_enemy(SOUL_ENEMY_PARASITE) and can_boomerang() end,
+        },
+        ["exits"] = {
+            ["Jabu-Jabu Parasite Fork"] = function () return event('BLUE_PARASITE') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Green Parasite"] = {
+        ["events"] = {
+            ["GREEN_PARASITE"] = function () return soul_enemy(SOUL_ENEMY_PARASITE) and can_boomerang() end,
+        },
+        ["exits"] = {
+            ["Jabu-Jabu Parasite Fork"] = function () return event('GREEN_PARASITE') and soul_enemy(SOUL_ENEMY_BIRI_BARI) end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Basement"] = {
+        ["exits"] = {
+            ["Jabu-Jabu Hole Room"] = function () return true end,
+            ["Jabu-Jabu Muscle Block Room"] = function () return true end,
+            ["Jabu-Jabu Water Switch Room"] = function () return true end,
+        },
+        ["locations"] = {
+            ["Jabu-Jabu GS Bottom Lower"] = function () return gs() and (can_collect_distance() or climb_anywhere()) end,
+            ["Jabu-Jabu GS Bottom Upper"] = function () return gs() and (can_collect_distance() or climb_anywhere()) end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Muscle Block Room"] = {
+        ["exits"] = {
+            ["Jabu-Jabu Basement"] = function () return true end,
+        },
+        ["locations"] = {
+            ["Jabu-Jabu Pot Muscle Block Room 1"] = function () return can_boomerang() or climb_anywhere() end,
+            ["Jabu-Jabu Pot Muscle Block Room 2"] = function () return can_boomerang() or climb_anywhere() end,
+            ["Jabu-Jabu Pot Muscle Block Room 3"] = function () return can_boomerang() or climb_anywhere() end,
+            ["Jabu-Jabu Pot Muscle Block Room 4"] = function () return can_boomerang() or climb_anywhere() end,
+            ["Jabu-Jabu Pot Muscle Block Room 5"] = function () return can_boomerang() or climb_anywhere() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Water Switch Room"] = {
+        ["exits"] = {
+            ["Jabu-Jabu Basement"] = function () return true end,
+            ["Jabu-Jabu Elevator"] = function () return true end,
+        },
+        ["locations"] = {
+            ["Jabu-Jabu GS Water Switch"] = function () return gs() end,
+            ["Jabu-Jabu Pot Alcove 1"] = function () return true end,
+            ["Jabu-Jabu Pot Alcove 2"] = function () return true end,
+            ["Jabu-Jabu Pot Alcove 3"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Before Big Octo"] = {
+        ["exits"] = {
+            ["Jabu-Jabu Basement"] = function () return true end,
+            ["Jabu-Jabu Big Octo"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Big Octo"] = {
+        ["events"] = {
+            ["BIG_OCTO"] = function () return soul_octorok() and event('PARASITE') and soul_ruto() and (can_use_sword() or can_use_sticks()) end,
+        },
+        ["exits"] = {
+            ["Jabu-Jabu Elevator"] = function () return event('BIG_OCTO') or climb_anywhere() end,
+        },
+        ["locations"] = {
+            ["Jabu-Jabu Pot Big Octo Room 1"] = function () return event('BIG_OCTO') or climb_anywhere() end,
+            ["Jabu-Jabu Pot Big Octo Room 2"] = function () return event('BIG_OCTO') or climb_anywhere() end,
+            ["Jabu-Jabu Pot Big Octo Room 3"] = function () return event('BIG_OCTO') or climb_anywhere() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Pre-Boss Room"] = {
         ["exits"] = {
             ["Jabu-Jabu Boss"] = function () return can_boomerang() or (trick('OOT_JABU_BOSS_HIGH_SWITCH') and (has_hover_boots() and has_bombs() or can_hit_triggers_distance() or can_longshot() or has_bombchu())) or (climb_anywhere() and (can_use_sword() or can_use_sticks() or has_ranged_weapon() or has_explosives_or_hammer())) end,
-            ["Jabu-Jabu Main"] = function () return true end,
+            ["Jabu-Jabu Elevator"] = function () return true end,
         },
         ["locations"] = {
             ["Jabu-Jabu GS Near Boss"] = function () return gs() end,
@@ -4324,20 +4545,18 @@ function _oot_logic()
             ["Kokiri Forest Grass Child"] = function () return is_child() end,
             ["Kokiri Forest Grass Adult"] = function () return is_adult() end,
         },
-        ["locations"] = {
-            ["Kokiri Forest Grass 1"] = function () return true end,
-            ["Kokiri Forest Grass 2"] = function () return true end,
-            ["Kokiri Forest Grass 3"] = function () return true end,
-            ["Kokiri Forest Grass 4"] = function () return true end,
-            ["Kokiri Forest Grass 5"] = function () return true end,
-            ["Kokiri Forest Grass 6"] = function () return true end,
-            ["Kokiri Forest Grass 7"] = function () return true end,
-            ["Kokiri Forest Grass 8"] = function () return true end,
-        },
         ["age_change"] = false,
     },
     ["Kokiri Forest Grass Child"] = {
         ["locations"] = {
+            ["Kokiri Forest Grass Child Near Crawl 1"] = function () return true end,
+            ["Kokiri Forest Grass Child Near Crawl 2"] = function () return true end,
+            ["Kokiri Forest Grass Child Near Crawl 3"] = function () return true end,
+            ["Kokiri Forest Grass Child Near Crawl 4"] = function () return true end,
+            ["Kokiri Forest Grass Child Near Crawl 5"] = function () return true end,
+            ["Kokiri Forest Grass Child Near Crawl 6"] = function () return true end,
+            ["Kokiri Forest Grass Child Near Crawl 7"] = function () return true end,
+            ["Kokiri Forest Grass Child Near Crawl 8"] = function () return true end,
             ["Kokiri Forest Grass Child 1"] = function () return true end,
             ["Kokiri Forest Grass Child 2"] = function () return true end,
             ["Kokiri Forest Grass Child 3"] = function () return true end,
@@ -4363,6 +4582,14 @@ function _oot_logic()
             ["Kokiri Forest Grass Adult 10"] = function () return true end,
             ["Kokiri Forest Grass Adult 11"] = function () return true end,
             ["Kokiri Forest Grass Adult 12"] = function () return true end,
+            ["Kokiri Forest Grass Adult Near Crawl 1"] = function () return true end,
+            ["Kokiri Forest Grass Adult Near Crawl 2"] = function () return true end,
+            ["Kokiri Forest Grass Adult Near Crawl 3"] = function () return true end,
+            ["Kokiri Forest Grass Adult Near Crawl 4"] = function () return true end,
+            ["Kokiri Forest Grass Adult Near Crawl 5"] = function () return true end,
+            ["Kokiri Forest Grass Adult Near Crawl 6"] = function () return true end,
+            ["Kokiri Forest Grass Adult Near Crawl 7"] = function () return true end,
+            ["Kokiri Forest Grass Adult Near Crawl 8"] = function () return true end,
         },
         ["age_change"] = false,
     },
@@ -4475,6 +4702,9 @@ function _oot_logic()
             ["Kokiri Forest Storms Grotto Grass 4"] = function () return can_cut_grass() end,
             ["Kokiri Forest Storms Grotto Hive 1"] = function () return break_hive_low() end,
             ["Kokiri Forest Storms Grotto Hive 2"] = function () return break_hive_low() end,
+            ["Kokiri Forest Storms Grotto Butterfly 1"] = function () return can_use_sticks() end,
+            ["Kokiri Forest Storms Grotto Butterfly 2"] = function () return can_use_sticks() end,
+            ["Kokiri Forest Storms Grotto Butterfly 3"] = function () return can_use_sticks() end,
         },
         ["age_change"] = false,
     },
@@ -4607,6 +4837,9 @@ function _oot_logic()
             ["Hyrule Field Grotto Open Grass 4"] = function () return can_cut_grass() end,
             ["Hyrule Field Grotto Open Hive 1"] = function () return break_hive_low() end,
             ["Hyrule Field Grotto Open Hive 2"] = function () return break_hive_low() end,
+            ["Hyrule Field Grotto Open Butterfly 1"] = function () return can_use_sticks() end,
+            ["Hyrule Field Grotto Open Butterfly 2"] = function () return can_use_sticks() end,
+            ["Hyrule Field Grotto Open Butterfly 3"] = function () return can_use_sticks() end,
         },
         ["age_change"] = false,
     },
@@ -4631,6 +4864,9 @@ function _oot_logic()
             ["Hyrule Field Grotto Southeast Grass 4"] = function () return can_cut_grass() end,
             ["Hyrule Field Grotto Southeast Hive 1"] = function () return break_hive_low() end,
             ["Hyrule Field Grotto Southeast Hive 2"] = function () return break_hive_low() end,
+            ["Hyrule Field Grotto Southeast Butterfly 1"] = function () return can_use_sticks() end,
+            ["Hyrule Field Grotto Southeast Butterfly 2"] = function () return can_use_sticks() end,
+            ["Hyrule Field Grotto Southeast Butterfly 3"] = function () return can_use_sticks() end,
         },
         ["age_change"] = false,
     },
@@ -4655,6 +4891,9 @@ function _oot_logic()
             ["Hyrule Field Grotto Market Grass 4"] = function () return can_cut_grass() end,
             ["Hyrule Field Grotto Market Hive 1"] = function () return break_hive_low() end,
             ["Hyrule Field Grotto Market Hive 2"] = function () return break_hive_low() end,
+            ["Hyrule Field Grotto Market Butterfly 1"] = function () return can_use_sticks() end,
+            ["Hyrule Field Grotto Market Butterfly 2"] = function () return can_use_sticks() end,
+            ["Hyrule Field Grotto Market Butterfly 3"] = function () return can_use_sticks() end,
         },
         ["age_change"] = false,
     },
@@ -4722,6 +4961,12 @@ function _oot_logic()
         },
         ["age_change"] = false,
     },
+    ["Market Mask Shop"] = {
+        ["exits"] = {
+            ["Market"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
     ["Market"] = {
         ["events"] = {
             ["RICHARD"] = function () return is_night() and is_child() end,
@@ -4738,7 +4983,7 @@ function _oot_logic()
             ["Shooting Gallery Child"] = function () return is_day() and is_child() end,
             ["Market Bazaar"] = function () return is_day() and is_child() end,
             ["Market Potion Shop"] = function () return is_day() and is_child() end,
-            ["MM Clock Town"] = function () return is_child() and (is_day() or setting('openMaskShop')) end,
+            ["Market Mask Shop"] = function () return is_child() and (is_day() or setting('openMaskShop')) end,
         },
         ["locations"] = {
             ["Market Wonder Item Day 1"] = function () return is_child() and is_day() end,
@@ -5106,6 +5351,18 @@ function _oot_logic()
             ["Hyrule Castle Wonder Item Moat 08"] = function () return true end,
             ["Hyrule Castle Wonder Item Moat 09"] = function () return true end,
             ["Hyrule Castle Wonder Item Moat 10"] = function () return true end,
+            ["Hyrule Castle Butterfly Pack 1 Butterfly 1"] = function () return can_use_sticks() end,
+            ["Hyrule Castle Butterfly Pack 1 Butterfly 2"] = function () return can_use_sticks() end,
+            ["Hyrule Castle Butterfly Pack 2 Butterfly 1"] = function () return can_use_sticks() end,
+            ["Hyrule Castle Butterfly Pack 2 Butterfly 2"] = function () return can_use_sticks() end,
+            ["Hyrule Castle Butterfly Pack 3 Butterfly 1"] = function () return can_use_sticks() end,
+            ["Hyrule Castle Butterfly Pack 3 Butterfly 2"] = function () return can_use_sticks() end,
+            ["Hyrule Castle Butterfly Pack 3 Butterfly 3"] = function () return can_use_sticks() end,
+            ["Hyrule Castle Butterfly Pack 4 Butterfly 1"] = function () return can_use_sticks() end,
+            ["Hyrule Castle Butterfly Pack 4 Butterfly 2"] = function () return can_use_sticks() end,
+            ["Hyrule Castle Butterfly Pack 4 Butterfly 3"] = function () return can_use_sticks() end,
+            ["Hyrule Castle Butterfly Pack 4 Butterfly 4"] = function () return can_use_sticks() end,
+            ["Hyrule Castle Butterfly Pack 4 Butterfly 5"] = function () return can_use_sticks() end,
         },
         ["age_change"] = false,
     },
@@ -5317,6 +5574,9 @@ function _oot_logic()
             ["Lost Woods Grotto Generic Grass 4"] = function () return can_cut_grass() end,
             ["Lost Woods Grotto Generic Hive 1"] = function () return break_hive_low() end,
             ["Lost Woods Grotto Generic Hive 2"] = function () return break_hive_low() end,
+            ["Lost Woods Grotto Generic Butterfly 1"] = function () return can_use_sticks() end,
+            ["Lost Woods Grotto Generic Butterfly 2"] = function () return can_use_sticks() end,
+            ["Lost Woods Grotto Generic Butterfly 3"] = function () return can_use_sticks() end,
         },
         ["age_change"] = false,
     },
@@ -5370,6 +5630,11 @@ function _oot_logic()
             ["Lost Woods Grass Deep 5"] = function () return can_cut_grass() end,
             ["Lost Woods Grass Deep 6"] = function () return can_cut_grass() end,
             ["Lost Woods Rupee Boulder"] = function () return has_explosives_or_hammer() end,
+            ["Lost Woods Butterfly 1"] = function () return is_child() and can_use_sticks() end,
+            ["Lost Woods Butterfly 2"] = function () return is_child() and can_use_sticks() end,
+            ["Lost Woods Butterfly 3"] = function () return is_child() and can_use_sticks() end,
+            ["Lost Woods Butterfly 4"] = function () return is_child() and can_use_sticks() end,
+            ["Lost Woods Butterfly 5"] = function () return is_child() and can_use_sticks() end,
         },
         ["age_change"] = true,
     },
@@ -5381,7 +5646,7 @@ function _oot_logic()
             ["Deku Theater Sticks Upgrade"] = function () return age_child_trade() and has('MASK_SKULL') end,
             ["Deku Theater Nuts Upgrade"] = function () return age_child_trade() and has_mask_truth() end,
         },
-        ["age_change"] = true,
+        ["age_change"] = false,
     },
     ["Lost Woods Scrub Grotto"] = {
         ["exits"] = {
@@ -5478,7 +5743,7 @@ function _oot_logic()
             ["Hyrule Field"] = function () return true end,
             ["Kakariko Trail Start"] = function () return setting('kakarikoGate', 'open') or event('KAKARIKO_GATE_OPEN') or is_adult() or climb_anywhere() or hookshot_anywhere() end,
             ["Graveyard"] = function () return true end,
-            ["Bottom of the Well"] = function () return (setting('openDungeonsOot', 'BotW') or event('WELL_DRAIN')) and cond(setting('openDungeonsOot', 'wellAdult'), true, is_child()) or (is_child() and (has_iron_boots() or longshot_anywhere() or time_travel_at_will())) or (time_travel_at_will() and trick('OOT_WELL_ADULT_TT')) end,
+            ["Kakariko Well"] = function () return is_adult() or has_iron_boots() or longshot_anywhere() or event('WELL_DRAIN') or setting('openDungeonsOot', 'BotW') end,
             ["Skulltula House"] = function () return true end,
             ["Shooting Gallery Adult"] = function () return is_adult() and is_day() or (time_travel_at_will() and trick('OOT_ADULT_GALLERY_TT')) end,
             ["Kakariko Balcony"] = function () return is_child() and is_day() or (is_adult() and trick('OOT_PASS_COLLISION')) or climb_anywhere() end,
@@ -5497,7 +5762,7 @@ function _oot_logic()
             ["Kakariko Anju Cojiro"] = function () return event('TALON_AWAKE') and is_day() and soul_anju() end,
             ["Kakariko Song Shadow"] = function () return is_adult() and soul_npc(SOUL_NPC_SHEIK) and has('MEDALLION_FOREST') and has('MEDALLION_FIRE') and has('MEDALLION_WATER') end,
             ["Kakariko Man on Roof"] = function () return (can_hookshot() or trick('OOT_MAN_ON_ROOF') or climb_anywhere()) and soul_rooftop_man() end,
-            ["Kakariko Sell Keaton Mask"] = function () return is_child() and (setting('kakarikoGate', 'open') or event('KAKARIKO_GATE_OPEN')) and has_mask_keaton() end,
+            ["Kakariko Sell Keaton Mask"] = function () return soul_npc(SOUL_NPC_HYLIAN_GUARD) and is_child() and (setting('kakarikoGate', 'open') or event('KAKARIKO_GATE_OPEN')) and has_mask_keaton() end,
             ["Kakariko GS Shooting Gallery"] = function () return gs_night() and is_child() end,
             ["Kakariko GS Tree"] = function () return gs_night() and is_child() end,
             ["Kakariko GS House of Skulltula"] = function () return gs_night() and is_child() end,
@@ -5535,6 +5800,8 @@ function _oot_logic()
             ["Kakariko Grass 7"] = function () return can_cut_grass() end,
             ["Kakariko Grass 8"] = function () return can_cut_grass() end,
             ["Kakariko Wonder Item"] = function () return is_child() end,
+            ["Kakariko Butterfly 1"] = function () return is_day() and is_child() and can_use_sticks() end,
+            ["Kakariko Butterfly 2"] = function () return is_day() and is_child() and can_use_sticks() end,
         },
         ["age_change"] = true,
     },
@@ -5577,6 +5844,13 @@ function _oot_logic()
             ["Kakariko Crate Adult Back 2"] = function () return is_adult() end,
             ["Kakariko Crate Adult Back 3"] = function () return is_adult() end,
             ["Kakariko Crate Adult Back 4"] = function () return is_adult() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Kakariko Well"] = {
+        ["exits"] = {
+            ["Kakariko"] = function () return true end,
+            ["Bottom of the Well"] = function () return is_child() or (setting('openDungeonsOot', 'wellAdult') and event('WELL_DRAIN')) or (time_travel_at_will() and trick('OOT_WELL_ADULT_TT')) end,
         },
         ["age_change"] = true,
     },
@@ -5741,6 +6015,9 @@ function _oot_logic()
             ["Kakariko Grotto Back Grass 4"] = function () return can_cut_grass() end,
             ["Kakariko Grotto Back Hive 1"] = function () return break_hive_low() end,
             ["Kakariko Grotto Back Hive 2"] = function () return break_hive_low() end,
+            ["Kakariko Grotto Butterfly 1"] = function () return can_use_sticks() end,
+            ["Kakariko Grotto Butterfly 2"] = function () return can_use_sticks() end,
+            ["Kakariko Grotto Butterfly 3"] = function () return can_use_sticks() end,
         },
         ["age_change"] = false,
     },
@@ -5782,6 +6059,9 @@ function _oot_logic()
             ["Graveyard Grass 10"] = function () return can_cut_grass() end,
             ["Graveyard Grass 11"] = function () return can_cut_grass() end,
             ["Graveyard Grass 12"] = function () return can_cut_grass() end,
+            ["Graveyard Butterfly 1"] = function () return is_child() and can_use_sticks() end,
+            ["Graveyard Butterfly 2"] = function () return is_child() and can_use_sticks() end,
+            ["Graveyard Butterfly 3"] = function () return is_child() and can_use_sticks() end,
         },
         ["age_change"] = true,
     },
@@ -5952,6 +6232,9 @@ function _oot_logic()
             ["Death Mountain Trail Grotto Grass 4"] = function () return can_cut_grass() end,
             ["Death Mountain Trail Grotto Hive 1"] = function () return break_hive_low() end,
             ["Death Mountain Trail Grotto Hive 2"] = function () return break_hive_low() end,
+            ["Death Mountain Trail Grotto Butterfly 1"] = function () return can_use_sticks() end,
+            ["Death Mountain Trail Grotto Butterfly 2"] = function () return can_use_sticks() end,
+            ["Death Mountain Trail Grotto Butterfly 3"] = function () return can_use_sticks() end,
         },
         ["age_change"] = false,
     },
@@ -6173,6 +6456,11 @@ function _oot_logic()
             ["Zora River Wonder Item Back 25"] = function () return is_child() end,
             ["Zora River Wonder Item Back 26"] = function () return is_child() end,
             ["Zora River Wonder Item Back 27"] = function () return is_child() end,
+            ["Zora River Butterfly Near Beans 1"] = function () return is_child() and can_use_sticks() end,
+            ["Zora River Butterfly Near Beans 2"] = function () return is_child() and can_use_sticks() end,
+            ["Zora River Butterfly Near Waterfall 1"] = function () return is_child() and can_use_sticks() end,
+            ["Zora River Butterfly Near Waterfall 2"] = function () return is_child() and can_use_sticks() end,
+            ["Zora River Butterfly Near Waterfall 3"] = function () return is_child() and can_use_sticks() end,
         },
         ["age_change"] = true,
     },
@@ -6215,6 +6503,9 @@ function _oot_logic()
             ["Zora River Grotto Grass 4"] = function () return can_cut_grass() end,
             ["Zora River Grotto Hive 1"] = function () return break_hive_low() end,
             ["Zora River Grotto Hive 2"] = function () return break_hive_low() end,
+            ["Zora River Grotto Butterfly 1"] = function () return can_use_sticks() end,
+            ["Zora River Grotto Butterfly 2"] = function () return can_use_sticks() end,
+            ["Zora River Grotto Butterfly 3"] = function () return can_use_sticks() end,
         },
         ["age_change"] = true,
     },
@@ -6244,7 +6535,7 @@ function _oot_logic()
         },
         ["exits"] = {
             ["Zora River Behind Falls"] = function () return true end,
-            ["Lake Hylia"] = function () return is_child() and (can_dive_small() or longshot_anywhere() or (trick('OOT_LAKE_SHORTCUT') and hookshot_anywhere())) end,
+            ["Zora Domain Shortcut"] = function () return is_child() and (can_dive_small() or longshot_anywhere() or (trick('OOT_LAKE_SHORTCUT') and hookshot_anywhere())) end,
             ["Zora Domain Back"] = function () return king_zora_moved() or (is_adult() and trick('OOT_KZ_SKIP')) or climb_anywhere() or hookshot_anywhere() end,
             ["Zora Shop"] = function () return is_child() or has_blue_fire() end,
             ["Zora Domain Grotto"] = function () return hidden_grotto_storms() end,
@@ -6267,6 +6558,20 @@ function _oot_logic()
             ["Zora Domain Pot 5"] = function () return true end,
             ["Zora Domain Hive Front 1"] = function () return is_child() and break_hive_high() end,
             ["Zora Domain Hive Front 2"] = function () return is_child() and break_hive_high() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Zora Domain Underwater"] = {
+        ["exits"] = {
+            ["Zora Domain"] = function () return true end,
+            ["Zora Domain Shortcut"] = function () return has_iron_boots() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Zora Domain Shortcut"] = {
+        ["exits"] = {
+            ["Zora Domain Underwater"] = function () return true end,
+            ["Lake Hylia"] = function () return true end,
         },
         ["age_change"] = true,
     },
@@ -6327,7 +6632,7 @@ function _oot_logic()
         ["exits"] = {
             ["Hyrule Field"] = function () return true end,
             ["Hyrule Field Drawbridge"] = function () return is_child() end,
-            ["Zora Domain"] = function () return is_child() and (can_dive_small() or longshot_anywhere() or (trick('OOT_LAKE_SHORTCUT') and hookshot_anywhere())) or time_travel_at_will() or (is_adult() and setting('openZdShortcut')) end,
+            ["Zora Domain Shortcut"] = function () return is_child() and (can_dive_small() or longshot_anywhere() or (trick('OOT_LAKE_SHORTCUT') and hookshot_anywhere())) or time_travel_at_will() or (is_adult() and setting('openZdShortcut')) end,
             ["Laboratory"] = function () return true end,
             ["Water Temple"] = function () return has_iron_boots() and has_tunic_zora() and (can_hookshot() or setting('openDungeonsOot', 'Water')) or (trick('OOT_WATER_GOLD_SCALE') and is_adult() and (can_longshot() or setting('openDungeonsOot', 'Water')) and has_scale_raw(2)) end,
             ["Fishing Pond"] = function () return is_child() or event('WATER_TEMPLE_CLEARED') or (is_adult() and scarecrow_hookshot()) or can_ride_bean(BEAN_LAKE_HYLIA) or hookshot_anywhere() or climb_anywhere() or time_travel_at_will() end,
@@ -6390,6 +6695,9 @@ function _oot_logic()
             ["Lake Hylia Rupee 1"] = function () return is_child() end,
             ["Lake Hylia Rupee 2"] = function () return is_child() and can_dive_small() end,
             ["Lake Hylia Rupee 3"] = function () return is_child() and can_dive_small() end,
+            ["Lake Hylia Butterfly 1"] = function () return is_child() and can_use_sticks() end,
+            ["Lake Hylia Butterfly 2"] = function () return is_child() and can_use_sticks() end,
+            ["Lake Hylia Butterfly 3"] = function () return is_child() and can_use_sticks() end,
         },
         ["age_change"] = true,
     },
@@ -6472,6 +6780,7 @@ function _oot_logic()
             ["Zora Fountain Frozen"] = function () return is_adult() or climb_anywhere() or longshot_anywhere() end,
             ["Fairy Fountain Farore"] = function () return has_explosives() end,
             ["Zora Fountain Deep"] = function () return is_adult() and has_tunic_zora() and has_iron_boots() end,
+            ["Zora Fountain Butterflies"] = function () return is_child() and can_use_sticks() and is_day() end,
         },
         ["locations"] = {
             ["Zora Fountain Iceberg HP"] = function () return is_adult() end,
@@ -6487,6 +6796,13 @@ function _oot_logic()
             ["Zora Fountain Adult Pot 3"] = function () return is_adult() and (can_lift_silver() and has_explosives_or_hammer() or climb_anywhere()) end,
         },
         ["age_change"] = true,
+    },
+    ["Zora Fountain Butterflies"] = {
+        ["locations"] = {
+            ["Zora Fountain Butterfly 1"] = function () return true end,
+            ["Zora Fountain Butterfly 2"] = function () return true end,
+        },
+        ["age_change"] = false,
     },
     ["Zora Fountain Deep"] = {
         ["locations"] = {
@@ -6666,6 +6982,9 @@ function _oot_logic()
             ["Death Mountain Crater Grotto Grass 4"] = function () return can_cut_grass() end,
             ["Death Mountain Crater Grotto Hive 1"] = function () return break_hive_low() end,
             ["Death Mountain Crater Grotto Hive 2"] = function () return break_hive_low() end,
+            ["Death Mountain Crater Grotto Butterfly 1"] = function () return can_use_sticks() end,
+            ["Death Mountain Crater Grotto Butterfly 2"] = function () return can_use_sticks() end,
+            ["Death Mountain Crater Grotto Butterfly 3"] = function () return can_use_sticks() end,
         },
         ["age_change"] = false,
     },
@@ -6792,22 +7111,22 @@ function _oot_logic()
     },
     ["Gerudo Fortress Exterior"] = {
         ["events"] = {
-            ["OPEN_FORTRESS_GATE"] = function () return has('GERUDO_CARD') and is_adult() end,
+            ["OPEN_FORTRESS_GATE"] = function () return soul_thief_guard() and has('GERUDO_CARD') and is_adult() end,
         },
         ["exits"] = {
             ["Gerudo Fortress Carpenter 1 Left"] = function () return true end,
             ["Gerudo Fortress Carpenter 1 Right"] = function () return true end,
             ["Gerudo Fortress Kitchen Tunnel End"] = function () return true end,
-            ["Gerudo Fortress Carpenter 2 Bottom"] = function () return true end,
+            ["Gerudo Fortress Carpenter 4 Bottom"] = function () return true end,
             ["Gerudo Valley After Bridge"] = function () return true end,
             ["Fortress Near Wasteland"] = function () return event('OPEN_FORTRESS_GATE') or climb_anywhere() or hookshot_anywhere() end,
-            ["Gerudo Training Grounds"] = function () return has('GERUDO_CARD') and can_use_wallet(1) and (is_adult() or (time_travel_at_will() and trick('OOT_GTG_CHILD_TT'))) end,
+            ["Gerudo Training Grounds"] = function () return soul_thief_guard() and has('GERUDO_CARD') and can_use_wallet(1) and (is_adult() or (time_travel_at_will() and trick('OOT_GTG_CHILD_TT'))) end,
             ["Gerudo Fortress Grotto"] = function () return is_adult() and hidden_grotto_storms() end,
             ["Gerudo Fortress Lower-Right Ledge"] = function () return is_child() or evade_gerudo() end,
         },
         ["locations"] = {
-            ["Gerudo Fortress Archery Reward 1"] = function () return can_ride_epona() and can_use_bow() and has('GERUDO_CARD') and can_use_wallet(1) and is_day() end,
-            ["Gerudo Fortress Archery Reward 2"] = function () return can_ride_epona() and can_use_bow() and has('GERUDO_CARD') and can_use_wallet(1) and is_day() end,
+            ["Gerudo Fortress Archery Reward 1"] = function () return soul_thief_guard() and can_ride_epona() and can_use_bow() and has('GERUDO_CARD') and can_use_wallet(1) and is_day() end,
+            ["Gerudo Fortress Archery Reward 2"] = function () return soul_thief_guard() and can_ride_epona() and can_use_bow() and has('GERUDO_CARD') and can_use_wallet(1) and is_day() end,
             ["Gerudo Fortress GS Target"] = function () return is_adult() and gs_night() and (has('GERUDO_CARD') or time_travel_at_will()) and (can_collect_distance() or (climb_anywhere() and can_damage())) end,
             ["Gerudo Fortress Crate Main 1"] = function () return true end,
             ["Gerudo Fortress Crate Main 2"] = function () return true end,
@@ -6912,10 +7231,10 @@ function _oot_logic()
     },
     ["Fortress Near Wasteland"] = {
         ["events"] = {
-            ["OPEN_FORTRESS_GATE"] = function () return has('GERUDO_CARD') and is_adult() end,
+            ["OPEN_FORTRESS_GATE"] = function () return soul_thief_guard() and has('GERUDO_CARD') and is_adult() end,
         },
         ["exits"] = {
-            ["Gerudo Fortress Exterior"] = function () return event('OPEN_FORTRESS_GATE') or is_adult() or climb_anywhere() or hookshot_anywhere() end,
+            ["Gerudo Fortress Exterior"] = function () return event('OPEN_FORTRESS_GATE') or (is_adult() and soul_thief_guard()) or climb_anywhere() or hookshot_anywhere() end,
             ["Haunted Wasteland Start"] = function () return true end,
         },
         ["age_change"] = true,
@@ -7838,7 +8157,14 @@ function _oot_logic()
     MQlogic = {
     ["Bottom of the Well"] = {
         ["exits"] = {
-            ["Kakariko"] = function () return true end,
+            ["Kakariko Well"] = function () return true end,
+            ["Bottom of the Well Entrance"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Bottom of the Well Entrance"] = {
+        ["exits"] = {
+            ["Bottom of the Well"] = function () return true end,
             ["Bottom of the Well Main"] = function () return is_child() end,
         },
         ["age_change"] = true,
@@ -7862,41 +8188,24 @@ function _oot_logic()
         ["age_change"] = true,
     },
     ["Bottom of the Well Main"] = {
+        ["events"] = {
+            ["BOTW_MQ_CENTER_GATES_LOWERED"] = function () return can_play_zelda() end,
+            ["BOTW_MQ_DRAIN_WATER"] = function () return has_ranged_weapon() or has_explosives_or_hammer() or can_use_sticks() or can_use_sword() end,
+            ["BOTW_MQ_EYE_GATE"] = function () return has_explosives_or_hammer() and can_hit_triggers_distance() end,
+        },
         ["exits"] = {
-            ["Bottom of the Well Wallmaster Main"] = function () return soul_wallmaster() and (can_play_zelda() or (has_explosives_or_hammer() and has_hover_boots())) end,
-            ["Bottom of the Well Wallmaster Basement"] = function () return soul_wallmaster() end,
-            ["Bottom of the Well Wallmaster Pit"] = function () return soul_wallmaster() and (can_hit_triggers_distance() or can_boomerang() or has_explosives() or can_hookshot()) end,
-            ["Bottom of the Well"] = function () return true end,
+            ["Bottom of the Well Entrance"] = function () return is_child() end,
+            ["Bottom of the Well Main Room Center"] = function () return event('BOTW_MQ_CENTER_GATES_LOWERED') end,
+            ["Bottom of the Well Main Room Center Switch Corner"] = function () return has_explosives_or_hammer() or climb_anywhere() or hookshot_anywhere() end,
+            ["Bottom of the Well Basement"] = function () return true end,
+            ["Bottom of the Well Coffin Room"] = function () return (event('BOTW_MQ_DRAIN_WATER') or can_dive_small() or can_hookshot()) and small_keys_botw(2) end,
+            ["Bottom of the Well Before Dead Hand"] = function () return event('BOTW_MQ_DRAIN_WATER') and is_child() end,
+            ["Bottom of the Well Main Side Room Before Pit"] = function () return is_child() end,
         },
         ["locations"] = {
-            ["MQ Bottom of the Well Map Chest"] = function () return can_play_zelda() or (has_explosives_or_hammer() and has_hover_boots()) end,
-            ["MQ Bottom of the Well Compass Chest"] = function () return soul_enemy(SOUL_ENEMY_DEAD_HAND) and ((has_weapon() or (can_use_sticks() and trick('OOT_DEAD_HAND_STICKS'))) and (has_ranged_weapon_child() or has_explosives() or can_play_zelda())) end,
-            ["MQ Bottom of the Well Lens Chest"] = function () return (can_play_zelda() or has_hover_boots()) and small_keys_botw(2) and has_explosives() and (has_weapon() or can_use_sticks() or can_use_din() or has_iron_boots() or can_play_sun()) end,
-            ["MQ Bottom of the Well Dead Hand Key"] = function () return has_explosives() end,
-            ["MQ Bottom of the Well East Middle Room Key"] = function () return can_play_zelda() or (has_explosives_or_hammer() and has_hover_boots()) end,
-            ["MQ Bottom of the Well GS Basement"] = function () return gs() and can_damage_skull() end,
-            ["MQ Bottom of the Well GS West Middle Room"] = function () return gs() and (can_play_zelda() or has_hover_boots()) and has_explosives() end,
-            ["MQ Bottom of the Well GS Coffin Room"] = function () return gs() and can_damage_skull() and small_keys_botw(2) end,
-            ["MQ Bottom of the Well Pot Lobby Cage 1"] = function () return can_play_zelda() or (has_explosives_or_hammer() and has_hover_boots()) end,
-            ["MQ Bottom of the Well Pot Lobby Cage 2"] = function () return can_play_zelda() or (has_explosives_or_hammer() and has_hover_boots()) end,
-            ["MQ Bottom of the Well Pot Lobby Cage 3"] = function () return can_play_zelda() or (has_explosives_or_hammer() and has_hover_boots()) end,
-            ["MQ Bottom of the Well Lobby Cage Big Fairy"] = function () return can_play_sun() and (can_play_zelda() or (has_explosives_or_hammer() and has_hover_boots())) end,
-            ["MQ Bottom of the Well Basement Big Fairy"] = function () return can_play_sun() end,
-            ["MQ Bottom of the Well Pot Side Room 1"] = function () return can_play_zelda() or (has_explosives_or_hammer() and has_hover_boots()) end,
-            ["MQ Bottom of the Well Pot Side Room 2"] = function () return can_play_zelda() or (has_explosives_or_hammer() and has_hover_boots()) end,
-            ["MQ Bottom of the Well Pot Side Room 3"] = function () return can_play_zelda() or (has_explosives_or_hammer() and has_hover_boots()) end,
-            ["MQ Bottom of the Well Pot Lobby Alcove"] = function () return has_explosives_or_hammer() and can_hit_triggers_distance() end,
-            ["MQ Bottom of the Well Grass Dead-Hand 1"] = function () return can_cut_grass() and (has_ranged_weapon() or has_explosives_or_hammer() or can_use_sticks() or has_weapon()) end,
-            ["MQ Bottom of the Well Grass Dead-Hand 2"] = function () return can_cut_grass() and (has_ranged_weapon() or has_explosives_or_hammer() or can_use_sticks() or has_weapon()) end,
-            ["MQ Bottom of the Well Grass Dead-Hand 3"] = function () return can_cut_grass() and (has_ranged_weapon() or has_explosives_or_hammer() or can_use_sticks() or has_weapon()) end,
-            ["MQ Bottom of the Well Grass Dead-Hand 4"] = function () return can_cut_grass() and (has_ranged_weapon() or has_explosives_or_hammer() or can_use_sticks() or has_weapon()) end,
+            ["MQ Bottom of the Well Pot Lobby Alcove"] = function () return event('BOTW_MQ_EYE_GATE') end,
             ["MQ Bottom of the Well Heart Main Room 1"] = function () return has_explosives() end,
             ["MQ Bottom of the Well Heart Main Room 2"] = function () return has_explosives() end,
-            ["MQ Bottom of the Well Heart Basement 1"] = function () return true end,
-            ["MQ Bottom of the Well Heart Basement 2"] = function () return true end,
-            ["MQ Bottom of the Well Heart Basement 3"] = function () return true end,
-            ["MQ Bottom of the Well Heart Coffin 1"] = function () return small_keys_botw(2) end,
-            ["MQ Bottom of the Well Heart Coffin 2"] = function () return small_keys_botw(2) end,
             ["MQ Bottom of the Well Wonder Item Main Room Left 1"] = function () return can_use_slingshot() end,
             ["MQ Bottom of the Well Wonder Item Main Room Left 2"] = function () return can_use_slingshot() end,
             ["MQ Bottom of the Well Wonder Item Main Room Left 3"] = function () return can_use_slingshot() end,
@@ -7905,72 +8214,249 @@ function _oot_logic()
             ["MQ Bottom of the Well Wonder Item Main Room Right 2"] = function () return can_use_slingshot() end,
             ["MQ Bottom of the Well Wonder Item Main Room Right 3"] = function () return can_use_slingshot() end,
             ["MQ Bottom of the Well Wonder Item Main Room Right 4"] = function () return can_use_slingshot() end,
-            ["MQ Bottom of the Well Wonder Item Side Room 1"] = function () return (can_play_zelda() or (has_explosives_or_hammer() and has_hover_boots())) and has_lens() and can_use_slingshot() end,
-            ["MQ Bottom of the Well Wonder Item Side Room 2"] = function () return (can_play_zelda() or (has_explosives_or_hammer() and has_hover_boots())) and has_lens() and can_use_slingshot() end,
-            ["MQ Bottom of the Well Wonder Item Side Room 3"] = function () return (can_play_zelda() or (has_explosives_or_hammer() and has_hover_boots())) and has_lens() and can_use_slingshot() end,
-            ["MQ Bottom of the Well Wonder Item Side Room 4"] = function () return (can_play_zelda() or (has_explosives_or_hammer() and has_hover_boots())) and has_lens() and can_use_slingshot() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Bottom of the Well Main Room Center Switch Corner"] = {
+        ["events"] = {
+            ["BOTW_CENTER_WEST_TORCH"] = function () return true end,
+        },
+        ["exits"] = {
+            ["Bottom of the Well Main"] = function () return has_explosives_or_hammer() or climb_anywhere() or hookshot_anywhere() end,
+            ["Bottom of the Well Main Room Center"] = function () return has_hover_boots() or trick('OOT_BOTW_MQ_BACKFLIP') or hookshot_anywhere() or climb_anywhere() end,
+            ["Bottom of the Well Basement"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Bottom of the Well Main Room Center"] = {
+        ["events"] = {
+            ["BOTW_CENTER_EAST_TORCH"] = function () return can_hit_triggers_distance() or can_hookshot() or has_explosives() or can_use_mask_blast() end,
+        },
+        ["exits"] = {
+            ["Bottom of the Well Wallmaster Main"] = function () return soul_wallmaster() end,
+            ["Bottom of the Well Main Room Center Switch Corner"] = function () return has_hover_boots() or trick('OOT_BOTW_MQ_BACKFLIP') or hookshot_anywhere() or climb_anywhere() end,
+            ["Bottom of the Well West Center Room"] = function () return event('BOTW_CENTER_WEST_TORCH') end,
+            ["Bottom of the Well East Center Room"] = function () return event('BOTW_CENTER_EAST_TORCH') end,
+            ["Bottom of the Well Basement Switch Ledge"] = function () return event('BOTW_MQ_GATE_FROM_SWITCH') end,
+            ["Bottom of the Well Basement"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Bottom of the Well Map Chest"] = function () return true end,
+            ["MQ Bottom of the Well Pot Lobby Cage 1"] = function () return true end,
+            ["MQ Bottom of the Well Pot Lobby Cage 2"] = function () return true end,
+            ["MQ Bottom of the Well Pot Lobby Cage 3"] = function () return true end,
+            ["MQ Bottom of the Well Lobby Cage Big Fairy"] = function () return can_play_sun() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Bottom of the Well Basement"] = {
+        ["exits"] = {
+            ["Bottom of the Well Main"] = function () return true end,
+            ["Bottom of the Well Basement Switch Ledge"] = function () return climb_anywhere() or hookshot_anywhere() end,
+            ["Bottom of the Well Wallmaster Basement"] = function () return soul_wallmaster() end,
+        },
+        ["locations"] = {
+            ["MQ Bottom of the Well Lens Chest"] = function () return event('BOTW_MQ_REDEAD_CHEST') and (has_weapon() or can_use_sticks() or can_use_din() or has_iron_boots() or can_play_sun()) end,
+            ["MQ Bottom of the Well Basement Big Fairy"] = function () return can_play_sun() end,
+            ["MQ Bottom of the Well GS Basement"] = function () return gs() and can_damage_skull() end,
+            ["MQ Bottom of the Well Heart Basement 1"] = function () return true end,
+            ["MQ Bottom of the Well Heart Basement 2"] = function () return true end,
+            ["MQ Bottom of the Well Heart Basement 3"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Bottom of the Well West Center Room"] = {
+        ["exits"] = {
+            ["Bottom of the Well Main Room Center"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Bottom of the Well GS West Middle Room"] = function () return gs() and can_damage_skull() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Bottom of the Well East Center Room"] = {
+        ["exits"] = {
+            ["Bottom of the Well Main Room Center"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Bottom of the Well East Middle Room Key"] = function () return true end,
+            ["MQ Bottom of the Well Pot Side Room 1"] = function () return true end,
+            ["MQ Bottom of the Well Pot Side Room 2"] = function () return true end,
+            ["MQ Bottom of the Well Pot Side Room 3"] = function () return true end,
+            ["MQ Bottom of the Well Wonder Item Side Room 1"] = function () return can_use_slingshot() end,
+            ["MQ Bottom of the Well Wonder Item Side Room 2"] = function () return can_use_slingshot() end,
+            ["MQ Bottom of the Well Wonder Item Side Room 3"] = function () return can_use_slingshot() end,
+            ["MQ Bottom of the Well Wonder Item Side Room 4"] = function () return can_use_slingshot() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Bottom of the Well Basement Switch Ledge"] = {
+        ["events"] = {
+            ["BOTW_MQ_REDEAD_CHEST"] = function () return true end,
+        },
+        ["exits"] = {
+            ["Bottom of the Well Basement"] = function () return true end,
+            ["Bottom of the Well Main Room Center"] = function () return event('BOTW_MQ_GATE_FROM_SWITCH') and climb_anywhere() and hookshot_anywhere() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Bottom of the Well Coffin Room"] = {
+        ["exits"] = {
+            ["Bottom of the Well Main"] = function () return (event('BOTW_MQ_DRAIN_WATER') or can_dive_small() or can_hookshot()) and small_keys_botw(2) end,
+        },
+        ["locations"] = {
+            ["MQ Bottom of the Well GS Coffin Room"] = function () return gs() and can_damage_skull() end,
+            ["MQ Bottom of the Well Heart Coffin 1"] = function () return has_fire_or_sticks() end,
+            ["MQ Bottom of the Well Heart Coffin 2"] = function () return has_fire_or_sticks() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Bottom of the Well Before Dead Hand"] = {
+        ["exits"] = {
+            ["Bottom of the Well Main"] = function () return event('BOTW_MQ_DRAIN_WATER') and is_child() end,
+            ["Bottom of the Well Dead Hand Room"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Bottom of the Well Dead Hand Room"] = {
+        ["exits"] = {
+            ["Bottom of the Well Before Dead Hand"] = function () return soul_enemy(SOUL_ENEMY_DEAD_HAND) and (has_weapon() or (can_use_sticks() and trick('OOT_DEAD_HAND_STICKS'))) end,
+        },
+        ["locations"] = {
+            ["MQ Bottom of the Well Compass Chest"] = function () return soul_enemy(SOUL_ENEMY_DEAD_HAND) and (has_weapon() or (can_use_sticks() and trick('OOT_DEAD_HAND_STICKS'))) end,
+            ["MQ Bottom of the Well Dead Hand Key"] = function () return has_explosives() end,
+            ["MQ Bottom of the Well Grass Dead-Hand 1"] = function () return can_cut_grass() end,
+            ["MQ Bottom of the Well Grass Dead-Hand 2"] = function () return can_cut_grass() end,
+            ["MQ Bottom of the Well Grass Dead-Hand 3"] = function () return can_cut_grass() end,
+            ["MQ Bottom of the Well Grass Dead-Hand 4"] = function () return can_cut_grass() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Bottom of the Well Main Side Room Before Pit"] = {
+        ["exits"] = {
+            ["Bottom of the Well Main"] = function () return is_child() end,
+            ["Bottom of the Well Pit Before Cage"] = function () return can_hit_triggers_distance() or can_boomerang() or has_explosives() or can_hookshot() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Bottom of the Well Pit Before Cage"] = {
+        ["exits"] = {
+            ["Bottom of the Well Main Side Room Before Pit"] = function () return true end,
+            ["Bottom of the Well Cage"] = function () return small_keys_botw(2) end,
+            ["Bottom of the Well Wallmaster Pit"] = function () return soul_wallmaster() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Bottom of the Well Cage"] = {
+        ["events"] = {
+            ["BOTW_MQ_GATE_FROM_SWITCH"] = function () return has_explosives() end,
+        },
+        ["exits"] = {
+            ["Bottom of the Well Pit Before Cage"] = function () return small_keys_botw(2) end,
         },
         ["age_change"] = true,
     },
     ["Deku Tree"] = {
         ["exits"] = {
             ["Kokiri Forest Near Deku Tree"] = function () return true end,
-            ["Deku Tree Lobby"] = function () return true end,
+            ["MQ Deku Tree Lobby"] = function () return true end,
         },
         ["age_change"] = true,
     },
-    ["Deku Tree Lobby"] = {
+    ["MQ Deku Tree Lobby"] = {
         ["events"] = {
-            ["STICKS"] = function () return has_weapon() or can_boomerang() end,
+            ["STICKS"] = function () return can_kill_baba_sticks() end,
             ["NUTS"] = function () return can_kill_baba_nuts() end,
         },
         ["exits"] = {
-            ["Deku Tree Compass Room"] = function () return can_use_bow() or (can_use_slingshot() and (can_use_sticks() or can_use_din())) end,
-            ["Deku Tree Water Room"] = function () return (can_use_slingshot() or can_use_bow()) and (can_use_sticks() or has_fire()) end,
-            ["Deku Tree Basement Ledge"] = function () return is_adult() or event('DEKU_BLOCK') or trick('OOT_DEKU_SKIP') or has_hover_boots() end,
+            ["Deku Tree"] = function () return true end,
+            ["MQ Deku Tree 2nd Floor"] = function () return true end,
+            ["MQ Deku Tree Basement"] = function () return has_fire() or (can_use_sticks() and event('DEKU_MQ_MAIN_TORCH')) end,
         },
         ["locations"] = {
-            ["MQ Deku Tree Map Chest"] = function () return true end,
-            ["MQ Deku Tree Slingshot Chest"] = function () return soul_deku_baba() and soul_enemy(SOUL_ENEMY_GOHMA_LARVA) and (has_weapon() or can_use_sticks() or has_ranged_weapon_child()) end,
-            ["MQ Deku Tree Slingshot Room Far Chest"] = function () return can_use_sticks() or has_fire() end,
-            ["MQ Deku Tree Basement Chest"] = function () return can_use_sticks() or has_fire() end,
-            ["MQ Deku Tree GS Lobby Crate"] = function () return gs() and can_damage_skull() end,
             ["MQ Deku Tree Grass Entrance Lower 1"] = function () return can_cut_grass() end,
             ["MQ Deku Tree Grass Entrance Lower 2"] = function () return can_cut_grass() end,
             ["MQ Deku Tree Grass Entrance Lower 3"] = function () return can_cut_grass() end,
             ["MQ Deku Tree Grass Entrance Lower 4"] = function () return can_cut_grass() end,
             ["MQ Deku Tree Grass Entrance Lower 5"] = function () return can_cut_grass() end,
-            ["MQ Deku Tree Grass Entrance Upper 1"] = function () return can_cut_grass() end,
-            ["MQ Deku Tree Grass Entrance Upper 2"] = function () return can_cut_grass() end,
-            ["MQ Deku Tree Grass Slingshot Room Front 1"] = function () return can_cut_grass() end,
-            ["MQ Deku Tree Grass Slingshot Room Front 2"] = function () return can_cut_grass() end,
-            ["MQ Deku Tree Grass Slingshot Room Back 1"] = function () return can_cut_grass() end,
-            ["MQ Deku Tree Grass Slingshot Room Back 2"] = function () return can_cut_grass() end,
-            ["MQ Deku Tree Grass Room Before Compass 1"] = function () return can_cut_grass() and (can_use_bow() or can_use_sticks() or can_use_din()) end,
-            ["MQ Deku Tree Grass Room Before Compass 2"] = function () return can_cut_grass() and (can_use_bow() or can_use_sticks() or can_use_din()) end,
-            ["MQ Deku Tree Grass Room Before Compass 3"] = function () return can_cut_grass() and (can_use_bow() or can_use_sticks() or can_use_din()) end,
-            ["MQ Deku Tree Grass Room Before Compass 4"] = function () return can_cut_grass() and (can_use_bow() or can_use_sticks() or can_use_din()) end,
-            ["MQ Deku Tree Grass Room Before Compass 5"] = function () return can_cut_grass() and (can_use_bow() or can_use_sticks() or can_use_din()) end,
-            ["MQ Deku Tree Grass Room Before Compass 6"] = function () return can_cut_grass() and (can_use_bow() or can_use_sticks() or can_use_din()) end,
-            ["MQ Deku Tree Grass Room Before Compass 7"] = function () return can_cut_grass() and (can_use_bow() or can_use_sticks() or can_use_din()) end,
-            ["MQ Deku Tree Grass Basement Lower 1"] = function () return can_cut_grass() end,
-            ["MQ Deku Tree Grass Basement Lower 2"] = function () return can_cut_grass() end,
-            ["MQ Deku Tree Grass Basement Lower 3"] = function () return can_cut_grass() end,
-            ["MQ Deku Tree Grass Basement Lower 4"] = function () return can_cut_grass() end,
-            ["MQ Deku Tree Grass Room Before Spike 1"] = function () return can_cut_grass() and (can_use_bow() or (can_use_slingshot() and (can_use_sticks() or has_fire()))) end,
-            ["MQ Deku Tree Grass Room Before Spike 2"] = function () return can_cut_grass() and (can_use_bow() or (can_use_slingshot() and (can_use_sticks() or has_fire()))) end,
-            ["MQ Deku Tree Grass Room Before Spike 3"] = function () return can_cut_grass() and (can_use_bow() or (can_use_slingshot() and (can_use_sticks() or has_fire()))) end,
-            ["MQ Deku Tree Grass Room Before Spike 4"] = function () return can_cut_grass() and (can_use_bow() or (can_use_slingshot() and (can_use_sticks() or has_fire()))) end,
-            ["MQ Deku Tree Heart Lobby"] = function () return true end,
-            ["MQ Deku Tree Heart Before Compass"] = function () return can_use_bow() or can_use_sticks() or can_use_din() end,
-            ["MQ Deku Tree Heart Slingshot Room"] = function () return true end,
         },
         ["age_change"] = true,
     },
-    ["Deku Tree Compass Room"] = {
+    ["MQ Deku Tree 2nd Floor"] = {
         ["exits"] = {
-            ["Deku Tree Lobby"] = function () return true end,
-            ["Deku Tree Compass Room Alcove"] = function () return has_bombchu() or has_mask_blast() or (can_play_time() and has_explosives_or_hammer()) end,
+            ["MQ Deku Tree Lobby"] = function () return true end,
+            ["MQ Deku Tree 3rd Floor"] = function () return true end,
+            ["MQ Deku Tree Room Before Compass Room Entry Door"] = function () return has_fire() or (can_use_sticks() and event('DEKU_MQ_MAIN_TORCH')) or (event('DEKU_MQ_MAIN_TORCH') and can_use_bow()) end,
+        },
+        ["locations"] = {
+            ["MQ Deku Tree Map Chest"] = function () return true end,
+            ["MQ Deku Tree GS Lobby Crate"] = function () return gs() and can_damage_skull() end,
+            ["MQ Deku Tree Heart Lobby"] = function () return true end,
+            ["MQ Deku Tree Grass Entrance Upper 1"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Entrance Upper 2"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Main Room 2nd Floor Crate"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Room Before Compass Room Entry Door"] = {
+        ["exits"] = {
+            ["MQ Deku Tree 2nd Floor"] = function () return true end,
+            ["MQ Deku Tree Room Before Compass Room Door to 2nd Floor"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Room Before Compass Room Door to 2nd Floor"] = {
+        ["exits"] = {
+            ["MQ Deku Tree Room Before Compass Room Entry Door"] = function () return true end,
+            ["MQ Deku Tree Room Before Compass Room"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Room Before Compass Room"] = {
+        ["events"] = {
+            ["DEKU_MQ_BEFORE_COMPASS_EYE_SWITCH"] = function () return can_use_slingshot() or can_use_bow() end,
+        },
+        ["exits"] = {
+            ["MQ Deku Tree Room Before Compass Room Door to 2nd Floor"] = function () return true end,
+            ["MQ Deku Tree Compass Room Entry Door"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Deku Tree Heart Before Compass"] = function () return true end,
+            ["MQ Deku Tree Grass Room Before Compass 1"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Room Before Compass 2"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Room Before Compass 3"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Room Before Compass 4"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Room Before Compass 5"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Room Before Compass 6"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Room Before Compass 7"] = function () return can_cut_grass() end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Compass Room Entry Door"] = {
+        ["exits"] = {
+            ["MQ Deku Tree Room Before Compass Room"] = function () return true end,
+            ["MQ Deku Tree Compass Room Exit Door"] = function () return event('DEKU_MQ_BEFORE_COMPASS_EYE_SWITCH') end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Compass Room Exit Door"] = {
+        ["exits"] = {
+            ["MQ Deku Tree Compass Room Entry Door"] = function () return true end,
+            ["MQ Deku Tree MQ Compass Room Entrance"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree MQ Compass Room Entrance"] = {
+        ["exits"] = {
+            ["MQ Deku Tree Compass Room Exit Door"] = function () return true end,
+            ["MQ Deku Tree MQ Compass Room Chest Side"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree MQ Compass Room Chest Side"] = {
+        ["exits"] = {
+            ["MQ Deku Tree MQ Compass Room Entrance"] = function () return can_use_slingshot() or climb_anywhere() or hookshot_anywhere() end,
+            ["MQ Deku Tree MQ Compass Room Chest Side Alcove"] = function () return has_bombchu() or has_mask_blast() or (can_play_time() and has_explosives_or_hammer()) or hookshot_anywhere() or climb_anywhere() end,
         },
         ["locations"] = {
             ["MQ Deku Tree Compass Chest"] = function () return true end,
@@ -7981,9 +8467,9 @@ function _oot_logic()
         },
         ["age_change"] = true,
     },
-    ["Deku Tree Compass Room Alcove"] = {
+    ["MQ Deku Tree MQ Compass Room Chest Side Alcove"] = {
         ["exits"] = {
-            ["Deku Tree Compass Room"] = function () return true end,
+            ["MQ Deku Tree MQ Compass Room Chest Side"] = function () return has_explosives_or_hammer() or hookshot_anywhere() or climb_anywhere() end,
         },
         ["locations"] = {
             ["MQ Deku Tree GS Compass Room"] = function () return gs() and can_collect_distance() end,
@@ -7991,13 +8477,124 @@ function _oot_logic()
         },
         ["age_change"] = true,
     },
-    ["Deku Tree Water Room"] = {
+    ["MQ Deku Tree 3rd Floor"] = {
         ["events"] = {
-            ["MQ_DEKU_WATER_TORCHES"] = function () return is_child() and has_shield() and can_use_sticks() or (can_use_bow() and can_play_elegy()) end,
+            ["DEKU_MQ_MAIN_TORCH"] = function () return true end,
         },
         ["exits"] = {
-            ["Deku Tree Lobby"] = function () return true end,
-            ["Deku Tree Water Room Back"] = function () return is_child() and has_shield() or can_longshot() or (can_hookshot() and has_iron_boots()) end,
+            ["MQ Deku Tree 2nd Floor"] = function () return true end,
+            ["MQ Deku Tree Lobby"] = function () return true end,
+            ["MQ Deku Tree Basement"] = function () return true end,
+            ["MQ Deku Tree Slingshot Room Entry Door"] = function () return has_fire() or event('DEKU_MQ_MAIN_TORCH') end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Slingshot Room Entry Door"] = {
+        ["exits"] = {
+            ["MQ Deku Tree 3rd Floor"] = function () return true end,
+            ["MQ Deku Tree Slingshot Room Exit Door"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Slingshot Room Exit Door"] = {
+        ["exits"] = {
+            ["MQ Deku Tree Slingshot Room Entry Door"] = function () return event('DEKU_MQ_SLINGSHOT_ENEMIES') end,
+            ["MQ Deku Tree MQ Slingshot Room"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree MQ Slingshot Room"] = {
+        ["events"] = {
+            ["DEKU_MQ_SLINGSHOT_ENEMIES"] = function () return soul_deku_baba() and soul_enemy(SOUL_ENEMY_GOHMA_LARVA) and (has_weapon() or can_use_sticks() or has_ranged_weapon_child()) end,
+            ["DEKU_MQ_SLINGSHOT_TORCH"] = function () return has_fire() or can_use_sticks() end,
+        },
+        ["exits"] = {
+            ["MQ Deku Tree Slingshot Room Exit Door"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Deku Tree Slingshot Chest"] = function () return event('DEKU_MQ_SLINGSHOT_ENEMIES') end,
+            ["MQ Deku Tree Slingshot Room Far Chest"] = function () return event('DEKU_MQ_SLINGSHOT_TORCH') end,
+            ["MQ Deku Tree Heart Slingshot Room"] = function () return true end,
+            ["MQ Deku Tree Grass Slingshot Room Front 1"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Slingshot Room Front 2"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Slingshot Room Back 1"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Slingshot Room Back 2"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Slingshot Room Large Crate 1"] = function () return true end,
+            ["MQ Deku Tree Slingshot Room Large Crate 2"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Basement"] = {
+        ["events"] = {
+            ["DEKU_MQ_WATER_PATH_TORCH1"] = function () return has_fire() or can_use_sticks() end,
+            ["DEKU_MQ_BASEMENT_EYE_SWITCH"] = function () return can_use_bow() or can_use_slingshot() end,
+        },
+        ["exits"] = {
+            ["MQ Deku Tree Lobby"] = function () return true end,
+            ["MQ Deku Tree Basement Ledge"] = function () return is_adult() or event('DEKU_BLOCK') or trick('OOT_DEKU_SKIP') or has_hover_boots() or hookshot_anywhere() or climb_anywhere() end,
+            ["MQ Deku Tree Room Before Water Room Entry Door"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Deku Tree Basement Chest"] = function () return can_use_sticks() or has_fire() end,
+            ["MQ Deku Tree Grass Basement Lower 1"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Basement Lower 2"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Basement Lower 3"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Basement Lower 4"] = function () return can_cut_grass() end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Room Before Water Room Entry Door"] = {
+        ["exits"] = {
+            ["MQ Deku Tree Basement"] = function () return true end,
+            ["MQ Deku Tree Room Before Water Room Door to Basement"] = function () return event('DEKU_MQ_BASEMENT_EYE_SWITCH') end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Room Before Water Room Door to Basement"] = {
+        ["exits"] = {
+            ["MQ Deku Tree Room Before Water Room Entry Door"] = function () return event('DEKU_MQ_ROOM_BEFORE_WATER_CLEAR') end,
+            ["MQ Deku Tree Room Before Water Room"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Room Before Water Room"] = {
+        ["events"] = {
+            ["DEKU_MQ_WATER_PATH_TORCH1"] = function () return has_fire() end,
+            ["DEKU_MQ_ROOM_BEFORE_WATER_CLEAR"] = function () return soul_deku_scrub() and soul_enemy(SOUL_ENEMY_GOHMA_LARVA) and can_damage() end,
+        },
+        ["exits"] = {
+            ["MQ Deku Tree Room Before Water Room Door to Basement"] = function () return true end,
+            ["MQ Deku Tree Room Before Water Room Door to Water Room"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Deku Tree Grass Room Before Spike 1"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Room Before Spike 2"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Room Before Spike 3"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Room Before Spike 4"] = function () return can_cut_grass() end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Room Before Water Room Door to Water Room"] = {
+        ["exits"] = {
+            ["MQ Deku Tree Room Before Water Room"] = function () return true end,
+            ["MQ Deku Tree Water Room Door to Room Before Water Room"] = function () return event('DEKU_MQ_WATER_PATH_TORCH1') end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Water Room Door to Room Before Water Room"] = {
+        ["exits"] = {
+            ["MQ Deku Tree Room Before Water Room Door to Water Room"] = function () return true end,
+            ["MQ Deku Tree Water Room Front"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Water Room Front"] = {
+        ["events"] = {
+            ["MQ_DEKU_WATER_TORCHES"] = function () return is_child() and has_shield() and can_use_sticks() or (can_use_bow() and can_play_elegy()) or (can_use_sticks() and trick('OOT_DEKU_MQ_WATER_ROOM_SPIKE_ROLL')) end,
+        },
+        ["exits"] = {
+            ["MQ Deku Tree Water Room Door to Room Before Water Room"] = function () return true end,
+            ["MQ Deku Tree Water Room Back"] = function () return is_child() and has_shield() or can_longshot() or (can_hookshot() and has_iron_boots()) or trick('OOT_DEKU_MQ_WATER_ROOM_SPIKE_ROLL') end,
         },
         ["locations"] = {
             ["MQ Deku Tree Before Water Platform Chest"] = function () return true end,
@@ -8007,44 +8604,81 @@ function _oot_logic()
         },
         ["age_change"] = true,
     },
-    ["Deku Tree Water Room Back"] = {
+    ["MQ Deku Tree Water Room Back"] = {
         ["events"] = {
             ["MQ_DEKU_WATER_TORCHES"] = function () return has_fire() end,
         },
         ["exits"] = {
-            ["Deku Tree Backrooms"] = function () return soul_keese() and soul_deku_scrub() and soul_enemy(SOUL_ENEMY_GOHMA_LARVA) and (has_weapon() or has_ranged_weapon_child()) and event('MQ_DEKU_WATER_TORCHES') end,
+            ["MQ Deku Tree Water Room Front"] = function () return true end,
+            ["MQ Deku Tree Water Room Door to Room After Water Room"] = function () return climb_anywhere() or hookshot_anywhere() or can_damage() end,
         },
         ["locations"] = {
             ["MQ Deku Tree After Water Platform Chest"] = function () return can_play_time() end,
-            ["MQ Deku Tree Before Water Platform Chest"] = function () return true end,
             ["MQ Deku Tree Grass Spike Room Back 1"] = function () return can_cut_grass() end,
             ["MQ Deku Tree Grass Spike Room Back 2"] = function () return can_cut_grass() end,
-            ["MQ Deku Tree Grass Larvae Room 1"] = function () return can_cut_grass() and event('MQ_DEKU_WATER_TORCHES') end,
-            ["MQ Deku Tree Grass Larvae Room 2"] = function () return can_cut_grass() and event('MQ_DEKU_WATER_TORCHES') end,
-            ["MQ Deku Tree Grass Spike Room Front 1"] = function () return can_cut_grass() end,
-            ["MQ Deku Tree Grass Spike Room Front 2"] = function () return can_cut_grass() end,
-            ["MQ Deku Tree Grass Spike Room Front 3"] = function () return can_cut_grass() end,
         },
         ["age_change"] = true,
     },
-    ["Deku Tree Backrooms"] = {
+    ["MQ Deku Tree Water Room Door to Room After Water Room"] = {
         ["exits"] = {
-            ["Deku Tree Water Room Back"] = function () return soul_keese() and soul_deku_scrub() and soul_enemy(SOUL_ENEMY_GOHMA_LARVA) and (has_weapon() or has_ranged_weapon_child()) end,
-            ["Deku Tree Basement Ledge"] = function () return is_child() and can_use_sticks() or can_use_din() end,
+            ["MQ Deku Tree Water Room Back"] = function () return true end,
+            ["MQ Deku Tree Room After Water Room Door to Water Room"] = function () return event('MQ_DEKU_WATER_TORCHES') end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Room After Water Room Door to Water Room"] = {
+        ["exits"] = {
+            ["MQ Deku Tree Water Room Door to Room After Water Room"] = function () return event('DEKU_MQ_ROOM_AFTER_WATER_CLEAR') end,
+            ["MQ Deku Tree Room After Water Room"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Room After Water Room"] = {
+        ["events"] = {
+            ["DEKU_MQ_ROOM_AFTER_WATER_CLEAR"] = function () return soul_keese() and soul_deku_scrub() and soul_enemy(SOUL_ENEMY_GOHMA_LARVA) and (has_weapon() or has_ranged_weapon_child()) end,
+        },
+        ["exits"] = {
+            ["MQ Deku Tree Room After Water Room Door to Water Room"] = function () return true end,
+            ["MQ Deku Tree Room After Water Room Door to Gravestone Room"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Deku Tree Grass Larvae Room 1"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Larvae Room 2"] = function () return can_cut_grass() end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Room After Water Room Door to Gravestone Room"] = {
+        ["exits"] = {
+            ["MQ Deku Tree Room After Water Room"] = function () return true end,
+            ["MQ Deku Tree Gravestone Room Door to Room After Water Room"] = function () return event('DEKU_MQ_ROOM_AFTER_WATER_CLEAR') end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Gravestone Room Door to Room After Water Room"] = {
+        ["exits"] = {
+            ["MQ Deku Tree Room After Water Room Door to Gravestone Room"] = function () return true end,
+            ["MQ Deku Tree MQ Grave Room"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree MQ Grave Room"] = {
+        ["events"] = {
+            ["STICKS"] = function () return can_kill_baba_sticks() end,
+            ["NUTS"] = function () return can_kill_baba_nuts() end,
+            ["DEKU_MQ_GRAVE_ROOM_WEBS"] = function () return can_use_sticks() or has_fire() or can_use_bow() end,
+        },
+        ["exits"] = {
+            ["MQ Deku Tree Gravestone Room Door to Room After Water Room"] = function () return true end,
+            ["MQ Deku Tree Back Side Room Entry Door"] = function () return event('DEKU_MQ_GRAVE_ROOM_WEBS') end,
+            ["MQ Deku Tree Basement Ledge"] = function () return is_child() and event('DEKU_MQ_GRAVE_ROOM_WEBS') end,
         },
         ["locations"] = {
             ["MQ Deku Tree GS Song of Time Blocks"] = function () return gs() and (can_play_time() and can_collect_distance() or can_longshot()) end,
-            ["MQ Deku Tree GS Back Room"] = function () return gs() and (can_use_sticks() or has_fire()) and can_collect_distance() end,
             ["MQ Deku Tree Grass Gravestone Room 1"] = function () return can_cut_grass() end,
             ["MQ Deku Tree Grass Gravestone Room 2"] = function () return can_cut_grass() end,
             ["MQ Deku Tree Grass Gravestone Room 3"] = function () return can_cut_grass() end,
             ["MQ Deku Tree Grass Gravestone Room 4"] = function () return can_cut_grass() end,
             ["MQ Deku Tree Grass Gravestone Room 5"] = function () return can_cut_grass() end,
-            ["MQ Deku Tree Grass Back Room 1"] = function () return can_cut_grass() and (can_use_sticks() or has_fire()) end,
-            ["MQ Deku Tree Grass Back Room 2"] = function () return can_cut_grass() and (can_use_sticks() or has_fire()) end,
-            ["MQ Deku Tree Grass Back Room 3"] = function () return can_cut_grass() and (can_use_sticks() or has_fire()) end,
-            ["MQ Deku Tree Grass Larvae Room 1"] = function () return can_cut_grass() end,
-            ["MQ Deku Tree Grass Larvae Room 2"] = function () return can_cut_grass() end,
             ["MQ Deku Tree Wonder Item 1"] = function () return can_use_sword_or_sticks() end,
             ["MQ Deku Tree Wonder Item 2"] = function () return can_use_sword_or_sticks() end,
             ["MQ Deku Tree Wonder Item 3"] = function () return can_use_sword_or_sticks() end,
@@ -8052,13 +8686,40 @@ function _oot_logic()
         },
         ["age_change"] = true,
     },
-    ["Deku Tree Basement Ledge"] = {
+    ["MQ Deku Tree Back Side Room Entry Door"] = {
+        ["exits"] = {
+            ["MQ Deku Tree MQ Grave Room"] = function () return true end,
+            ["MQ Deku Tree Back Side Room Exit Door"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Back Side Room Exit Door"] = {
+        ["exits"] = {
+            ["MQ Deku Tree Back Side Room Entry Door"] = function () return true end,
+            ["MQ Deku Tree Back Side Room"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Back Side Room"] = {
+        ["exits"] = {
+            ["MQ Deku Tree Back Side Room Exit Door"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Deku Tree GS Back Room"] = function () return gs() and can_collect_distance() end,
+            ["MQ Deku Tree Grass Back Room 1"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Back Room 2"] = function () return can_cut_grass() end,
+            ["MQ Deku Tree Grass Back Room 3"] = function () return can_cut_grass() end,
+        },
+        ["age_change"] = true,
+    },
+    ["MQ Deku Tree Basement Ledge"] = {
         ["events"] = {
             ["DEKU_BLOCK"] = function () return true end,
         },
         ["exits"] = {
-            ["Deku Tree Before Boss"] = function () return can_use_sticks() or has_fire() end,
-            ["Deku Tree Backrooms"] = function () return is_child() end,
+            ["MQ Deku Tree Basement"] = function () return true end,
+            ["Deku Tree Before Boss"] = function () return can_use_sticks() and (is_adult() or (is_child() and (has_hover_boots() or event('DEKU_BLOCK')))) or has_fire() end,
+            ["MQ Deku Tree MQ Grave Room"] = function () return is_child() end,
         },
         ["locations"] = {
             ["MQ Deku Tree Scrub"] = function () return business_scrub(27) end,
@@ -8070,7 +8731,7 @@ function _oot_logic()
     },
     ["Deku Tree Before Boss"] = {
         ["exits"] = {
-            ["Deku Tree Basement Ledge"] = function () return true end,
+            ["MQ Deku Tree Basement Ledge"] = function () return true end,
             ["Deku Tree Boss"] = function () return has_shield_for_scrubs() and soul_deku_scrub() end,
         },
         ["locations"] = {
@@ -8086,18 +8747,30 @@ function _oot_logic()
     ["Dodongo Cavern"] = {
         ["exits"] = {
             ["Death Mountain"] = function () return true end,
-            ["Dodongo Cavern Main"] = function () return has_bombflowers() or can_hammer() or has_blue_fire_arrows_mudwall() end,
+            ["Dodongo Cavern Entrance"] = function () return true end,
         },
         ["age_change"] = true,
     },
-    ["Dodongo Cavern Main"] = {
+    ["Dodongo Cavern Entrance"] = {
         ["exits"] = {
             ["Dodongo Cavern"] = function () return true end,
-            ["Dodongo Cavern Skull"] = function () return has_explosives() end,
-            ["Dodongo Cavern Staircase"] = function () return has_bombflowers() or can_hammer() end,
-            ["Dodongo Cavern Upper Ledges"] = function () return has_explosives_or_hammer() or can_use_din() end,
-            ["Dodongo Cavern Lower Tunnel"] = function () return has_explosives_or_hammer() or (event('DC_MQ_SHORTCUT') and has_goron_bracelet()) end,
-            ["Dodongo Cavern Bomb Bag Ledge"] = function () return is_adult() end,
+            ["Dodongo Cavern Main Room Lower"] = function () return has_bombflowers() or can_hammer() or has_blue_fire_arrows_mudwall() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern Main Room Lower"] = {
+        ["events"] = {
+            ["MQ_DC_PILLAR_RAISE"] = function () return has_bombflowers() or can_hammer() end,
+            ["MQ_DC_OPEN_SKULL"] = function () return (hookshot_anywhere() or climb_anywhere()) and has_explosives() end,
+        },
+        ["exits"] = {
+            ["Dodongo Cavern Entrance"] = function () return has_explosives_or_hammer() or (is_adult() and has_bombflowers()) or has_blue_fire_arrows_mudwall() end,
+            ["Dodongo Cavern Main Room Inside Skull"] = function () return event('MQ_DC_OPEN_SKULL') end,
+            ["Dodongo Cavern Staircase Room Lower"] = function () return event('MQ_DC_STAIRCASE_SWITCH') end,
+            ["Dodongo Cavern Main Room Upper Skull Side"] = function () return event('MQ_DC_PILLAR_RAISE') or climb_anywhere() or hookshot_anywhere() end,
+            ["Dodongo Cavern Main Room Upper Entrance Side"] = function () return climb_anywhere() or longshot_anywhere() end,
+            ["Dodongo Cavern Lower Tunnel"] = function () return has_explosives_or_hammer() or (event('DC_MQ_SHORTCUT') and has_goron_bracelet()) or has_blue_fire_arrows_mudwall() end,
+            ["Dodongo Cavern Bomb Bag Ledge"] = function () return is_adult() or climb_anywhere() or can_hookshot() end,
         },
         ["locations"] = {
             ["MQ Dodongo Cavern Map Chest"] = function () return has_bombflowers() or can_hammer() or has_blue_fire_arrows_mudwall() end,
@@ -8106,44 +8779,77 @@ function _oot_logic()
         },
         ["age_change"] = true,
     },
-    ["Dodongo Cavern Staircase"] = {
+    ["Dodongo Cavern Main Room Upper Skull Side"] = {
         ["events"] = {
-            ["STICKS"] = function () return soul_deku_baba() and ((has_bombflowers() or can_hammer()) and (has_weapon() or can_boomerang())) end,
+            ["MQ_DC_OPEN_SKULL"] = function () return has_explosives() end,
+            ["MQ_DC_STAIRCASE_SWITCH"] = function () return true end,
+            ["DC_MQ_SHORTCUT"] = function () return has_explosives_or_hammer() or can_use_din() end,
         },
         ["exits"] = {
-            ["Dodongo Cavern Main"] = function () return true end,
-            ["Dodongo Cavern Upper Staircase"] = function () return has_bombflowers() end,
+            ["Dodongo Cavern Main Room Lower"] = function () return true end,
+            ["Dodongo Cavern Vanilla Bomb Bag Room Upper"] = function () return event('DC_MQ_SHORTCUT') or hookshot_anywhere() or (climb_anywhere() and can_jump_slash()) end,
+            ["Dodongo Cavern Main Room Upper Entrance Side"] = function () return longshot_anywhere() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern Staircase Room Lower"] = {
+        ["events"] = {
+            ["STICKS"] = function () return soul_deku_baba() and ((has_bombflowers() or can_hammer() or has_blue_fire_arrows_mudwall()) and (has_weapon() or can_boomerang())) end,
+            ["DC_MQ_STAIRCASE"] = function () return has_bombflowers() or can_use_din() end,
+        },
+        ["exits"] = {
+            ["Dodongo Cavern Main Room Lower"] = function () return true end,
+            ["Dodongo Cavern Staircase Room Upper"] = function () return event('DC_MQ_STAIRCASE') or climb_anywhere() or hookshot_anywhere() end,
+            ["Dodongo Cavern MQ Song of Time Block Room"] = function () return has_bombflowers() or can_hammer() or has_blue_fire_arrows_mudwall() end,
         },
         ["locations"] = {
-            ["MQ Dodongo Cavern GS Time Blocks"] = function () return gs() and can_play_time() and can_damage_skull() end,
             ["MQ Dodongo Cavern SR Beamos"] = function () return true end,
             ["MQ Dodongo Cavern SR Crate"] = function () return true end,
             ["MQ Dodongo Cavern Pot Stairs 1"] = function () return true end,
             ["MQ Dodongo Cavern Pot Stairs 2"] = function () return true end,
             ["MQ Dodongo Cavern Pot Stairs 3"] = function () return true end,
             ["MQ Dodongo Cavern Pot Stairs 4"] = function () return true end,
+            ["MQ Dodongo Cavern Staircase Room Lower Large Crate 1"] = function () return true end,
+            ["MQ Dodongo Cavern Staircase Room Lower Large Crate 2"] = function () return true end,
         },
         ["age_change"] = true,
     },
-    ["Dodongo Cavern Upper Staircase"] = {
+    ["Dodongo Cavern MQ Song of Time Block Room"] = {
         ["exits"] = {
-            ["Dodongo Cavern After Staircase"] = function () return silver_rupees_dc() end,
+            ["Dodongo Cavern Staircase Room Lower"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Dodongo Cavern GS Time Blocks"] = function () return gs() and can_play_time() and can_damage_skull() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern Staircase Room Upper"] = {
+        ["exits"] = {
+            ["Dodongo Cavern Room After Upper Staircase"] = function () return silver_rupees_dc() end,
+            ["Dodongo Cavern Staircase Room Lower"] = function () return true end,
         },
         ["locations"] = {
             ["MQ Dodongo Cavern SR Upper Corner Low"] = function () return true end,
             ["MQ Dodongo Cavern SR Vines"] = function () return true end,
             ["MQ Dodongo Cavern SR Upper Corner High"] = function () return true end,
             ["MQ Dodongo Cavern Staircase Scrub"] = function () return business_scrub(31) end,
+            ["MQ Dodongo Cavern Staircase Room Upper Large Crate 1"] = function () return true end,
+            ["MQ Dodongo Cavern Staircase Room Upper Large Crate 2"] = function () return true end,
+            ["MQ Dodongo Cavern Staircase Room Upper Large Crate 3"] = function () return true end,
+            ["MQ Dodongo Cavern Staircase Room Upper Large Crate 4"] = function () return true end,
         },
         ["age_change"] = true,
     },
-    ["Dodongo Cavern After Staircase"] = {
+    ["Dodongo Cavern Room After Upper Staircase"] = {
+        ["events"] = {
+            ["DC_MQ_DEFEAT_DONDONGOS_AFTER_STAIRCASE"] = function () return soul_dodongo() and can_damage() end,
+        },
         ["exits"] = {
-            ["Dodongo Cavern Upper Staircase"] = function () return true end,
-            ["Dodongo Cavern Torch Room"] = function () return soul_dodongo() end,
+            ["Dodongo Cavern Staircase Room Upper"] = function () return true end,
+            ["Dodongo Cavern Main Room Upper Entrance Side"] = function () return event('DC_MQ_DEFEAT_DONDONGOS_AFTER_STAIRCASE') end,
         },
         ["locations"] = {
-            ["MQ Dodongo Cavern Compass Chest"] = function () return soul_dodongo() end,
+            ["MQ Dodongo Cavern Compass Chest"] = function () return event('DC_MQ_DEFEAT_DONDONGOS_AFTER_STAIRCASE') end,
             ["MQ Dodongo Cavern Grass Compass Room 1"] = function () return can_cut_grass() end,
             ["MQ Dodongo Cavern Grass Compass Room 2"] = function () return can_cut_grass() end,
             ["MQ Dodongo Cavern Grass Compass Room 3"] = function () return can_cut_grass() end,
@@ -8151,121 +8857,73 @@ function _oot_logic()
         },
         ["age_change"] = true,
     },
-    ["Dodongo Cavern Torch Room"] = {
+    ["Dodongo Cavern Main Room Upper Entrance Side"] = {
         ["exits"] = {
-            ["Dodongo Cavern After Staircase"] = function () return true end,
-            ["Dodongo Cavern Upper Ledges"] = function () return can_hookshot() or has_hover_boots() or (is_adult() and trick('OOT_DC_JUMP')) end,
-            ["Dodongo Cavern Room Before Upper Lizalfos"] = function () return can_use_sticks() or has_fire() end,
-        },
-        ["locations"] = {
-            ["MQ Dodongo Cavern Larvae Room Chest"] = function () return soul_enemy(SOUL_ENEMY_GOHMA_LARVA) and (can_use_sticks() or has_fire()) end,
-            ["MQ Dodongo Cavern GS Larve Room"] = function () return gs() and (can_use_sticks() or has_fire()) end,
-            ["MQ Dodongo Cavern Heart Vanilla Bomb Bag Room"] = function () return true end,
+            ["Dodongo Cavern Main Room Lower"] = function () return true end,
+            ["Dodongo Cavern Room After Upper Staircase"] = function () return true end,
+            ["Dodongo Cavern Main Room Upper Skull Side"] = function () return longshot_anywhere() end,
+            ["Dodongo Cavern Vanilla Bomb Bag Room Lower"] = function () return true end,
         },
         ["age_change"] = true,
     },
-    ["Dodongo Cavern Upper Lizalfos"] = {
-        ["exits"] = {
-            ["Dodongo Cavern Upper Ledges"] = function () return soul_lizalfos_dinalfos() and (can_use_sticks() or has_weapon() or can_use_slingshot()) end,
-        },
-        ["locations"] = {
-            ["MQ Dodongo Cavern GS Upper Lizalfos"] = function () return gs() and has_explosives_or_hammer() end,
-            ["MQ Dodongo Cavern Pot Miniboss 1"] = function () return true end,
-            ["MQ Dodongo Cavern Pot Miniboss 2"] = function () return true end,
-            ["MQ Dodongo Cavern Pot Miniboss 3"] = function () return true end,
-            ["MQ Dodongo Cavern Pot Miniboss 4"] = function () return true end,
-        },
-        ["age_change"] = true,
-    },
-    ["Dodongo Cavern Upper Ledges"] = {
+    ["Dodongo Cavern Vanilla Bomb Bag Room Lower"] = {
         ["events"] = {
-            ["DC_MQ_SHORTCUT"] = function () return true end,
+            ["OPEN_MQ_DC_LARVAE_ROOM"] = function () return can_use_sticks() or has_fire() end,
         },
         ["exits"] = {
+            ["Dodongo Cavern Main Room Upper Entrance Side"] = function () return true end,
+            ["Dodongo Cavern Room Before Upper Lizalfos"] = function () return can_use_sticks() and event('OPEN_MQ_DC_LARVAE_ROOM') or has_fire() end,
+            ["Dodongo Cavern Vanilla Bomb Bag Room Upper"] = function () return can_hookshot() or has_hover_boots() or (is_adult() and trick('OOT_DC_JUMP')) or climb_anywhere() end,
+            ["Dodongo Cavern MQ Larvae Room"] = function () return event('OPEN_MQ_DC_LARVAE_ROOM') end,
+        },
+        ["locations"] = {
+            ["MQ Dodongo Cavern Heart Vanilla Bomb Bag Room"] = function () return true end,
+            ["MQ Dodongo Cavern Grass Vanilla Bomb Bag Room"] = function () return can_cut_grass() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern Vanilla Bomb Bag Room Upper"] = {
+        ["events"] = {
+            ["DC_MQ_SHORTCUT"] = function () return has_bombflowers() or can_use_din() or can_use_bow() or has_explosives_or_hammer() end,
+        },
+        ["exits"] = {
+            ["Dodongo Cavern Vanilla Bomb Bag Room Lower"] = function () return true end,
+            ["Dodongo Cavern Main Room Upper Skull Side"] = function () return event('DC_MQ_SHORTCUT') or climb_anywhere() end,
             ["Dodongo Cavern Room After Upper Lizalfos"] = function () return true end,
-            ["Dodongo Cavern Torch Room"] = function () return true end,
         },
         ["locations"] = {
             ["MQ Dodongo Cavern Upper Ledge Chest"] = function () return true end,
             ["MQ Dodongo Cavern Pot Vanilla Bomb Bag Room 1"] = function () return true end,
             ["MQ Dodongo Cavern Pot Vanilla Bomb Bag Room 2"] = function () return true end,
-            ["MQ Dodongo Cavern Grass Vanilla Bomb Bag Room"] = function () return can_cut_grass() end,
         },
         ["age_change"] = true,
     },
-    ["Dodongo Cavern Lower Tunnel"] = {
+    ["Dodongo Cavern MQ Larvae Room"] = {
+        ["events"] = {
+            ["MQ_DC_CLEAR_LARVAE_ROOM"] = function () return soul_enemy(SOUL_ENEMY_GOHMA_LARVA) and can_damage() end,
+        },
         ["exits"] = {
-            ["Dodongo Cavern Lower Lizalfos"] = function () return can_use_bow() or ((has_bombflowers() or can_use_din()) and can_use_slingshot()) end,
+            ["Dodongo Cavern Vanilla Bomb Bag Room Lower"] = function () return event('MQ_DC_CLEAR_LARVAE_ROOM') end,
         },
         ["locations"] = {
-            ["MQ Dodongo Cavern Tunnel Side Scrub"] = function () return business_scrub(30) end,
-            ["MQ Dodongo Cavern Pot East Corridor 1"] = function () return true end,
-            ["MQ Dodongo Cavern Pot East Corridor 2"] = function () return true end,
-            ["MQ Dodongo Cavern Pot East Corridor 3"] = function () return true end,
-            ["MQ Dodongo Cavern Pot East Corridor 4"] = function () return true end,
-        },
-        ["age_change"] = true,
-    },
-    ["Dodongo Cavern Lower Lizalfos"] = {
-        ["exits"] = {
-            ["Dodongo Cavern Lower Tunnel"] = function () return soul_lizalfos_dinalfos() and (can_use_sticks() or has_weapon() or can_use_slingshot()) end,
-            ["Dodongo Cavern Poe Room"] = function () return soul_lizalfos_dinalfos() and (can_use_sticks() or has_weapon() or can_use_slingshot()) end,
-        },
-        ["locations"] = {
-            ["MQ Dodongo Cavern Heart Lizalfos Room"] = function () return true end,
-        },
-        ["age_change"] = true,
-    },
-    ["Dodongo Cavern Poe Room"] = {
-        ["exits"] = {
-            ["Dodongo Cavern Lower Lizalfos"] = function () return true end,
-            ["Dodongo Cavern Bomb Bag Ledge"] = function () return can_use_bow() or has_bombflowers() or can_use_din() end,
-        },
-        ["locations"] = {
-            ["MQ Dodongo Cavern GS Poe Room Side"] = function () return gs() and can_collect_distance() and (can_use_bow() or has_bombflowers() or can_use_din()) end,
-            ["MQ Dodongo Cavern Pot Green Room 1"] = function () return true end,
-            ["MQ Dodongo Cavern Pot Green Room 2"] = function () return true end,
-            ["MQ Dodongo Cavern Pot Green Room 3"] = function () return true end,
-            ["MQ Dodongo Cavern Pot Green Room 4"] = function () return true end,
-            ["MQ Dodongo Cavern Grass Green Corridor Side Room 1"] = function () return (can_use_bow() or has_bombflowers() or can_use_din()) and can_cut_grass() end,
-            ["MQ Dodongo Cavern Grass Green Corridor Side Room 2"] = function () return (can_use_bow() or has_bombflowers() or can_use_din()) and can_cut_grass() end,
-        },
-        ["age_change"] = true,
-    },
-    ["Dodongo Cavern Bomb Bag Ledge"] = {
-        ["exits"] = {
-            ["Dodongo Cavern Poe Room"] = function () return true end,
-        },
-        ["locations"] = {
-            ["MQ Dodongo Cavern Bomb Bag Chest"] = function () return true end,
-        },
-        ["age_change"] = true,
-    },
-    ["Dodongo Cavern Skull"] = {
-        ["exits"] = {
-            ["Dodongo Cavern Main"] = function () return true end,
-            ["Dodongo Cavern Boss"] = function () return true end,
-        },
-        ["locations"] = {
-            ["MQ Dodongo Cavern Chest Under Grave"] = function () return true end,
-            ["MQ Dodongo Cavern GS Near Boss"] = function () return gs() end,
-            ["MQ Dodongo Cavern Pot Before Boss 1"] = function () return true end,
-            ["MQ Dodongo Cavern Pot Before Boss 2"] = function () return true end,
-            ["MQ Dodongo Cavern Pot Before Boss Loop 1"] = function () return true end,
-            ["MQ Dodongo Cavern Pot Before Boss Loop 2"] = function () return true end,
-            ["MQ Dodongo Cavern Pot Before Boss Loop 3"] = function () return true end,
-            ["MQ Dodongo Cavern Pot Before Boss Loop 4"] = function () return true end,
-            ["MQ Dodongo Cavern Pot Before Boss Loop Side Room 1"] = function () return true end,
-            ["MQ Dodongo Cavern Pot Before Boss Loop Side Room 2"] = function () return true end,
-            ["MQ Dodongo Cavern Grass Boss Loop"] = function () return can_cut_grass() end,
-            ["MQ Dodongo Cavern Grass Boss Loop Side Room"] = function () return can_cut_grass() end,
+            ["MQ Dodongo Cavern Larvae Room Chest"] = function () return event('MQ_DC_CLEAR_LARVAE_ROOM') end,
+            ["MQ Dodongo Cavern GS Larve Room"] = function () return gs() and can_damage_skull() end,
+            ["MQ Dodongo Cavern Larve Room Large Crate 1"] = function () return true end,
+            ["MQ Dodongo Cavern Larve Room Large Crate 2"] = function () return true end,
+            ["MQ Dodongo Cavern Larve Room Large Crate 3"] = function () return true end,
+            ["MQ Dodongo Cavern Larve Room Large Crate 4"] = function () return true end,
+            ["MQ Dodongo Cavern Larve Room Large Crate 5"] = function () return true end,
+            ["MQ Dodongo Cavern Larve Room Large Crate 6"] = function () return true end,
         },
         ["age_change"] = true,
     },
     ["Dodongo Cavern Room Before Upper Lizalfos"] = {
+        ["events"] = {
+            ["MQ_DC_ROOM_BEFORE_UPPER_LIZALFOS_GOLD_TORCH"] = function () return can_use_sticks() and event('OPEN_MQ_DC_LARVAE_ROOM') or has_fire() end,
+        },
         ["exits"] = {
-            ["Dodongo Cavern Upper Lizalfos"] = function () return can_use_sticks() and has_goron_bracelet() or has_explosives_or_hammer() or has_blue_fire_arrows_mudwall() end,
-            ["Dodongo Cavern Torch Room"] = function () return true end,
+            ["Dodongo Cavern Upper Lizalfos"] = function () return event('MQ_DC_ROOM_BEFORE_UPPER_LIZALFOS_GOLD_TORCH') and can_use_sticks() and has_goron_bracelet() or has_explosives_or_hammer() or has_blue_fire_arrows_mudwall() end,
+            ["Dodongo Cavern Vanilla Bomb Bag Room Lower"] = function () return has_fire() end,
         },
         ["locations"] = {
             ["MQ Dodongo Cavern Pot Before Miniboss 1"] = function () return true end,
@@ -8277,11 +8935,212 @@ function _oot_logic()
     ["Dodongo Cavern Room After Upper Lizalfos"] = {
         ["exits"] = {
             ["Dodongo Cavern Upper Lizalfos"] = function () return true end,
-            ["Dodongo Cavern Upper Ledges"] = function () return has_goron_bracelet() and (has_weapon() or can_use_sticks() or has_ranged_weapon()) or has_explosives_or_hammer() or is_adult() end,
+            ["Dodongo Cavern Vanilla Bomb Bag Room Upper"] = function () return has_goron_bracelet() and (has_weapon() or can_use_sticks() or has_ranged_weapon()) or has_explosives_or_hammer() or is_adult() or climb_anywhere() or hookshot_anywhere() end,
         },
         ["locations"] = {
             ["MQ Dodongo Cavern Pot After Miniboss 1"] = function () return true end,
             ["MQ Dodongo Cavern Pot After Miniboss 2"] = function () return true end,
+            ["MQ Dodongo Cavern Room After Upper Lizalfos Large Crate 1"] = function () return true end,
+            ["MQ Dodongo Cavern Room After Upper Lizalfos Large Crate 2"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern Upper Lizalfos"] = {
+        ["events"] = {
+            ["MQ_DC_UPPER_LIZALFOS_CLEAR_FROM_UPPER"] = function () return soul_lizalfos_dinalfos() and (can_use_sticks() or has_weapon() or can_use_slingshot()) end,
+            ["MQ_DC_LOWER_LIZALFOS_CLEAR_FROM_UPPER"] = function () return (time_travel_at_will() and (has_explosives_or_hammer() or hookshot_anywhere() or climb_anywhere())) and soul_lizalfos_dinalfos() and (can_use_sticks() or has_weapon() or can_use_slingshot()) end,
+        },
+        ["exits"] = {
+            ["Dodongo Cavern Room Before Upper Lizalfos"] = function () return event('MQ_DC_UPPER_LIZALFOS_CLEAR_FROM_UPPER') or event('MQ_DC_UPPER_LIZALFOS_CLEAR_FROM_LOWER') end,
+            ["Dodongo Cavern Room After Upper Lizalfos"] = function () return event('MQ_DC_UPPER_LIZALFOS_CLEAR_FROM_UPPER') or event('MQ_DC_UPPER_LIZALFOS_CLEAR_FROM_LOWER') end,
+        },
+        ["locations"] = {
+            ["MQ Dodongo Cavern GS Upper Lizalfos"] = function () return gs() and (has_explosives_or_hammer() or (climb_anywhere() and can_damage_skull()) or longshot_anywhere()) end,
+            ["MQ Dodongo Cavern Pot Miniboss 1"] = function () return true end,
+            ["MQ Dodongo Cavern Pot Miniboss 2"] = function () return true end,
+            ["MQ Dodongo Cavern Pot Miniboss 3"] = function () return true end,
+            ["MQ Dodongo Cavern Pot Miniboss 4"] = function () return true end,
+            ["MQ Dodongo Cavern Heart Lizalfos Room"] = function () return has_explosives_or_hammer() or hookshot_anywhere() or climb_anywhere() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern Lower Tunnel"] = {
+        ["events"] = {
+            ["MQ_DC_LOWER_TUNNEL_EYE_SWITCH"] = function () return can_use_bow() or ((has_bombflowers() or can_use_din()) and can_use_slingshot()) end,
+        },
+        ["exits"] = {
+            ["Dodongo Cavern Corridor Before Lower Lizalfos"] = function () return event('MQ_DC_LOWER_TUNNEL_EYE_SWITCH') end,
+            ["Dodongo Cavern Main Room Lower"] = function () return true end,
+            ["Dodongo Cavern Lower Tunnel Side Room"] = function () return has_bombflowers() or has_explosives_or_hammer() or has_blue_fire_arrows_mudwall() end,
+        },
+        ["locations"] = {
+            ["MQ Dodongo Cavern Pot East Corridor 1"] = function () return true end,
+            ["MQ Dodongo Cavern Pot East Corridor 2"] = function () return true end,
+            ["MQ Dodongo Cavern Pot East Corridor 3"] = function () return true end,
+            ["MQ Dodongo Cavern Pot East Corridor 4"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern Lower Tunnel Side Room"] = {
+        ["exits"] = {
+            ["Dodongo Cavern Lower Tunnel"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Dodongo Cavern Tunnel Side Scrub"] = function () return business_scrub(30) end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern Corridor Before Lower Lizalfos"] = {
+        ["exits"] = {
+            ["Dodongo Cavern Lower Lizalfos"] = function () return true end,
+            ["Dodongo Cavern Lower Tunnel"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern Lower Lizalfos"] = {
+        ["events"] = {
+            ["MQ_DC_LOWER_LIZALFOS_CLEAR_FROM_LOWER"] = function () return soul_lizalfos_dinalfos() and (can_use_sticks() or has_weapon() or can_use_slingshot()) end,
+            ["MQ_DC_UPPER_LIZALFOS_CLEAR_FROM_LOWER"] = function () return ((climb_anywhere() or longshot_anywhere()) and time_travel_at_will()) and soul_lizalfos_dinalfos() and (can_use_sticks() or has_weapon() or can_use_slingshot()) end,
+        },
+        ["exits"] = {
+            ["Dodongo Cavern Corridor Before Lower Lizalfos"] = function () return event('MQ_DC_LOWER_LIZALFOS_CLEAR_FROM_UPPER') or event('MQ_DC_LOWER_LIZALFOS_CLEAR_FROM_LOWER') end,
+            ["Dodongo Cavern Poe Room"] = function () return event('MQ_DC_LOWER_LIZALFOS_CLEAR_FROM_UPPER') or event('MQ_DC_LOWER_LIZALFOS_CLEAR_FROM_LOWER') end,
+        },
+        ["locations"] = {
+            ["MQ Dodongo Cavern Heart Lizalfos Room"] = function () return true end,
+            ["MQ Dodongo Cavern GS Upper Lizalfos"] = function () return gs() and (longshot_anywhere() or (climb_anywhere() and can_damage_skull())) end,
+            ["MQ Dodongo Cavern Pot Miniboss 1"] = function () return climb_anywhere() or longshot_anywhere() end,
+            ["MQ Dodongo Cavern Pot Miniboss 2"] = function () return climb_anywhere() or longshot_anywhere() end,
+            ["MQ Dodongo Cavern Pot Miniboss 3"] = function () return climb_anywhere() or longshot_anywhere() end,
+            ["MQ Dodongo Cavern Pot Miniboss 4"] = function () return climb_anywhere() or longshot_anywhere() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern Poe Room"] = {
+        ["events"] = {
+            ["MQ_DC_POE_ROOM_BOMB_SWITCHES"] = function () return can_use_bow() or has_bombflowers() or can_use_din() end,
+        },
+        ["exits"] = {
+            ["Dodongo Cavern Lower Lizalfos"] = function () return true end,
+            ["Dodongo Cavern Bomb Bag Ledge"] = function () return event('MQ_DC_POE_ROOM_BOMB_SWITCHES') end,
+            ["Dodongo Cavern MQ Poe Room Side Room"] = function () return event('MQ_DC_POE_ROOM_BOMB_SWITCHES') end,
+        },
+        ["locations"] = {
+            ["MQ Dodongo Cavern Pot Green Room 1"] = function () return true end,
+            ["MQ Dodongo Cavern Pot Green Room 2"] = function () return true end,
+            ["MQ Dodongo Cavern Pot Green Room 3"] = function () return true end,
+            ["MQ Dodongo Cavern Pot Green Room 4"] = function () return true end,
+            ["MQ Dodongo Cavern Poe Room Large Crate 1"] = function () return true end,
+            ["MQ Dodongo Cavern Poe Room Large Crate 2"] = function () return true end,
+            ["MQ Dodongo Cavern Poe Room Large Crate 3"] = function () return true end,
+            ["MQ Dodongo Cavern Poe Room Large Crate 4"] = function () return true end,
+            ["MQ Dodongo Cavern Poe Room Large Crate 5"] = function () return true end,
+            ["MQ Dodongo Cavern Poe Room Large Crate 6"] = function () return true end,
+            ["MQ Dodongo Cavern Poe Room Large Crate 7"] = function () return true end,
+            ["MQ Dodongo Cavern Poe Room Large Crate 8"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern MQ Poe Room Side Room"] = {
+        ["exits"] = {
+            ["Dodongo Cavern Poe Room"] = function () return soul_keese() and soul_deku_scrub() and can_damage() end,
+        },
+        ["locations"] = {
+            ["MQ Dodongo Cavern GS Poe Room Side"] = function () return gs() and can_collect_distance() end,
+            ["MQ Dodongo Cavern Grass Green Corridor Side Room 1"] = function () return can_cut_grass() end,
+            ["MQ Dodongo Cavern Grass Green Corridor Side Room 2"] = function () return can_cut_grass() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern Bomb Bag Ledge"] = {
+        ["exits"] = {
+            ["Dodongo Cavern Poe Room"] = function () return true end,
+            ["Dodongo Cavern Main Room Lower"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Dodongo Cavern Bomb Bag Chest"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern Main Room Inside Skull"] = {
+        ["exits"] = {
+            ["Dodongo Cavern Main Room Lower"] = function () return event('MQ_DC_OPEN_SKULL') end,
+            ["Dodongo Cavern Pre-Boss Lobby"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern Pre-Boss Lobby"] = {
+        ["exits"] = {
+            ["Dodongo Cavern Main Room Inside Skull"] = function () return true end,
+            ["Dodongo Cavern Boss"] = function () return event('MQ_DC_BOSS_SWITCH') end,
+            ["Dodongo Cavern Boss Loop Start"] = function () return true end,
+            ["Dodongo Cavern Boss Loop Ending Ledge"] = function () return is_adult() or climb_anywhere() or hookshot_anywhere() end,
+        },
+        ["locations"] = {
+            ["MQ Dodongo Cavern Pot Before Boss 1"] = function () return true end,
+            ["MQ Dodongo Cavern Pot Before Boss 2"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern Boss Loop Start"] = {
+        ["events"] = {
+            ["MQ_DC_BOSS_LOOP_FIRE_WALL_CRYSTAL_BEFORE_FIRE"] = function () return has_bombs() or has_bombchu() end,
+        },
+        ["exits"] = {
+            ["Dodongo Cavern Pre-Boss Lobby"] = function () return true end,
+            ["Dodongo Cavern Boss Loop After Fire Wall"] = function () return is_adult() or climb_anywhere() or hookshot_anywhere() or event('MQ_DC_BOSS_LOOP_FIRE_WALL_CRYSTAL_BEFORE_FIRE') end,
+        },
+        ["locations"] = {
+            ["MQ Dodongo Cavern Pot Before Boss Loop 1"] = function () return true end,
+            ["MQ Dodongo Cavern Pot Before Boss Loop 2"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern Boss Loop After Fire Wall"] = {
+        ["events"] = {
+            ["MQ_DC_BOSS_LOOP_FIRE_WALL_CRYSTAL_AFTER_FIRE"] = function () return has_weapon() or has_bombs() or can_use_mask_blast() or has_bombchu() or can_use_bow() or can_use_slingshot() or can_hookshot() or can_use_sticks() or can_hammer() or can_boomerang() end,
+        },
+        ["exits"] = {
+            ["Dodongo Cavern Boss Loop Side Room"] = function () return true end,
+            ["Dodongo Cavern Boss Loop Start"] = function () return event('MQ_DC_BOSS_LOOP_FIRE_WALL_CRYSTAL_AFTER_FIRE') or climb_anywhere() or hookshot_anywhere() end,
+            ["Dodongo Cavern Boss Loop After Armos Wall"] = function () return climb_anywhere() or hookshot_anywhere() or has_fire() or has_explosives() end,
+        },
+        ["locations"] = {
+            ["MQ Dodongo Cavern GS Near Boss"] = function () return gs() and can_damage_skull() end,
+            ["MQ Dodongo Cavern Grass Boss Loop"] = function () return can_cut_grass() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern Boss Loop Side Room"] = {
+        ["exits"] = {
+            ["Dodongo Cavern Boss Loop After Fire Wall"] = function () return can_damage() end,
+        },
+        ["locations"] = {
+            ["MQ Dodongo Cavern Chest Under Grave"] = function () return true end,
+            ["MQ Dodongo Cavern Pot Before Boss Loop Side Room 1"] = function () return true end,
+            ["MQ Dodongo Cavern Pot Before Boss Loop Side Room 2"] = function () return true end,
+            ["MQ Dodongo Cavern Grass Boss Loop Side Room"] = function () return can_cut_grass() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern Boss Loop After Armos Wall"] = {
+        ["exits"] = {
+            ["Dodongo Cavern Boss Loop Ending Ledge"] = function () return true end,
+            ["Dodongo Cavern Boss Loop After Fire Wall"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Dodongo Cavern Pot Before Boss Loop 3"] = function () return true end,
+            ["MQ Dodongo Cavern Pot Before Boss Loop 4"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Dodongo Cavern Boss Loop Ending Ledge"] = {
+        ["events"] = {
+            ["MQ_DC_BOSS_SWITCH"] = function () return true end,
+        },
+        ["exits"] = {
+            ["Dodongo Cavern Pre-Boss Lobby"] = function () return true end,
+            ["Dodongo Cavern Boss Loop After Armos Wall"] = function () return true end,
         },
         ["age_change"] = true,
     },
@@ -8314,6 +9173,12 @@ function _oot_logic()
             ["MQ Fire Temple Pre-Boss Chest"] = function () return has_tunic_goron() and has_fire() and (can_use_bow() or has_hover_boots() or (has_tunic_goron_strict() and is_adult())) end,
             ["MQ Fire Temple Pot Pre-Boss 1"] = function () return has_tunic_goron() and (has_hover_boots() or can_hookshot()) end,
             ["MQ Fire Temple Pot Pre-Boss 2"] = function () return has_tunic_goron() and (has_hover_boots() or can_hookshot()) end,
+            ["MQ Fire Temple Pre-Boss Room Near Cage Large Crate 1"] = function () return has_tunic_goron() end,
+            ["MQ Fire Temple Pre-Boss Room Near Cage Large Crate 2"] = function () return has_tunic_goron() end,
+            ["MQ Fire Temple Pre-Boss Room Tall Ledge Low Large Crate 1"] = function () return has_tunic_goron() and (has_hover_boots() or can_hookshot()) end,
+            ["MQ Fire Temple Pre-Boss Room Tall Ledge Low Large Crate 2"] = function () return has_tunic_goron() and (has_hover_boots() or can_hookshot()) end,
+            ["MQ Fire Temple Pre-Boss Room Tall Ledge Middle Large Crate"] = function () return has_tunic_goron() and (has_hover_boots() or can_hookshot()) end,
+            ["MQ Fire Temple Pre-Boss Room Tall Ledge Top Large Crate"] = function () return has_tunic_goron() and (has_hover_boots() or can_hookshot()) end,
         },
         ["age_change"] = true,
     },
@@ -8360,36 +9225,56 @@ function _oot_logic()
         ["age_change"] = true,
     },
     ["Fire Temple Maze Lower"] = {
+        ["events"] = {
+            ["MQ_FIRE_TEMPLE_MAZE_LOWER_GATE"] = function () return can_use_sword_kokiri() or can_use_sword_master() or can_use_sword_biggoron() or can_use_sticks() or can_hammer() end,
+        },
         ["exits"] = {
             ["Fire Temple 1f Lava Room"] = function () return true end,
-            ["Fire Temple Maze Upper"] = function () return can_hookshot() and (trick('OOT_HAMMER_WALLS') or has_explosives()) end,
+            ["Fire Temple Maze Upper"] = function () return can_hookshot() and can_hammer() and (trick('OOT_HAMMER_WALLS') or has_explosives()) end,
         },
         ["locations"] = {
-            ["MQ Fire Temple Maze Lower Chest"] = function () return true end,
-            ["MQ Fire Temple Maze Side Room Chest"] = function () return can_play_elegy() end,
+            ["MQ Fire Temple Maze Lower Chest"] = function () return event('MQ_FIRE_TEMPLE_MAZE_LOWER_GATE') end,
+            ["MQ Fire Temple Maze Side Room Chest"] = function () return has_explosives() and can_play_elegy() end,
             ["MQ Fire Temple Wonder Item East Maze"] = function () return can_hookshot() end,
+            ["MQ Fire Temple Maze Room Lower Cage Large Crate 1"] = function () return event('MQ_FIRE_TEMPLE_MAZE_LOWER_GATE') end,
+            ["MQ Fire Temple Maze Room Lower Cage Large Crate 2"] = function () return event('MQ_FIRE_TEMPLE_MAZE_LOWER_GATE') end,
+            ["MQ Fire Temple Maze Room Lower Cage Large Crate 3"] = function () return event('MQ_FIRE_TEMPLE_MAZE_LOWER_GATE') end,
         },
         ["age_change"] = true,
     },
     ["Fire Temple Maze Upper"] = {
+        ["events"] = {
+            ["MQ_FIRE_TEMPLE_MAZE_UPPER_GATE"] = function () return can_use_sword_or_sticks() or can_hammer() or has_explosives() or can_hit_triggers_distance() or can_boomerang() end,
+        },
         ["exits"] = {
-            ["Fire Temple Burning Block"] = function () return can_play_time() or can_longshot() end,
+            ["Fire Temple Burning Block"] = function () return can_play_time() and can_hookshot() or can_longshot() end,
             ["Fire Temple 3f Lava Room"] = function () return small_keys_fire_mq(3) end,
         },
         ["locations"] = {
-            ["MQ Fire Temple Maze Upper Chest"] = function () return true end,
-            ["MQ Fire Temple Maze Side Room Chest"] = function () return true end,
+            ["MQ Fire Temple Maze Upper Chest"] = function () return event('MQ_FIRE_TEMPLE_MAZE_UPPER_GATE') end,
+            ["MQ Fire Temple Maze Side Room Chest"] = function () return has_explosives() end,
             ["MQ Fire Temple Compass Chest"] = function () return has_explosives() end,
-            ["MQ Fire Temple Wonder Item East Climb First 1"] = function () return can_hookshot() end,
-            ["MQ Fire Temple Wonder Item East Climb First 2"] = function () return can_hookshot() end,
-            ["MQ Fire Temple Wonder Item East Climb Second 1"] = function () return can_hookshot() end,
-            ["MQ Fire Temple Wonder Item East Climb Second 2"] = function () return can_hookshot() end,
+            ["MQ Fire Temple Maze Room Upper Cage Large Crate 1"] = function () return event('MQ_FIRE_TEMPLE_MAZE_UPPER_GATE') end,
+            ["MQ Fire Temple Maze Room Upper Cage Large Crate 2"] = function () return event('MQ_FIRE_TEMPLE_MAZE_UPPER_GATE') end,
+            ["MQ Fire Temple Maze Room Upper Cage Large Crate 3"] = function () return event('MQ_FIRE_TEMPLE_MAZE_UPPER_GATE') end,
+            ["MQ Fire Temple Maze Room Upper Cage Small Crate 1"] = function () return event('MQ_FIRE_TEMPLE_MAZE_UPPER_GATE') end,
+            ["MQ Fire Temple Maze Room Upper Cage Small Crate 2"] = function () return event('MQ_FIRE_TEMPLE_MAZE_UPPER_GATE') end,
+            ["MQ Fire Temple Cell Below Maze Large Crate 1"] = function () return has_explosives() end,
+            ["MQ Fire Temple Cell Below Maze Large Crate 2"] = function () return has_explosives() end,
+            ["MQ Fire Temple Cell Below Maze Large Crate 3"] = function () return has_explosives() end,
+            ["MQ Fire Temple Cell Below Maze Large Crate 4"] = function () return has_explosives() end,
+            ["MQ Fire Temple Cell Below Maze Large Crate 5"] = function () return has_explosives() end,
+            ["MQ Fire Temple Cell Below Maze Large Crate 6"] = function () return has_explosives() end,
         },
         ["age_change"] = true,
     },
     ["Fire Temple Burning Block"] = {
         ["locations"] = {
             ["MQ Fire Temple GS Burning Block"] = function () return gs() end,
+            ["MQ Fire Temple Wonder Item East Climb First 1"] = function () return can_hookshot() end,
+            ["MQ Fire Temple Wonder Item East Climb First 2"] = function () return can_hookshot() end,
+            ["MQ Fire Temple Wonder Item East Climb Second 1"] = function () return can_hookshot() end,
+            ["MQ Fire Temple Wonder Item East Climb Second 2"] = function () return can_hookshot() end,
         },
         ["age_change"] = true,
     },
@@ -8404,6 +9289,16 @@ function _oot_logic()
             ["MQ Fire Temple Pot Bridge Above Lava Room 2"] = function () return true end,
             ["MQ Fire Temple Pot Bridge Above Lava Room 3"] = function () return true end,
             ["MQ Fire Temple Wonder Item Torch Room"] = function () return can_hookshot() end,
+            ["MQ Fire Temple 3F Lava Room Near Cage Large Crate"] = function () return can_hookshot() or is_adult() end,
+            ["MQ Fire Temple 3F Lava Room Near Cage Small Crate 1"] = function () return can_hookshot() or is_adult() end,
+            ["MQ Fire Temple 3F Lava Room Near Cage Small Crate 2"] = function () return can_hookshot() or is_adult() end,
+            ["MQ Fire Temple 3F Lava Room High Ledge Large Crate"] = function () return can_hookshot() or is_adult() end,
+            ["MQ Fire Temple 3F Lava Room High Ledge Small Crate"] = function () return can_hookshot() or is_adult() end,
+            ["MQ Fire Temple 3F Lava Room Lower Large Crate 1"] = function () return true end,
+            ["MQ Fire Temple 3F Lava Room Lower Large Crate 2"] = function () return true end,
+            ["MQ Fire Temple 3F Lava Room Lower Large Crate 3"] = function () return true end,
+            ["MQ Fire Temple 3F Lava Room Lower Small Crate 1"] = function () return true end,
+            ["MQ Fire Temple 3F Lava Room Lower Small Crate 2"] = function () return true end,
         },
         ["age_change"] = true,
     },
@@ -8601,6 +9496,9 @@ function _oot_logic()
             ["MQ Forest Temple Pot Blue Poe 1"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and soul_wolfos() end,
             ["MQ Forest Temple Pot Blue Poe 2"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and soul_wolfos() end,
             ["MQ Forest Temple Pot Blue Poe 3"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and soul_wolfos() end,
+            ["MQ Forest Temple Spinning Red Pool Room Small Crate 1"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and soul_wolfos() and has_weapon() and small_keys_forest(5) end,
+            ["MQ Forest Temple Spinning Red Pool Room Small Crate 2"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and soul_wolfos() and has_weapon() and small_keys_forest(5) end,
+            ["MQ Forest Temple Spinning Red Pool Room Small Crate 3"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and soul_wolfos() and has_weapon() and small_keys_forest(5) end,
         },
         ["age_change"] = true,
     },
@@ -8630,9 +9528,12 @@ function _oot_logic()
         ["age_change"] = true,
     },
     ["Ganon Castle"] = {
+        ["events"] = {
+            ["MQ_GANON_OPEN_MAIN"] = function () return soul_iron_knuckle() and soul_armos() and soul_bubble() and (can_use_sword_master() or can_use_sword_goron() or (can_use_sticks() and (has_ranged_weapon_child() or can_use_bow())) or has_explosives_or_hammer()) end,
+        },
         ["exits"] = {
             ["Ganon Castle Exterior After Bridge"] = function () return true end,
-            ["Ganon Castle Main"] = function () return soul_iron_knuckle() and soul_armos() and soul_bubble() and (can_use_sword_master() or can_use_sword_goron() or (can_use_sticks() and (has_ranged_weapon_child() or can_use_bow())) or has_explosives_or_hammer()) end,
+            ["Ganon Castle Main Room"] = function () return event('MQ_GANON_OPEN_MAIN') end,
         },
         ["age_change"] = true,
     },
@@ -8642,21 +9543,24 @@ function _oot_logic()
         },
         ["age_change"] = true,
     },
-    ["Ganon Castle Main"] = {
+    ["Ganon Castle Main Room"] = {
         ["exits"] = {
             ["Ganon Castle"] = function () return true end,
-            ["Ganon Castle Light"] = function () return can_lift_gold() end,
-            ["Ganon Castle Forest"] = function () return true end,
-            ["Ganon Castle Fire"] = function () return true end,
-            ["Ganon Castle Water"] = function () return true end,
-            ["Ganon Castle Spirit"] = function () return true end,
-            ["Ganon Castle Shadow"] = function () return true end,
+            ["Ganon Castle Light Trial Entrance"] = function () return can_lift_gold() end,
+            ["Ganon Castle Forest Trial Entrance"] = function () return true end,
+            ["Ganon Castle Fire Trial Entrance Ledge"] = function () return true end,
+            ["Ganon Castle Water Trial Entrance"] = function () return true end,
+            ["Ganon Castle Spirit Trial Entrance"] = function () return true end,
+            ["Ganon Castle Shadow Trial Entrance Side"] = function () return true end,
             ["Ganon Castle Stairs"] = function () return ganon_barrier() end,
             ["Ganon Castle Fairy Fountain"] = function () return has_lens() end,
         },
         ["age_change"] = true,
     },
     ["Ganon Castle Fairy Fountain"] = {
+        ["exits"] = {
+            ["Ganon Castle Main Room"] = function () return true end,
+        },
         ["locations"] = {
             ["MQ Ganon Castle Leftmost Scrub"] = function () return business_scrub(33) end,
             ["MQ Ganon Castle Left-Center Scrub"] = function () return business_scrub(34) end,
@@ -8674,53 +9578,165 @@ function _oot_logic()
         },
         ["age_change"] = true,
     },
-    ["Ganon Castle Light"] = {
+    ["Ganon Castle Light Trial Entrance"] = {
         ["events"] = {
-            ["GANON_TRIAL_LIGHT"] = function () return soul_lizalfos_dinalfos() and soul_enemy(SOUL_ENEMY_TORCH_SLUG) and can_use_light_arrows() and has_lens() and can_hookshot() and small_keys_ganon(3) end,
+            ["GANON_MQ_LIGHT_ENEMIES"] = function () return soul_lizalfos_dinalfos() and soul_enemy(SOUL_ENEMY_TORCH_SLUG) and (has_weapon() or (can_hammer() and can_use_sticks())) end,
         },
-        ["locations"] = {
-            ["MQ Ganon Castle Light Trial Chest"] = function () return soul_lizalfos_dinalfos() and soul_enemy(SOUL_ENEMY_TORCH_SLUG) and can_play_zelda() and has_weapon() end,
-            ["MQ Ganon Pot Light End 1"] = function () return soul_lizalfos_dinalfos() and soul_enemy(SOUL_ENEMY_TORCH_SLUG) and has_lens() and can_hookshot() and small_keys_ganon(3) end,
-            ["MQ Ganon Pot Light End 2"] = function () return soul_lizalfos_dinalfos() and soul_enemy(SOUL_ENEMY_TORCH_SLUG) and has_lens() and can_hookshot() and small_keys_ganon(3) end,
-            ["MQ Ganon Castle Heart Light 1"] = function () return small_keys_ganon(2) and soul_lizalfos_dinalfos() and soul_enemy(SOUL_ENEMY_TORCH_SLUG) and can_play_zelda() and has_weapon() end,
-            ["MQ Ganon Castle Heart Light 2"] = function () return small_keys_ganon(2) and soul_lizalfos_dinalfos() and soul_enemy(SOUL_ENEMY_TORCH_SLUG) and can_play_zelda() and has_weapon() end,
+        ["exits"] = {
+            ["Ganon Castle Main Room"] = function () return true end,
+            ["Ganon Castle Light Trial Lullaby Hallway"] = function () return event('GANON_MQ_LIGHT_ENEMIES') end,
         },
         ["age_change"] = true,
     },
-    ["Ganon Castle Forest"] = {
-        ["events"] = {
-            ["GANON_TRIAL_FOREST"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and (can_play_time() or can_play_elegy()) and can_use_light_arrows() end,
+    ["Ganon Castle Light Trial Lullaby Hallway"] = {
+        ["exits"] = {
+            ["Ganon Castle Light Trial Entrance"] = function () return true end,
+            ["Ganon Castle Light Trial Round Boulder Room Before Flame Walls"] = function () return small_keys_ganon(2) end,
         },
         ["locations"] = {
-            ["MQ Ganon Castle Forest Trial Key"] = function () return can_hookshot() end,
-            ["MQ Ganon Castle Forest Trial First Chest"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and has_weapon() and can_hit_triggers_distance() end,
-            ["MQ Ganon Castle Forest Trial Second Chest"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and has_weapon() and has_fire() end,
-            ["MQ Ganon Pot Forest End 1"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and (can_play_time() or can_play_elegy()) end,
-            ["MQ Ganon Pot Forest End 2"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and (can_play_time() or can_play_elegy()) end,
+            ["MQ Ganon Castle Light Trial Chest"] = function () return can_play_zelda() end,
         },
         ["age_change"] = true,
     },
-    ["Ganon Castle Fire"] = {
-        ["events"] = {
-            ["GANON_TRIAL_FIRE"] = function () return can_use_light_arrows() and has_tunic_goron_strict() and (can_longshot() or has_hover_boots()) and silver_rupees_ganon_fire() end,
+    ["Ganon Castle Light Trial Round Boulder Room Before Flame Walls"] = {
+        ["exits"] = {
+            ["Ganon Castle Light Trial Lullaby Hallway"] = function () return small_keys_ganon(2) end,
+            ["Ganon Castle Light Trial Round Boulder Room After Flame Walls"] = function () return can_hookshot() or climb_anywhere() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Light Trial Round Boulder Room After Flame Walls"] = {
+        ["exits"] = {
+            ["Ganon Castle Light Trial Round Boulder Room Before Flame Walls"] = function () return can_hookshot() or climb_anywhere() end,
+            ["Ganon Castle Light Trial Ending Room"] = function () return small_keys_ganon(3) end,
         },
         ["locations"] = {
-            ["MQ Ganon Castle SR Fire Under Pillar"] = function () return has_tunic_goron() and can_lift_gold() end,
+            ["MQ Ganon Castle Heart Light 1"] = function () return true end,
+            ["MQ Ganon Castle Heart Light 2"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Light Trial Ending Room"] = {
+        ["events"] = {
+            ["GANON_TRIAL_LIGHT"] = function () return can_use_light_arrows() and has_lens() end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Light Trial Round Boulder Room After Flame Walls"] = function () return small_keys_ganon(3) end,
+        },
+        ["locations"] = {
+            ["MQ Ganon Pot Light End 1"] = function () return true end,
+            ["MQ Ganon Pot Light End 2"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Forest Trial Entrance"] = {
+        ["events"] = {
+            ["GANON_MQ_FOREST_ENEMIES"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and has_weapon() end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Main Room"] = function () return true end,
+            ["Ganon Castle Forest Trial Wind Room Starting Side"] = function () return event('GANON_MQ_FOREST_ENEMIES') end,
+        },
+        ["locations"] = {
+            ["MQ Ganon Castle Forest Trial Key"] = function () return can_hookshot() or can_boomerang() or climb_anywhere() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Forest Trial Wind Room Starting Side"] = {
+        ["events"] = {
+            ["GANON_CASTLE_MQ_FOREST_WIND_FROZEN_EYE"] = function () return has_fire_arrows() end,
+            ["GANON_CASTLE_MQ_FOREST_WIND_OPEN_EYE"] = function () return can_hit_triggers_distance() end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Forest Trial Entrance"] = function () return true end,
+            ["Ganon Castle Forest Trial Wind Room Ending Side"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Ganon Castle Forest Trial First Chest"] = function () return event('GANON_CASTLE_MQ_FOREST_WIND_OPEN_EYE') end,
+            ["MQ Ganon Castle Forest Trial Second Chest"] = function () return event('GANON_CASTLE_MQ_FOREST_WIND_FROZEN_EYE') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Forest Trial Wind Room Ending Side"] = {
+        ["events"] = {
+            ["GANON_CASTLE_MQ_FOREST_WIND_FROZEN_EYE"] = function () return has_fire() end,
+            ["GANON_CASTLE_MQ_FOREST_WIND_OPEN_EYE"] = function () return can_hit_triggers_distance() end,
+            ["GANON_MQ_FOREST_SWITCH"] = function () return can_play_time() or can_play_elegy() end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Forest Trial Wind Room Starting Side"] = function () return hookshot_anywhere() or (has_hover_boots() and climb_anywhere()) or (can_longshot() and event('GANON_CASTLE_MQ_FOREST_WIND_OPEN_EYE')) end,
+            ["Ganon Castle Forest Trial Ending Room"] = function () return event('GANON_MQ_FOREST_SWITCH') end,
+        },
+        ["locations"] = {
+            ["MQ Ganon Castle Forest Trial Second Chest"] = function () return event('GANON_CASTLE_MQ_FOREST_WIND_FROZEN_EYE') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Forest Trial Ending Room"] = {
+        ["events"] = {
+            ["GANON_TRIAL_FOREST"] = function () return can_use_light_arrows() end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Forest Trial Wind Room Ending Side"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Ganon Pot Forest End 1"] = function () return true end,
+            ["MQ Ganon Pot Forest End 2"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Fire Trial Entrance Ledge"] = {
+        ["events"] = {
+            ["GANON_MQ_FIRE_MONOLITH"] = function () return has_tunic_goron() and can_lift_gold() end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Main Room"] = function () return true end,
+            ["Ganon Castle Fire Trial Ending Ledge"] = function () return has_tunic_goron() and (longshot_anywhere() or has_hover_boots()) or (has_tunic_goron_strict() and (can_longshot() and silver_rupees_ganon_fire() or (hookshot_anywhere() and event('GANON_MQ_FIRE_MONOLITH')))) end,
+        },
+        ["locations"] = {
+            ["MQ Ganon Castle SR Fire Under Pillar"] = function () return event('GANON_MQ_FIRE_MONOLITH') end,
             ["MQ Ganon Castle SR Fire Center-Left"] = function () return has_tunic_goron_strict() end,
             ["MQ Ganon Castle SR Fire Back-Left"] = function () return has_tunic_goron_strict() end,
             ["MQ Ganon Castle SR Fire High Above Lava"] = function () return has_tunic_goron() end,
             ["MQ Ganon Castle SR Fire Front-Left"] = function () return has_tunic_goron_strict() end,
-            ["MQ Ganon Pot Fire End 1"] = function () return has_tunic_goron_strict() and (can_longshot() or has_hover_boots()) and silver_rupees_ganon_fire() end,
-            ["MQ Ganon Pot Fire End 2"] = function () return has_tunic_goron_strict() and (can_longshot() or has_hover_boots()) and silver_rupees_ganon_fire() end,
         },
         ["age_change"] = true,
     },
-    ["Ganon Castle Water"] = {
+    ["Ganon Castle Fire Trial Ending Ledge"] = {
+        ["exits"] = {
+            ["Ganon Castle Fire Trial Entrance Ledge"] = function () return has_tunic_goron() and longshot_anywhere() or (climb_anywhere() and has_tunic_goron_strict()) end,
+            ["Ganon Castle Fire Trial Ending Room"] = function () return silver_rupees_ganon_fire() end,
+        },
+        ["locations"] = {
+            ["MQ Ganon Castle SR Fire Under Pillar"] = function () return longshot_anywhere() and has_tunic_goron_strict() and can_lift_gold() end,
+            ["MQ Ganon Castle SR Fire Center-Left"] = function () return longshot_anywhere() and has_tunic_goron_strict() end,
+            ["MQ Ganon Castle SR Fire Back-Left"] = function () return longshot_anywhere() and has_tunic_goron_strict() end,
+            ["MQ Ganon Castle SR Fire High Above Lava"] = function () return longshot_anywhere() and has_tunic_goron_strict() end,
+            ["MQ Ganon Castle SR Fire Front-Left"] = function () return longshot_anywhere() and has_tunic_goron_strict() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Fire Trial Ending Room"] = {
         ["events"] = {
-            ["BLUE_FIRE"] = function () return has_bottle() and (has_weapon() or can_use_sticks() or has_explosives_or_hammer()) end,
+            ["GANON_TRIAL_FIRE"] = function () return can_use_light_arrows() end,
         },
         ["exits"] = {
-            ["Ganon Castle Water Silver Rupees"] = function () return has_blue_fire() and small_keys_ganon(3) end,
+            ["Ganon Castle Fire Trial Ending Ledge"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Ganon Pot Fire End 1"] = function () return true end,
+            ["MQ Ganon Pot Fire End 2"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Water Trial Entrance"] = {
+        ["events"] = {
+            ["MQ_GANON_WATER_BF_SWITCH"] = function () return can_use_bow() or can_use_slingshot() or has_weapon() or can_use_sticks() or has_explosives_or_hammer() end,
+            ["BLUE_FIRE"] = function () return has_bottle() and event('MQ_GANON_WATER_BF_SWITCH') end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Main Room"] = function () return true end,
+            ["Ganon Castle Water Trial Entrance Room Behind Red Ice"] = function () return has_blue_fire() or hookshot_anywhere() end,
         },
         ["locations"] = {
             ["MQ Ganon Castle Water Trial Chest"] = function () return has_blue_fire() end,
@@ -8728,62 +9744,181 @@ function _oot_logic()
         },
         ["age_change"] = true,
     },
-    ["Ganon Castle Water Silver Rupees"] = {
-        ["events"] = {
-            ["GANON_TRIAL_WATER"] = function () return silver_rupees_ganon_water() and can_use_light_arrows() end,
+    ["Ganon Castle Water Trial Entrance Room Behind Red Ice"] = {
+        ["exits"] = {
+            ["Ganon Castle Water Trial Entrance"] = function () return has_blue_fire() or climb_anywhere() end,
+            ["Ganon Castle Water Trial Silver Rupee Room"] = function () return small_keys_ganon(3) end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Water Trial Silver Rupee Room"] = {
+        ["exits"] = {
+            ["Ganon Castle Water Trial Entrance Room Behind Red Ice"] = function () return small_keys_ganon(3) end,
+            ["Ganon Castle Water Trial Silver Rupee Room Behind Red Ice"] = function () return is_adult() and has_blue_fire() or hookshot_anywhere() or climb_anywhere() end,
         },
         ["locations"] = {
             ["MQ Ganon Castle SR Water Shallow Hole"] = function () return true end,
-            ["MQ Ganon Castle SR Water Above Ground"] = function () return true end,
-            ["MQ Ganon Castle SR Water Alcove"] = function () return is_adult() end,
+            ["MQ Ganon Castle SR Water Above Ground"] = function () return is_adult() or climb_anywhere() or hookshot_anywhere() end,
+            ["MQ Ganon Castle SR Water Alcove"] = function () return has_blue_fire() and (is_adult() or climb_anywhere() or hookshot_anywhere()) end,
             ["MQ Ganon Castle SR Water Deep Hole"] = function () return true end,
             ["MQ Ganon Castle SR Water Under Alcove"] = function () return true end,
-            ["MQ Ganon Pot Water End 1"] = function () return silver_rupees_ganon_water() end,
-            ["MQ Ganon Pot Water End 2"] = function () return silver_rupees_ganon_water() end,
         },
         ["age_change"] = true,
     },
-    ["Ganon Castle Spirit"] = {
+    ["Ganon Castle Water Trial Silver Rupee Room Behind Red Ice"] = {
+        ["exits"] = {
+            ["Ganon Castle Water Trial Silver Rupee Room"] = function () return has_blue_fire() or climb_anywhere() or hookshot_anywhere() end,
+            ["Ganon Castle Water Trial Ending Room"] = function () return silver_rupees_ganon_water() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Water Trial Ending Room"] = {
         ["events"] = {
-            ["GANON_TRIAL_SPIRIT"] = function () return can_use_light_arrows() and has_fire_arrows() and can_reflect_light() and can_hammer() and has_bombchu() and (soul_iron_knuckle() or trick('OOT_HAMMER_WALLS')) end,
+            ["GANON_TRIAL_WATER"] = function () return can_use_light_arrows() end,
         },
         ["exits"] = {
-            ["Ganon Castle Spirit Wallmaster"] = function () return soul_wallmaster() and can_hammer() and has_fire_arrows() and can_reflect_light() and has_bombchu() and (soul_iron_knuckle() or trick('OOT_HAMMER_WALLS')) end,
+            ["Ganon Castle Water Trial Silver Rupee Room Behind Red Ice"] = function () return true end,
         },
         ["locations"] = {
-            ["MQ Ganon Castle Spirit Trial First Chest"] = function () return can_hammer() and (can_use_bow() and soul_iron_knuckle() or trick('OOT_HAMMER_WALLS')) end,
-            ["MQ Ganon Castle Spirit Trial Second Chest"] = function () return can_hammer() and (can_use_bow() and soul_iron_knuckle() or trick('OOT_HAMMER_WALLS')) and has_bombchu() and has_lens() end,
-            ["MQ Ganon Castle Spirit Trial Back Right Sun Chest"] = function () return can_hammer() and has_fire_arrows() and can_reflect_light() and has_bombchu() and (soul_iron_knuckle() or trick('OOT_HAMMER_WALLS')) end,
-            ["MQ Ganon Castle Spirit Trial Back Left Sun Chest"] = function () return can_hammer() and has_fire_arrows() and can_reflect_light() and has_bombchu() and (soul_iron_knuckle() or trick('OOT_HAMMER_WALLS')) end,
-            ["MQ Ganon Castle Spirit Trial Front Left Sun Chest"] = function () return can_hammer() and has_fire_arrows() and can_reflect_light() and has_bombchu() and (soul_iron_knuckle() or trick('OOT_HAMMER_WALLS')) end,
-            ["MQ Ganon Castle Spirit Trial Gold Gauntlets Chest"] = function () return can_hammer() and has_fire_arrows() and can_reflect_light() and has_bombchu() and (soul_iron_knuckle() or trick('OOT_HAMMER_WALLS')) end,
-            ["MQ Ganon Pot Spirit End 1"] = function () return has_fire_arrows() and can_reflect_light() and can_hammer() and has_bombchu() and (soul_iron_knuckle() or trick('OOT_HAMMER_WALLS')) end,
-            ["MQ Ganon Pot Spirit End 2"] = function () return has_fire_arrows() and can_reflect_light() and can_hammer() and has_bombchu() and (soul_iron_knuckle() or trick('OOT_HAMMER_WALLS')) end,
+            ["MQ Ganon Pot Water End 1"] = function () return true end,
+            ["MQ Ganon Pot Water End 2"] = function () return true end,
         },
         ["age_change"] = true,
     },
-    ["Ganon Castle Shadow"] = {
+    ["Ganon Castle Spirit Trial Entrance"] = {
         ["events"] = {
-            ["GANON_TRIAL_SHADOW"] = function () return has_lens() and can_use_light_arrows() and (has_hover_boots() or (can_hookshot() and has_fire() and can_use_bow())) and silver_rupees_ganon_shadow() end,
+            ["GANON_MQ_SPIRIT_HAMMER_SWITCH"] = function () return (can_use_bow() or can_use_slingshot()) and soul_iron_knuckle() and can_hammer() or (can_hammer() and trick('OOT_HAMMER_WALLS')) end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Main Room"] = function () return true end,
+            ["Ganon Castle Spirit Trial Sun Room Entrance Side"] = function () return event('GANON_MQ_SPIRIT_HAMMER_SWITCH') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Spirit Trial Sun Room Entrance Side"] = {
+        ["events"] = {
+            ["GANON_MQ_SPIRIT_CRYSTAL"] = function () return has_bombchu() end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Spirit Trial Entrance"] = function () return true end,
+            ["Ganon Castle Spirit Trial Sun Room Sun Side"] = function () return event('GANON_MQ_SPIRIT_CRYSTAL') or climb_anywhere() or hookshot_anywhere() end,
         },
         ["locations"] = {
-            ["MQ Ganon Castle Shadow Trial Bomb Flower Chest"] = function () return (can_hookshot() or has_hover_boots()) and (can_use_bow() or (has_lens() and has_hover_boots() and (can_use_din() or has_bombflowers()))) end,
-            ["MQ Ganon Castle Shadow Trial Switch Chest"] = function () return can_use_bow() and has_lens() and (has_hover_boots() or (can_hookshot() and has_fire())) end,
-            ["MQ Ganon Castle SR Shadow Front-Right"] = function () return has_lens() and (has_hover_boots() or (can_use_bow() and can_hookshot())) end,
-            ["MQ Ganon Castle SR Shadow Middle"] = function () return has_lens() and (has_hover_boots() or (can_use_bow() and can_hookshot())) end,
-            ["MQ Ganon Castle SR Shadow Back-Left"] = function () return has_lens() and (has_hover_boots() or (can_use_bow() and can_hookshot() and has_fire())) end,
-            ["MQ Ganon Castle SR Shadow Back-Center"] = function () return has_lens() and (has_hover_boots() or (can_use_bow() and can_hookshot() and has_fire())) end,
-            ["MQ Ganon Castle SR Shadow Front-Center"] = function () return has_lens() and (has_hover_boots() or (can_use_bow() and can_hookshot())) end,
-            ["MQ Ganon Pot Shadow End 1"] = function () return has_lens() and (has_hover_boots() or (can_hookshot() and has_fire() and can_use_bow())) and silver_rupees_ganon_shadow() end,
-            ["MQ Ganon Pot Shadow End 2"] = function () return has_lens() and (has_hover_boots() or (can_hookshot() and has_fire() and can_use_bow())) and silver_rupees_ganon_shadow() end,
-            ["MQ Ganon Castle Wonder Item"] = function () return has_lens() and (has_hover_boots() or (can_use_bow() and can_hookshot())) and (can_use_bow() or has_explosives()) end,
+            ["MQ Ganon Castle Spirit Trial First Chest"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Spirit Trial Sun Room Sun Side"] = {
+        ["events"] = {
+            ["GANON_MQ_SPIRIT_CRYSTAL"] = function () return has_bombchu() or can_use_bow() or can_hookshot() or can_use_slingshot() or can_boomerang() or has_bombs() end,
+            ["GANON_MQ_SPIRIT_ZOMBIES"] = function () return can_play_sun() or has_weapon() or can_use_din() or can_hammer() end,
+            ["GANON_MQ_SPIRIT_ENDING_SUNS"] = function () return event('GANON_MQ_SPIRIT_ZOMBIES') and (has_sunlight_arrows() or (has_fire_arrows() and has_mirror_shield())) end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Spirit Trial Sun Room Entrance Side"] = function () return event('GANON_MQ_SPIRIT_CRYSTAL') or climb_anywhere() or hookshot_anywhere() end,
+            ["Ganon Castle Spirit Trial Ending Room"] = function () return event('GANON_MQ_SPIRIT_ENDING_SUNS') end,
+            ["Ganon Castle Spirit Wallmaster"] = function () return soul_wallmaster() and event('GANON_MQ_SPIRIT_ENDING_SUNS') end,
+        },
+        ["locations"] = {
+            ["MQ Ganon Castle Spirit Trial Second Chest"] = function () return has_lens() end,
+            ["MQ Ganon Castle Spirit Trial Back Right Sun Chest"] = function () return event('GANON_MQ_SPIRIT_ENDING_SUNS') end,
+            ["MQ Ganon Castle Spirit Trial Back Left Sun Chest"] = function () return event('GANON_MQ_SPIRIT_ENDING_SUNS') end,
+            ["MQ Ganon Castle Spirit Trial Front Left Sun Chest"] = function () return event('GANON_MQ_SPIRIT_ENDING_SUNS') end,
+            ["MQ Ganon Castle Spirit Trial Gold Gauntlets Chest"] = function () return event('GANON_MQ_SPIRIT_ENDING_SUNS') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Spirit Trial Ending Room"] = {
+        ["events"] = {
+            ["GANON_TRIAL_SPIRIT"] = function () return can_use_light_arrows() end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Spirit Trial Sun Room Sun Side"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Ganon Pot Spirit End 1"] = function () return true end,
+            ["MQ Ganon Pot Spirit End 2"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Shadow Trial Entrance Side"] = {
+        ["events"] = {
+            ["GANON_MQ_SHADOW_BOMBFLOWER_FROM_ENTRANCE"] = function () return can_use_bow() or ((longshot_anywhere() or (has_lens() and (is_adult() and has_hover_boots() or hookshot_anywhere()))) and (can_use_din() or has_bombflowers())) end,
+            ["GANON_MQ_SHADOW_PROGRESSION_FROM_ENTRANCE"] = function () return longshot_anywhere() or (has_lens() and hookshot_anywhere()) or (has_lens() and (can_hookshot() and event('GANON_MQ_SHADOW_BOMBFLOWER_FROM_ENTRANCE') or (is_adult() and has_hover_boots()))) end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Shadow Trial Middle Beamos Area 1"] = function () return event('GANON_MQ_SHADOW_PROGRESSION_FROM_ENTRANCE') end,
+            ["Ganon Castle Main Room"] = function () return true end,
+            ["Ganon Castle Shadow Trial Ending Side"] = function () return climb_anywhere() end,
+        },
+        ["locations"] = {
+            ["MQ Ganon Castle Shadow Trial Bomb Flower Chest"] = function () return event('GANON_MQ_SHADOW_BOMBFLOWER_FROM_ENTRANCE') and (can_hookshot() or (is_adult() and has_hover_boots())) end,
+            ["MQ Ganon Castle SR Shadow Front-Right"] = function () return event('GANON_MQ_SHADOW_PROGRESSION_FROM_ENTRANCE') end,
+            ["MQ Ganon Castle SR Shadow Front-Center"] = function () return event('GANON_MQ_SHADOW_PROGRESSION_FROM_ENTRANCE') end,
+            ["MQ Ganon Castle Wonder Item"] = function () return event('GANON_MQ_SHADOW_BOMBFLOWER_FROM_ENTRANCE') and event('GANON_MQ_SHADOW_PROGRESSION_FROM_ENTRANCE') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Shadow Trial Middle Beamos Area 1"] = {
+        ["events"] = {
+            ["GANON_MQ_SHADOW_TORCH_ICE_BLOCK"] = function () return has_fire() end,
+            ["GANON_MQ_SHADOW_PROGRESSION_FROM_BEAMOS_1"] = function () return has_lens() and (can_longshot() or hookshot_anywhere() or (has_hover_boots() and (is_adult() or climb_anywhere()))) or longshot_anywhere() end,
+            ["GANON_MQ_SHADOW_BOMBFLOWER_FROM_BEAMOS_1"] = function () return can_use_bow() or ((can_use_din() or has_bombflowers()) and (has_lens() or longshot_anywhere())) end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Shadow Trial Entrance Side"] = function () return event('GANON_MQ_SHADOW_PROGRESSION_FROM_BEAMOS_1') end,
+            ["Ganon Castle Shadow Trial Middle Beamos Area 2"] = function () return event('GANON_MQ_SHADOW_TORCH_ICE_BLOCK') or has_hover_boots() or hookshot_anywhere() or (event('GANON_MQ_SHADOW_EYE_CHEST') and can_hookshot()) end,
+        },
+        ["locations"] = {
+            ["MQ Ganon Castle SR Shadow Middle"] = function () return true end,
+            ["MQ Ganon Castle Shadow Trial Bomb Flower Chest"] = function () return event('GANON_MQ_SHADOW_BOMBFLOWER_FROM_BEAMOS_1') and (has_lens() and (is_adult() or has_hover_boots() or hookshot_anywhere())) end,
+            ["MQ Ganon Castle Wonder Item"] = function () return event('GANON_MQ_SHADOW_BOMBFLOWER_FROM_BEAMOS_1') and (has_lens() or longshot_anywhere()) end,
+            ["MQ Ganon Castle SR Shadow Front-Right"] = function () return has_lens() or longshot_anywhere() end,
+            ["MQ Ganon Castle SR Shadow Front-Center"] = function () return has_lens() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Shadow Trial Middle Beamos Area 2"] = {
+        ["events"] = {
+            ["GANON_MQ_SHADOW_TORCH_ICE_BLOCK"] = function () return has_fire_arrows() end,
+            ["GANON_MQ_SHADOW_EYE_CHEST"] = function () return can_use_bow() or can_use_slingshot() end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Shadow Trial Middle Beamos Area 1"] = function () return event('GANON_MQ_SHADOW_TORCH_ICE_BLOCK') or has_hover_boots() or hookshot_anywhere() end,
+            ["Ganon Castle Shadow Trial Ending Side"] = function () return has_lens() or hookshot_anywhere() end,
+        },
+        ["locations"] = {
+            ["MQ Ganon Castle Shadow Trial Switch Chest"] = function () return event('GANON_MQ_SHADOW_EYE_CHEST') end,
+            ["MQ Ganon Castle SR Shadow Back-Left"] = function () return has_lens() or hookshot_anywhere() end,
+            ["MQ Ganon Castle SR Shadow Back-Center"] = function () return has_lens() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Shadow Trial Ending Side"] = {
+        ["exits"] = {
+            ["Ganon Castle Shadow Trial Middle Beamos Area 2"] = function () return has_lens() or hookshot_anywhere() end,
+            ["Ganon Castle Shadow Trial Ending Room"] = function () return silver_rupees_ganon_shadow() end,
+            ["Ganon Castle Shadow Trial Entrance Side"] = function () return climb_anywhere() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ganon Castle Shadow Trial Ending Room"] = {
+        ["events"] = {
+            ["GANON_TRIAL_SHADOW"] = function () return can_use_light_arrows() end,
+        },
+        ["exits"] = {
+            ["Ganon Castle Shadow Trial Ending Side"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Ganon Pot Shadow End 1"] = function () return true end,
+            ["MQ Ganon Pot Shadow End 2"] = function () return true end,
         },
         ["age_change"] = true,
     },
     ["Ganon Castle Stairs"] = {
         ["exits"] = {
-            ["Ganon Castle Main"] = function () return true end,
-            ["Ganon Castle Tower"] = function () return true end,
+            ["Ganon Castle Main Room"] = function () return true end,
+            ["Ganon Castle Tower"] = function () return ganon_barrier() end,
         },
         ["age_change"] = true,
     },
@@ -8791,20 +9926,16 @@ function _oot_logic()
         ["events"] = {
             ["GTG_RIGHT_SIDE"] = function () return can_hit_triggers_distance() end,
             ["GTG_LEFT_SIDE"] = function () return has_fire() end,
-            ["GTG_ICE_ARROWS"] = function () return small_keys_gtg(3) and can_hammer() end,
         },
         ["exits"] = {
             ["Gerudo Fortress Exterior"] = function () return true end,
-            ["Gerudo Training Grounds Right Path"] = function () return event('GTG_RIGHT_SIDE') and is_adult() end,
-            ["Gerudo Training Grounds Left Path"] = function () return event('GTG_LEFT_SIDE') end,
+            ["Gerudo Training Grounds Right Path First Room"] = function () return event('GTG_RIGHT_SIDE') end,
+            ["Gerudo Training Grounds Left Path First Room"] = function () return event('GTG_LEFT_SIDE') end,
+            ["Gerudo Training Grounds Maze Entrance Fork"] = function () return true end,
         },
         ["locations"] = {
             ["MQ Gerudo Training Grounds Entryway Left Chest"] = function () return true end,
             ["MQ Gerudo Training Grounds Entryway Right Chest"] = function () return true end,
-            ["MQ Gerudo Training Grounds Maze First Chest"] = function () return has_lens() end,
-            ["MQ Gerudo Training Grounds Maze Second Chest"] = function () return true end,
-            ["MQ Gerudo Training Grounds Maze Third Chest"] = function () return true end,
-            ["MQ Gerudo Training Grounds Maze Fourth Chest"] = function () return small_keys_gtg(1) end,
             ["MQ Gerudo Training Grounds Pot 1"] = function () return true end,
             ["MQ Gerudo Training Grounds Pot 2"] = function () return true end,
             ["MQ Gerudo Training Grounds Pot 3"] = function () return true end,
@@ -8818,40 +9949,211 @@ function _oot_logic()
         },
         ["age_change"] = true,
     },
-    ["Gerudo Training Grounds Right Path"] = {
+    ["Gerudo Training Grounds Maze Entrance Fork"] = {
         ["exits"] = {
             ["Gerudo Training Grounds"] = function () return true end,
-            ["Gerudo Training Grounds Lava Room"] = function () return soul_lizalfos_dinalfos() and soul_armos() and soul_dodongo() and (can_use_sword_master() or can_use_sword_goron()) end,
+            ["Gerudo Training Grounds Maze Left Room 1"] = function () return true end,
+            ["Gerudo Training Grounds Maze Right Room 1"] = function () return event('GTG_MQ_LAVA_HAMMER_SWITCH') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Maze Left Room 1"] = {
+        ["exits"] = {
+            ["Gerudo Training Grounds Maze Entrance Fork"] = function () return true end,
+            ["Gerudo Training Grounds Maze Left Room 2"] = function () return true end,
+            ["Gerudo Training Grounds Maze Left Hidden Room"] = function () return has_lens() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Maze Left Hidden Room"] = {
+        ["exits"] = {
+            ["Gerudo Training Grounds Maze Left Room 1"] = function () return true end,
         },
         ["locations"] = {
-            ["MQ Gerudo Training Grounds Right Side Dinolfos Chest"] = function () return soul_lizalfos_dinalfos() and soul_armos() and soul_dodongo() and (can_use_sword_master() or can_use_sword_goron()) end,
+            ["MQ Gerudo Training Grounds Maze First Chest"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Maze Left Room 2"] = {
+        ["exits"] = {
+            ["Gerudo Training Grounds Maze Left Room 1"] = function () return true end,
+            ["Gerudo Training Grounds Maze Left Room 3"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Gerudo Training Grounds Maze Second Chest"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Maze Left Room 3"] = {
+        ["exits"] = {
+            ["Gerudo Training Grounds Maze Left Room 2"] = function () return true end,
+            ["Gerudo Training Grounds Maze Left Room 4"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Maze Left Room 4"] = {
+        ["exits"] = {
+            ["Gerudo Training Grounds Maze Left Room 3"] = function () return true end,
+            ["Gerudo Training Grounds Maze Left Room 5"] = function () return small_keys_gtg(1) end,
+        },
+        ["locations"] = {
+            ["MQ Gerudo Training Grounds Maze Third Chest"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Maze Left Room 5"] = {
+        ["exits"] = {
+            ["Gerudo Training Grounds Maze Left Room 4"] = function () return small_keys_gtg(2) end,
+            ["Gerudo Training Grounds Maze Left Room 6"] = function () return small_keys_gtg(2) end,
+        },
+        ["locations"] = {
+            ["MQ Gerudo Training Grounds Maze Fourth Chest"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Maze Left Room 6"] = {
+        ["exits"] = {
+            ["Gerudo Training Grounds Maze Left Room 5"] = function () return small_keys_gtg(3) end,
+            ["Gerudo Training Grounds Maze Center Room"] = function () return small_keys_gtg(3) end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Maze Center Room"] = {
+        ["events"] = {
+            ["GTG_ICE_ARROWS_SWITCH"] = function () return can_hammer() end,
+        },
+        ["exits"] = {
+            ["Gerudo Training Grounds Maze Left Room 6"] = function () return small_keys_gtg(3) end,
+        },
+        ["locations"] = {
+            ["MQ Gerudo Training Grounds Maze Center Room Large Crate"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Maze Right Room 1"] = {
+        ["exits"] = {
+            ["Gerudo Training Grounds Maze Entrance Fork"] = function () return true end,
+            ["Gerudo Training Grounds Maze Right Room 2"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Maze Right Room 2"] = {
+        ["exits"] = {
+            ["Gerudo Training Grounds Maze Right Room 1"] = function () return true end,
+            ["Gerudo Training Grounds Lava Room Maze Ledge"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Gerudo Training Grounds Maze Right Side Middle Chest"] = function () return true end,
+            ["MQ Gerudo Training Grounds Maze Right Side Right Chest"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Right Path First Room"] = {
+        ["events"] = {
+            ["GTG_MQ_RIGHT_FIRST_CLEAR"] = function () return soul_lizalfos_dinalfos() and soul_armos() and soul_dodongo() and (can_use_sword_master() or (can_use_sword_goron() and has('SWORD_BIGGORON'))) end,
+        },
+        ["exits"] = {
+            ["Gerudo Training Grounds"] = function () return true end,
+            ["Gerudo Training Grounds Lava Room Near Beginning"] = function () return event('GTG_MQ_RIGHT_FIRST_CLEAR') end,
+        },
+        ["locations"] = {
+            ["MQ Gerudo Training Grounds Right Side Dinolfos Chest"] = function () return event('GTG_MQ_RIGHT_FIRST_CLEAR') end,
             ["MQ Gerudo Training Grounds Wonder Item Dodongo Room Wall"] = function () return can_use_bow() end,
         },
         ["age_change"] = true,
     },
-    ["Gerudo Training Grounds Lava Room"] = {
+    ["Gerudo Training Grounds Lava Room Near Beginning"] = {
         ["events"] = {
-            ["GTG_LAVA_TARGETS"] = function () return silver_rupees_gtg_lava_mq() end,
+            ["GTG_LAVA_HOOK_TARGETS"] = function () return silver_rupees_gtg_lava_mq() end,
+            ["GTG_MQ_LAVA_TORCH_ENTRANCE_SIDE"] = function () return can_use_bow() end,
+            ["GTG_MQ_LAVA_TORCH_FAR"] = function () return has_fire_arrows() end,
+            ["GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_ENTRANCE"] = function () return event('GTG_MQ_LAVA_TORCH_ENTRANCE_SIDE') and (is_adult() or (has_hover_boots() or climb_anywhere() or (event('GTG_LAVA_HOOK_TARGETS') and can_hookshot() or hookshot_anywhere()))) or (trick('OOT_MQ_GTG_FLAMES') and (has_hover_boots() or (can_hookshot() and event('GTG_LAVA_HOOK_TARGETS')) or hookshot_anywhere())) end,
         },
         ["exits"] = {
-            ["Gerudo Training Grounds Right Path"] = function () return true end,
-            ["Gerudo Training Grounds Water Room"] = function () return silver_rupees_gtg_lava_mq() and (can_longshot() or can_use_bow() or (trick('OOT_MQ_GTG_FLAMES') and (can_hookshot() or has_hover_boots()))) end,
+            ["Gerudo Training Grounds Right Path First Room"] = function () return true end,
+            ["Gerudo Training Grounds Lava Room Ledge Before Water Room"] = function () return can_longshot() or event('GTG_MQ_LAVA_TORCH_ENTRANCE_SIDE') or (trick('OOT_MQ_GTG_FLAMES') and (can_hookshot() or has_hover_boots())) or hookshot_anywhere() or climb_anywhere() end,
+            ["Gerudo Training Grounds Lava Room Maze Ledge"] = function () return event('GTG_MQ_LAVA_HAMMER_SWITCH') and can_longshot() or (event('GTG_MQ_LAVA_TORCH_ENTRANCE_SIDE') and event('GTG_MQ_LAVA_HAMMER_SWITCH') and can_hookshot()) or hookshot_anywhere() or climb_anywhere() end,
+            ["Gerudo Training Grounds Lava Room Deep Side Ledge"] = function () return hookshot_anywhere() and trick('OOT_MQ_GTG_FLAMES') or (can_longshot() and has_hover_boots() and climb_anywhere() and event('GTG_LAVA_HOOK_TARGETS')) end,
         },
         ["locations"] = {
-            ["MQ Gerudo Training Grounds SR Lava Back-Left"] = function () return (has_hover_boots() or event('GTG_LAVA_TARGETS')) and (can_use_bow() or ((can_longshot() or (trick('OOT_MQ_GTG_FLAMES') and can_hookshot())) and has_fire()) or (trick('OOT_MQ_GTG_FLAMES') and has_hover_boots() and has_fire_or_sticks())) end,
-            ["MQ Gerudo Training Grounds SR Lava Back-Right"] = function () return (has_hover_boots() or event('GTG_LAVA_TARGETS')) and (can_use_bow() or ((can_longshot() or (trick('OOT_MQ_GTG_FLAMES') and can_hookshot())) and has_fire()) or (trick('OOT_MQ_GTG_FLAMES') and has_hover_boots() and has_fire_or_sticks())) end,
-            ["MQ Gerudo Training Grounds SR Lava Center"] = function () return (has_hover_boots() or event('GTG_LAVA_TARGETS')) and (can_use_bow() or ((can_longshot() or (trick('OOT_MQ_GTG_FLAMES') and can_hookshot())) and has_fire()) or (trick('OOT_MQ_GTG_FLAMES') and has_hover_boots() and has_fire_or_sticks())) end,
-            ["MQ Gerudo Training Grounds SR Lava Front-Right"] = function () return can_use_bow() or (can_longshot() and has_fire()) or (can_hookshot() and trick('OOT_MQ_GTG_FLAMES')) or (has_hover_boots() and trick('OOT_MQ_GTG_FLAMES') and has_fire_or_sticks()) end,
-            ["MQ Gerudo Training Grounds SR Lava Front-Left"] = function () return can_use_bow() or ((can_longshot() or (can_hookshot() and trick('OOT_MQ_GTG_FLAMES'))) and has_fire()) or (has_hover_boots() and trick('OOT_MQ_GTG_FLAMES') and has_fire_or_sticks()) or ((has_weapon() or can_use_sticks() or can_hammer()) and trick('OOT_MQ_GTG_FLAMES')) end,
-            ["MQ Gerudo Training Grounds SR Lava Front"] = function () return can_use_bow() or (can_longshot() and has_fire()) or (can_hookshot() and trick('OOT_MQ_GTG_FLAMES')) or (has_hover_boots() and trick('OOT_MQ_GTG_FLAMES') and has_fire_or_sticks()) end,
-            ["MQ Gerudo Training Grounds Maze Right Side Middle Chest"] = function () return can_use_bow() and can_hookshot() and event('GTG_LAVA_HAMMER') end,
-            ["MQ Gerudo Training Grounds Maze Right Side Right Chest"] = function () return can_use_bow() and can_hookshot() and event('GTG_LAVA_HAMMER') end,
+            ["MQ Gerudo Training Grounds SR Lava Back-Left"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_ENTRANCE') end,
+            ["MQ Gerudo Training Grounds SR Lava Back-Right"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_ENTRANCE') end,
+            ["MQ Gerudo Training Grounds SR Lava Center"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_ENTRANCE') end,
+            ["MQ Gerudo Training Grounds SR Lava Front-Right"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_ENTRANCE') end,
+            ["MQ Gerudo Training Grounds SR Lava Front-Left"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_ENTRANCE') end,
+            ["MQ Gerudo Training Grounds SR Lava Front"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_ENTRANCE') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Lava Room Ledge Before Water Room"] = {
+        ["events"] = {
+            ["GTG_LAVA_HOOK_TARGETS"] = function () return silver_rupees_gtg_lava_mq() end,
+            ["GTG_MQ_LAVA_TORCH_WATER_ROOM_SIDE"] = function () return has_fire() end,
+            ["GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_WATER_SIDE"] = function () return event('GTG_MQ_LAVA_TORCH_WATER_ROOM_SIDE') and (is_adult() or (has_hover_boots() or climb_anywhere() or (event('GTG_LAVA_HOOK_TARGETS') and can_hookshot() or hookshot_anywhere()))) or (trick('OOT_MQ_GTG_FLAMES') and (has_hover_boots() or (can_hookshot() and event('GTG_LAVA_HOOK_TARGETS')) or hookshot_anywhere())) end,
+        },
+        ["exits"] = {
+            ["Gerudo Training Grounds Lava Room Near Beginning"] = function () return can_longshot() or event('GTG_MQ_LAVA_TORCH_WATER_ROOM_SIDE') or (trick('OOT_MQ_GTG_FLAMES') and (has_hover_boots() or can_hookshot())) or hookshot_anywhere() or climb_anywhere() end,
+            ["Gerudo Training Grounds Lava Room Maze Ledge"] = function () return event('GTG_MQ_LAVA_HAMMER_SWITCH') and can_longshot() or hookshot_anywhere() or (climb_anywhere() and event('GTG_LAVA_HOOK_TARGETS') and event('GTG_MQ_LAVA_TORCH_WATER_ROOM_SIDE')) or (event('GTG_MQ_LAVA_HAMMER_SWITCH') and can_hookshot() and event('GTG_MQ_LAVA_TORCH_WATER_ROOM_SIDE')) end,
+            ["Gerudo Training Grounds Lava Room Deep Side Ledge"] = function () return hookshot_anywhere() and trick('OOT_MQ_GTG_FLAMES') or climb_anywhere() or longshot_anywhere() end,
+            ["Gerudo Training Grounds Water Room"] = function () return silver_rupees_gtg_lava_mq() end,
+        },
+        ["locations"] = {
+            ["MQ Gerudo Training Grounds SR Lava Back-Left"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_WATER_SIDE') end,
+            ["MQ Gerudo Training Grounds SR Lava Back-Right"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_WATER_SIDE') end,
+            ["MQ Gerudo Training Grounds SR Lava Center"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_WATER_SIDE') end,
+            ["MQ Gerudo Training Grounds SR Lava Front-Right"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_WATER_SIDE') end,
+            ["MQ Gerudo Training Grounds SR Lava Front-Left"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_WATER_SIDE') end,
+            ["MQ Gerudo Training Grounds SR Lava Front"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_WATER_SIDE') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Lava Room Maze Ledge"] = {
+        ["events"] = {
+            ["GTG_LAVA_HOOK_TARGETS"] = function () return silver_rupees_gtg_lava_mq() end,
+            ["GTG_MQ_LAVA_TORCH_FAR"] = function () return has_fire_arrows() end,
+            ["GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_FAR"] = function () return event('GTG_MQ_LAVA_TORCH_FAR') and (is_adult() or (has_hover_boots() or climb_anywhere() or (event('GTG_LAVA_HOOK_TARGETS') and can_hookshot() or hookshot_anywhere()))) or (trick('OOT_MQ_GTG_FLAMES') and (has_hover_boots() or (can_hookshot() and event('GTG_LAVA_HOOK_TARGETS')) or hookshot_anywhere())) end,
+        },
+        ["exits"] = {
+            ["Gerudo Training Grounds Lava Room Near Beginning"] = function () return can_hookshot() or climb_anywhere() or event('GTG_MQ_LAVA_TORCH_FAR') or (trick('OOT_MQ_GTG_FLAMES') and has_hover_boots()) end,
+            ["Gerudo Training Grounds Lava Room Ledge Before Water Room"] = function () return can_longshot() or hookshot_anywhere() or event('GTG_MQ_LAVA_TORCH_FAR') or (can_hookshot() and event('GTG_LAVA_HOOK_TARGETS')) or (has_hover_boots() and event('GTG_LAVA_HOOK_TARGETS') and trick('OOT_MQ_GTG_FLAMES')) end,
+            ["Gerudo Training Grounds Lava Room Deep Side Ledge"] = function () return hookshot_anywhere() and trick('OOT_MQ_GTG_FLAMES') or climb_anywhere() or longshot_anywhere() end,
+            ["Gerudo Training Grounds Maze Right Room 2"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Gerudo Training Grounds SR Lava Back-Left"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_FAR') end,
+            ["MQ Gerudo Training Grounds SR Lava Back-Right"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_FAR') end,
+            ["MQ Gerudo Training Grounds SR Lava Center"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_FAR') end,
+            ["MQ Gerudo Training Grounds SR Lava Front-Right"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_FAR') end,
+            ["MQ Gerudo Training Grounds SR Lava Front-Left"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_FAR') end,
+            ["MQ Gerudo Training Grounds SR Lava Front"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_FAR') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Lava Room Deep Side Ledge"] = {
+        ["events"] = {
+            ["GTG_LAVA_HOOK_TARGETS"] = function () return silver_rupees_gtg_lava_mq() end,
+            ["GTG_MQ_LAVA_HAMMER_SWITCH"] = function () return can_hammer() end,
+            ["GTG_MQ_LAVA_TORCH_FAR"] = function () return has_fire_arrows() end,
+            ["GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_FAR"] = function () return event('GTG_MQ_LAVA_TORCH_FAR') and (is_adult() or (has_hover_boots() or climb_anywhere() or (event('GTG_LAVA_HOOK_TARGETS') and can_hookshot() or hookshot_anywhere()))) or (trick('OOT_MQ_GTG_FLAMES') and (has_hover_boots() or (can_hookshot() and event('GTG_LAVA_HOOK_TARGETS')) or hookshot_anywhere())) end,
+        },
+        ["exits"] = {
+            ["Gerudo Training Grounds Lava Room Near Beginning"] = function () return hookshot_anywhere() or (event('GTG_MQ_LAVA_TORCH_FAR') and (is_adult() or (climb_anywhere() or has_hover_boots()))) end,
+            ["Gerudo Training Grounds Lava Room Maze Ledge"] = function () return event('GTG_MQ_LAVA_HAMMER_SWITCH') and can_longshot() or (event('GTG_LAVA_HOOK_TARGETS') and event('GTG_MQ_LAVA_HAMMER_SWITCH') and trick('OOT_MQ_GTG_FLAMES') and can_hookshot()) or hookshot_anywhere() or climb_anywhere() end,
+            ["Gerudo Training Grounds Lava Room Ledge Before Water Room"] = function () return can_longshot() or hookshot_anywhere() or climb_anywhere() or (event('GTG_MQ_LAVA_TORCH_FAR') and (can_hookshot() or has_hover_boots())) or (event('GTG_LAVA_HOOK_TARGETS') and (is_adult() or has_hover_boots()) and can_hookshot()) end,
+        },
+        ["locations"] = {
+            ["MQ Gerudo Training Grounds SR Lava Back-Left"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_FAR') end,
+            ["MQ Gerudo Training Grounds SR Lava Back-Right"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_FAR') end,
+            ["MQ Gerudo Training Grounds SR Lava Center"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_FAR') end,
+            ["MQ Gerudo Training Grounds SR Lava Front-Right"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_FAR') end,
+            ["MQ Gerudo Training Grounds SR Lava Front-Left"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_FAR') end,
+            ["MQ Gerudo Training Grounds SR Lava Front"] = function () return event('GTG_MQ_LAVA_TORCH_COMMON_PLATFORMS_FAR') end,
         },
         ["age_change"] = true,
     },
     ["Gerudo Training Grounds Water Room"] = {
         ["exits"] = {
-            ["Gerudo Training Grounds Lava Room"] = function () return true end,
+            ["Gerudo Training Grounds Lava Room Ledge Before Water Room"] = function () return true end,
         },
         ["locations"] = {
             ["MQ Gerudo Training Grounds Water Room Chest"] = function () return silver_rupees_gtg_water_mq() end,
@@ -8861,7 +10163,7 @@ function _oot_logic()
         },
         ["age_change"] = true,
     },
-    ["Gerudo Training Grounds Left Path"] = {
+    ["Gerudo Training Grounds Left Path First Room"] = {
         ["events"] = {
             ["GTG_IRON_KNUCKLE"] = function () return soul_iron_knuckle() and (has_weapon() or can_use_sticks()) and (has_shield() or is_adult()) end,
         },
@@ -8875,13 +10177,16 @@ function _oot_logic()
         ["age_change"] = true,
     },
     ["Gerudo Training Grounds Slopes"] = {
+        ["events"] = {
+            ["GTG_MQ_SLOPES_STALAGMITES"] = function () return has_explosives() or can_use_mask_blast() or has_weapon() or can_hammer() or climb_anywhere() or hookshot_anywhere() end,
+        },
         ["exits"] = {
             ["Gerudo Training Grounds Wallmaster"] = function () return soul_wallmaster() end,
-            ["Gerudo Training Grounds Left Path"] = function () return true end,
+            ["Gerudo Training Grounds Left Path First Room"] = function () return true end,
             ["Gerudo Training Grounds Stalfos Room"] = function () return silver_rupees_gtg_slopes() end,
         },
         ["locations"] = {
-            ["MQ Gerudo Training Grounds SR Slopes Top Right"] = function () return true end,
+            ["MQ Gerudo Training Grounds SR Slopes Top Right"] = function () return event('GTG_MQ_SLOPES_STALAGMITES') end,
             ["MQ Gerudo Training Grounds SR Slopes Middle"] = function () return true end,
             ["MQ Gerudo Training Grounds SR Slopes Front"] = function () return can_longshot() end,
             ["MQ Gerudo Training Grounds SR Slopes Front-Left"] = function () return true end,
@@ -8892,57 +10197,153 @@ function _oot_logic()
     ["Gerudo Training Grounds Stalfos Room"] = {
         ["events"] = {
             ["BLUE_FIRE"] = function () return has_bottle() end,
+            ["GTG_MQ_STALFOS_CLEAR"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and soul_skulltula() and has_weapon() end,
+            ["GTG_MQ_SILVER_BLOCK_PUSH"] = function () return can_lift_silver() end,
         },
         ["exits"] = {
-            ["Gerudo Training Grounds Spinning Statue Room"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and soul_skulltula() and has_blue_fire() and can_play_time() and has_lens() and is_adult() end,
+            ["Gerudo Training Grounds Slopes"] = function () return true end,
+            ["Gerudo Training Grounds Stalfos Room Ledge Before Red Ice"] = function () return has_lens() and (can_play_time() and is_adult() or climb_anywhere() or hookshot_anywhere()) end,
+            ["Gerudo Training Grounds Stalfos Room After Silver Block"] = function () return event('GTG_MQ_SILVER_BLOCK_PUSH') end,
         },
         ["locations"] = {
-            ["MQ Gerudo Training Grounds Stalfos Room Chest"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and soul_skulltula() end,
-            ["MQ Gerudo Training Grounds Silver Block Room Chest"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and soul_skulltula() and can_lift_silver() and soul_enemy(SOUL_ENEMY_SPIKE) and soul_freezard() end,
+            ["MQ Gerudo Training Grounds Stalfos Room Chest"] = function () return event('GTG_MQ_STALFOS_CLEAR') end,
         },
         ["age_change"] = true,
     },
-    ["Gerudo Training Grounds Spinning Statue Room"] = {
+    ["Gerudo Training Grounds Stalfos Room After Silver Block"] = {
+        ["exits"] = {
+            ["Gerudo Training Grounds Stalfos Room"] = function () return event('GTG_MQ_SILVER_BLOCK_PUSH') end,
+            ["Gerudo Training Grounds Stalfos Room Side Room"] = function () return event('GTG_MQ_STALFOS_CLEAR') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Stalfos Room Side Room"] = {
         ["events"] = {
-            ["GTG_LAVA_HAMMER"] = function () return can_hammer() end,
-            ["GTG_LAVA_TARGETS"] = function () return silver_rupees_gtg_lava_mq() end,
+            ["GTG_MQ_STALFOS_SIDE_CLEAR"] = function () return soul_enemy(SOUL_ENEMY_SPIKE) and soul_freezard() and (can_use_sword_master() or can_use_sword_razor() or (has('SWORD_BIGGORON') and age_sword_adult())) end,
         },
         ["exits"] = {
-            ["Gerudo Training Grounds Lava Room"] = function () return can_longshot() or (can_hookshot() and (has_fire_arrows() or trick('OOT_MQ_GTG_FLAMES'))) or (has_hover_boots() and trick('OOT_MQ_GTG_FLAMES') and event('GTG_LAVA_TARGETS')) end,
-            ["Gerudo Training Grounds Water Room"] = function () return silver_rupees_gtg_lava_mq() and event('GTG_LAVA_TARGETS') and (can_hookshot() or has_hover_boots() or trick('OOT_MQ_GTG_FLAMES')) end,
+            ["Gerudo Training Grounds Stalfos Room After Silver Block"] = function () return true end,
         },
         ["locations"] = {
-            ["MQ Gerudo Training Grounds Spinning Statue Chest"] = function () return can_use_bow() end,
-            ["MQ Gerudo Training Grounds Torch Slug Room Clear Chest"] = function () return soul_iron_knuckle() and soul_enemy(SOUL_ENEMY_TORCH_SLUG) end,
-            ["MQ Gerudo Training Grounds Torch Slug Room Switch Chest"] = function () return has_ranged_weapon() end,
-            ["MQ Gerudo Training Grounds Maze Right Side Middle Chest"] = function () return event('GTG_LAVA_HAMMER') and (can_longshot() or (can_hookshot() and (has_fire_arrows() or (has_hover_boots() and event('GTG_LAVA_TARGETS')) or trick('OOT_MQ_GTG_FLAMES')))) end,
-            ["MQ Gerudo Training Grounds Maze Right Side Right Chest"] = function () return event('GTG_LAVA_HAMMER') and (can_longshot() or (can_hookshot() and (has_fire_arrows() or (has_hover_boots() and event('GTG_LAVA_TARGETS')) or trick('OOT_MQ_GTG_FLAMES')))) end,
-            ["MQ Gerudo Training Grounds Ice Arrows Chest"] = function () return event('GTG_ICE_ARROWS') end,
-            ["MQ Gerudo Training Grounds SR Lava Back-Right"] = function () return has_fire_arrows() end,
-            ["MQ Gerudo Training Grounds SR Lava Center"] = function () return has_fire_arrows() end,
-            ["MQ Gerudo Training Grounds Wonder Item Eye Statue"] = function () return has_hover_boots() end,
+            ["MQ Gerudo Training Grounds Silver Block Room Chest"] = function () return event('GTG_MQ_STALFOS_SIDE_CLEAR') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Stalfos Room Ledge Before Red Ice"] = {
+        ["exits"] = {
+            ["Gerudo Training Grounds Stalfos Room Ledge After Red Ice"] = function () return has_blue_fire() end,
+            ["Gerudo Training Grounds Stalfos Room"] = function () return has_lens() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Stalfos Room Ledge After Red Ice"] = {
+        ["exits"] = {
+            ["Gerudo Training Grounds Stalfos Room Ledge Before Red Ice"] = function () return has_blue_fire() or trick('OOT_PASS_COLLISION') end,
+            ["Gerudo Training Grounds Spinning Statue Room Upper"] = function () return event('GTG_MQ_STALFOS_CLEAR') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Spinning Statue Room Upper"] = {
+        ["exits"] = {
+            ["Gerudo Training Grounds Stalfos Room Ledge After Red Ice"] = function () return true end,
+            ["Gerudo Training Grounds Spinning Statue Room Upper Side Door"] = function () return event('GTG_MQ_SPINNING_STATUE_CRYSTAL') end,
+            ["Gerudo Training Grounds Spinning Statue Room Lower"] = function () return true end,
+            ["Gerudo Training Grounds Spinning Statue Room Statue Middle"] = function () return has_hover_boots() or can_longshot() or hookshot_anywhere() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Spinning Statue Room Upper Side Door"] = {
+        ["exits"] = {
+            ["Gerudo Training Grounds Spinning Statue Room Upper"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Gerudo Training Grounds Ice Arrows Chest"] = function () return event('GTG_ICE_ARROWS_SWITCH') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Spinning Statue Room Lower"] = {
+        ["events"] = {
+            ["GTG_MQ_SPINNING_STATUE_EYES"] = function () return can_use_bow() end,
+            ["GTG_MQ_SPINNING_STATUE_CRYSTAL"] = function () return can_use_bow() or can_use_slingshot() or can_hookshot() or has_explosives() or can_boomerang() end,
+        },
+        ["exits"] = {
+            ["Gerudo Training Grounds Spinning Statue Room Upper"] = function () return can_longshot() or hookshot_anywhere() or climb_anywhere() end,
+            ["Gerudo Training Grounds Spinning Statue Room Statue Middle"] = function () return hookshot_anywhere() or climb_anywhere() end,
+            ["Gerudo Training Grounds Room After Spinning Statue"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Gerudo Training Grounds Spinning Statue Chest"] = function () return event('GTG_MQ_SPINNING_STATUE_EYES') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Spinning Statue Room Statue Middle"] = {
+        ["exits"] = {
+            ["Gerudo Training Grounds Spinning Statue Room Upper"] = function () return can_hookshot() and (is_adult() or (is_child() and has_hover_boots())) end,
+            ["Gerudo Training Grounds Spinning Statue Room Lower"] = function () return is_adult() or (has_hover_boots() or climb_anywhere()) or hookshot_anywhere() end,
+        },
+        ["locations"] = {
+            ["MQ Gerudo Training Grounds Wonder Item Eye Statue"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Gerudo Training Grounds Room After Spinning Statue"] = {
+        ["events"] = {
+            ["GTG_MQ_KNUCKLE_AND_SLUGS_CLEAR"] = function () return soul_iron_knuckle() and soul_enemy(SOUL_ENEMY_TORCH_SLUG) and has_weapon() end,
+            ["GTG_MQ_KNUCKLE_AND_SLUGS_WALL_CRYSTAL"] = function () return has_ranged_weapon() or has_explosives() or (climb_anywhere() and (can_use_mask_blast() or can_jump_slash())) end,
+        },
+        ["exits"] = {
+            ["Gerudo Training Grounds Spinning Statue Room Lower"] = function () return event('GTG_MQ_KNUCKLE_AND_SLUGS_CLEAR') end,
+            ["Gerudo Training Grounds Lava Room Deep Side Ledge"] = function () return event('GTG_MQ_KNUCKLE_AND_SLUGS_CLEAR') end,
+        },
+        ["locations"] = {
+            ["MQ Gerudo Training Grounds Torch Slug Room Clear Chest"] = function () return event('GTG_MQ_KNUCKLE_AND_SLUGS_CLEAR') end,
+            ["MQ Gerudo Training Grounds Torch Slug Room Switch Chest"] = function () return event('GTG_MQ_KNUCKLE_AND_SLUGS_WALL_CRYSTAL') end,
         },
         ["age_change"] = true,
     },
     ["Ice Cavern"] = {
         ["exits"] = {
             ["Zora Fountain Frozen"] = function () return true end,
-            ["Ice Cavern Main"] = function () return has_ranged_weapon() or has_explosives() end,
+            ["Ice Cavern Room After Entrance Boulder"] = function () return true end,
         },
         ["locations"] = {
             ["MQ Ice Cavern Pot Entrance"] = function () return true end,
         },
         ["age_change"] = true,
     },
-    ["Ice Cavern Main"] = {
+    ["Ice Cavern Room After Entrance Boulder"] = {
+        ["events"] = {
+            ["ICE_MQ_FIRST_CRYSTAL"] = function () return has_ranged_weapon() or has_explosives() or (is_adult() and (has('SWORD_BIGGORON') or can_use_mask_blast())) end,
+        },
         ["exits"] = {
-            ["Ice Cavern Map Room"] = function () return soul_wolfos() and soul_freezard() and (has_weapon() or can_use_sticks() or has_explosives()) end,
-            ["Ice Cavern Compass Room"] = function () return is_adult() and has_blue_fire() end,
-            ["Ice Cavern Big Room"] = function () return has_blue_fire() end,
+            ["Ice Cavern"] = function () return true end,
+            ["Ice Cavern Ledge After Shiek"] = function () return climb_anywhere() or hookshot_anywhere() end,
+            ["Ice Cavern After Initial Ice Block"] = function () return event('ICE_MQ_FIRST_CRYSTAL') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ice Cavern After Initial Ice Block"] = {
+        ["exits"] = {
+            ["Ice Cavern Room After Entrance Boulder"] = function () return event('ICE_MQ_FIRST_CRYSTAL') end,
+            ["Ice Cavern Main Room"] = function () return true end,
         },
         ["locations"] = {
             ["MQ Ice Cavern Pot First Room 1"] = function () return true end,
             ["MQ Ice Cavern Pot First Room 2"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ice Cavern Main Room"] = {
+        ["events"] = {
+            ["ICE_MQ_MAIN_ENEMIES_CLEAR"] = function () return soul_wolfos() and soul_freezard() and (has_weapon() or can_use_sticks() or has_explosives()) end,
+        },
+        ["exits"] = {
+            ["Ice Cavern After Initial Ice Block"] = function () return true end,
+            ["Ice Cavern Map Room"] = function () return event('ICE_MQ_MAIN_ENEMIES_CLEAR') end,
+            ["Ice Cavern Compass Room"] = function () return has_blue_fire() and is_adult() or climb_anywhere() or hookshot_anywhere() end,
+            ["Ice Cavern Vanilla Push Block Room"] = function () return has_blue_fire() or climb_anywhere() or hookshot_anywhere() end,
+        },
+        ["locations"] = {
             ["MQ Ice Cavern Pot Main Room 1"] = function () return true end,
             ["MQ Ice Cavern Pot Main Room 2"] = function () return true end,
             ["MQ Ice Cavern Pot Main Room 3"] = function () return true end,
@@ -8952,31 +10353,87 @@ function _oot_logic()
     },
     ["Ice Cavern Map Room"] = {
         ["events"] = {
-            ["BLUE_FIRE"] = function () return has_bottle() end,
+            ["BLUE_FIRE"] = function () return has_bottle() and event('ICE_MQ_MAP_STALAGMITES') end,
+            ["ICE_MQ_MAP_STALAGMITES"] = function () return true end,
+            ["ICE_MQ_MAP_SWITCH"] = function () return has_weapon() or has_bombs() or can_use_mask_blast() or has_bombchu() or can_use_bow() or can_use_slingshot() or can_hookshot() or can_use_sticks() or can_hammer() or can_boomerang() end,
+        },
+        ["exits"] = {
+            ["Ice Cavern Main Room"] = function () return true end,
         },
         ["locations"] = {
-            ["MQ Ice Cavern Map Chest"] = function () return has_blue_fire() end,
+            ["MQ Ice Cavern Map Chest"] = function () return event('ICE_MQ_MAP_SWITCH') and has_blue_fire() end,
         },
         ["age_change"] = true,
     },
     ["Ice Cavern Compass Room"] = {
+        ["events"] = {
+            ["BLUE_FIRE"] = function () return has_bottle() end,
+        },
+        ["exits"] = {
+            ["Ice Cavern Main Room"] = function () return has_blue_fire() or climb_anywhere() or hookshot_anywhere() end,
+        },
         ["locations"] = {
             ["MQ Ice Cavern Compass Chest"] = function () return true end,
-            ["MQ Ice Cavern Piece of Heart"] = function () return has_explosives() end,
-            ["MQ Ice Cavern GS Compass Room"] = function () return gs() and (can_play_time() or has_blue_fire_arrows() or can_boomerang()) end,
+            ["MQ Ice Cavern Piece of Heart"] = function () return has_explosives() or (can_use_mask_blast() and (is_child() or (is_adult() and has_shield()))) end,
+            ["MQ Ice Cavern GS Compass Room"] = function () return gs() and (can_play_time() and has_blue_fire() and can_damage_skull() or has_blue_fire_arrows() or can_boomerang()) end,
             ["MQ Ice Cavern Pot Compass Room 1"] = function () return true end,
             ["MQ Ice Cavern Pot Compass Room 2"] = function () return true end,
         },
         ["age_change"] = true,
     },
-    ["Ice Cavern Big Room"] = {
+    ["Ice Cavern Vanilla Push Block Room"] = {
+        ["events"] = {
+            ["BLUE_FIRE"] = function () return has_bottle() and (climb_anywhere() or hookshot_anywhere() or can_play_time()) end,
+            ["ICE_MQ_SECOND_CRYSTAL"] = function () return has_ranged_weapon() or has_explosives() or (is_adult() and (has('SWORD_BIGGORON') or can_use_mask_blast())) end,
+        },
+        ["exits"] = {
+            ["Ice Cavern Main Room"] = function () return has_blue_fire() or hookshot_anywhere() end,
+            ["Ice Cavern Vanilla Push Block Room Scarecrow Ledge"] = function () return climb_anywhere() or hookshot_anywhere() or scarecrow_hookshot() or (is_adult() and trick('OOT_MQ_ICE_SCARE_NOTHING')) or (has_hover_boots() and (can_longshot() or (is_adult() and trick('OOT_MQ_ICE_SCARE_HOVER')))) end,
+            ["Ice Cavern Past Red Ice Before Shiek"] = function () return climb_anywhere() or hookshot_anywhere() or (has_blue_fire() and (is_adult() or (can_play_time() and has_hover_boots()))) end,
+        },
         ["locations"] = {
-            ["MQ Ice Cavern Iron Boots"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and has_weapon() and (is_adult() or (can_play_time() and has_hover_boots())) end,
-            ["MQ Ice Cavern Sheik Song"] = function () return soul_npc(SOUL_NPC_SHEIK) and soul_enemy(SOUL_ENEMY_STALFOS) and has_weapon() and (is_adult() or (can_play_time() and has_hover_boots())) end,
-            ["MQ Ice Cavern GS Scarecrow"] = function () return gs() and (scarecrow_hookshot() or (has_hover_boots() and (can_longshot() or (is_adult() and trick('OOT_MQ_ICE_SCARE_HOVER')))) or (is_adult() and trick('OOT_MQ_ICE_SCARE_NOTHING'))) end,
-            ["MQ Ice Cavern GS Clear Blocks"] = function () return gs() and (has_ranged_weapon() or has_explosives()) end,
-            ["MQ Ice Cavern Pot Final Corridor 1"] = function () return is_adult() or (can_play_time() and has_hover_boots()) end,
-            ["MQ Ice Cavern Pot Final Corridor 2"] = function () return is_adult() or (can_play_time() and has_hover_boots()) end,
+            ["MQ Ice Cavern GS Clear Blocks"] = function () return gs() and event('ICE_MQ_SECOND_CRYSTAL') and can_damage_skull() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ice Cavern Vanilla Push Block Room Scarecrow Ledge"] = {
+        ["exits"] = {
+            ["Ice Cavern Vanilla Push Block Room"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Ice Cavern GS Scarecrow"] = function () return gs() and can_damage_skull() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ice Cavern Past Red Ice Before Shiek"] = {
+        ["exits"] = {
+            ["Ice Cavern Vanilla Push Block Room"] = function () return has_blue_fire() or hookshot_anywhere() end,
+            ["Ice Cavern Serenade Room"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Ice Cavern Pot Final Corridor 1"] = function () return true end,
+            ["MQ Ice Cavern Pot Final Corridor 2"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ice Cavern Serenade Room"] = {
+        ["events"] = {
+            ["ICE_MQ_FINAL_ROOM_CLEAR"] = function () return soul_enemy(SOUL_ENEMY_STALFOS) and has_weapon() end,
+        },
+        ["exits"] = {
+            ["Ice Cavern Past Red Ice Before Shiek"] = function () return event('ICE_MQ_FINAL_ROOM_CLEAR') end,
+            ["Ice Cavern Ledge After Shiek"] = function () return event('ICE_MQ_FINAL_ROOM_CLEAR') and has_iron_boots() end,
+        },
+        ["locations"] = {
+            ["MQ Ice Cavern Iron Boots"] = function () return event('ICE_MQ_FINAL_ROOM_CLEAR') end,
+            ["MQ Ice Cavern Sheik Song"] = function () return event('ICE_MQ_FINAL_ROOM_CLEAR') and soul_npc(SOUL_NPC_SHEIK) end,
+        },
+        ["age_change"] = true,
+    },
+    ["Ice Cavern Ledge After Shiek"] = {
+        ["exits"] = {
+            ["Ice Cavern Room After Entrance Boulder"] = function () return true end,
+            ["Ice Cavern Serenade Room"] = function () return has_iron_boots() end,
         },
         ["age_change"] = true,
     },
@@ -8986,7 +10443,7 @@ function _oot_logic()
         },
         ["exits"] = {
             ["Zora Fountain"] = function () return true end,
-            ["Jabu-Jabu Main"] = function () return event('JABU_MQ_START') end,
+            ["Jabu-Jabu Main Elevator Room Upper"] = function () return event('JABU_MQ_START') end,
         },
         ["locations"] = {
             ["MQ Jabu-Jabu Map Chest"] = function () return has_explosives_or_hammer() end,
@@ -9000,69 +10457,238 @@ function _oot_logic()
         },
         ["age_change"] = true,
     },
-    ["Jabu-Jabu Main"] = {
+    ["Jabu-Jabu Main Elevator Room Upper"] = {
         ["events"] = {
-            ["JABU_BIG_OCTO"] = function () return event('JABU_TENTACLE_GREEN') and soul_octorok() and (can_use_sticks() or has_weapon()) and soul_ruto() end,
-            ["JABU_MQ_BACK"] = function () return can_use_slingshot() and has_explosives() end,
+            ["JABU_MQ_LOWER_BIG_OCTO_PLATFORM"] = function () return climb_anywhere() or longshot_anywhere() end,
         },
         ["exits"] = {
             ["Jabu-Jabu"] = function () return true end,
-            ["Jabu-Jabu Back"] = function () return can_boomerang() and event('JABU_MQ_BACK') end,
-            ["Jabu-Jabu Pre-Boss"] = function () return event('JABU_TENTACLE_RED') and (event('JABU_BIG_OCTO') or can_hookshot() or has_hover_boots()) end,
-            ["Jabu-Jabu Basement Side Room"] = function () return event('JABU_TENTACLE_RED') end,
+            ["Jabu-Jabu Vanilla Ruto Falling Room"] = function () return event('JABU_MQ_UNDERWATER_ALCOVE_SWITCH') end,
+            ["Jabu-Jabu Main Elevator Room Ledge Before Pre-Boss"] = function () return has_hover_boots() or (can_use_slingshot() and can_hookshot()) or event('JABU_MQ_LOWER_BIG_OCTO_PLATFORM') or climb_anywhere() end,
+            ["Jabu-Jabu Main Elevator Room Lower"] = function () return true end,
+            ["Jabu-Jabu Main Elevator Room High Ledge"] = function () return climb_anywhere() end,
         },
         ["locations"] = {
-            ["MQ Jabu-Jabu Compass Chest"] = function () return can_use_slingshot() and (is_child() or (is_adult() and can_dive_small())) end,
-            ["MQ Jabu-Jabu Second Room B1 Chest"] = function () return true end,
-            ["MQ Jabu-Jabu Second Room 1F Chest"] = function () return can_use_slingshot() and (has_hover_boots() or can_hookshot() or event('JABU_BIG_OCTO')) end,
-            ["MQ Jabu-Jabu Third Room West Chest"] = function () return can_use_slingshot() and (is_child() or (is_adult() and can_dive_small())) end,
-            ["MQ Jabu-Jabu Third Room East Chest"] = function () return can_use_slingshot() and (is_child() or (is_adult() and can_dive_small())) end,
-            ["MQ Jabu-Jabu SoT Room Lower Chest"] = function () return (soul_ruto() or can_play_elegy()) and (is_child() or (is_adult() and can_dive_small())) end,
-            ["MQ Jabu-Jabu Boomerang Chest"] = function () return (soul_ruto() or can_play_elegy()) and soul_lizalfos_dinalfos() and soul_like_like() and soul_enemy(SOUL_ENEMY_STINGER) end,
-            ["MQ Jabu-Jabu GS SoT Block"] = function () return gs() and (soul_ruto() or can_play_elegy()) and can_play_time() and (is_child() or (is_adult() and can_dive_small())) end,
-            ["MQ Jabu-Jabu Cow"] = function () return can_play_epona() and event('JABU_BIG_OCTO') and can_use_slingshot() end,
-            ["MQ Jabu-Jabu Pot Underwater Alcove 1"] = function () return is_child() or (is_adult() and can_dive_small()) end,
-            ["MQ Jabu-Jabu Pot Underwater Alcove 2"] = function () return is_child() or (is_adult() and can_dive_small()) end,
-            ["MQ Jabu-Jabu Pot Boomerang Room 1"] = function () return (soul_ruto() or can_play_elegy()) and (is_child() or (is_adult() and can_dive_small())) end,
-            ["MQ Jabu-Jabu Pot Boomerang Room 2"] = function () return (soul_ruto() or can_play_elegy()) and (is_child() or (is_adult() and can_dive_small())) end,
-            ["MQ Jabu-Jabu Grass Main Room Top 1"] = function () return (is_child() or (is_adult() and can_dive_small())) and can_cut_grass() and has_explosives_or_hammer() end,
-            ["MQ Jabu-Jabu Grass Main Room Top 2"] = function () return (is_child() or (is_adult() and can_dive_small())) and can_cut_grass() and has_explosives_or_hammer() end,
-            ["MQ Jabu-Jabu Grass Main Room Bottom 1"] = function () return (is_child() or (is_adult() and can_dive_small())) and can_cut_grass() end,
-            ["MQ Jabu-Jabu Grass Main Room Bottom 2"] = function () return (is_child() or (is_adult() and can_dive_small())) and can_cut_grass() end,
-            ["MQ Jabu-Jabu Grass Main Room Bottom 3"] = function () return (is_child() or (is_adult() and can_dive_small())) and can_cut_grass() end,
-            ["MQ Jabu-Jabu Grass Boomerang Room"] = function () return (is_child() or (is_adult() and can_dive_small())) and can_cut_grass() end,
-            ["MQ Jabu-Jabu Grass Big Octo Top 1"] = function () return event('JABU_BIG_OCTO') and can_cut_grass() end,
-            ["MQ Jabu-Jabu Grass Big Octo Top 2"] = function () return event('JABU_BIG_OCTO') and can_cut_grass() end,
-            ["MQ Jabu-Jabu Grass Room After Big Octo"] = function () return event('JABU_BIG_OCTO') and can_cut_grass() and can_use_slingshot() end,
-            ["MQ Jabu-Jabu Rupee Bottom"] = function () return is_child() and can_dive_small() or can_dive_big() end,
-            ["MQ Jabu-Jabu Rupee Middle"] = function () return can_dive_small() end,
-            ["MQ Jabu-Jabu Rupee Top"] = function () return is_child() or can_dive_small() end,
             ["MQ Jabu-Jabu Heart 1"] = function () return true end,
             ["MQ Jabu-Jabu Heart 2"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Main Elevator Room Lower"] = {
+        ["exits"] = {
+            ["Jabu-Jabu Main Elevator Room Upper"] = function () return true end,
+            ["Jabu-Jabu Main Elevator Room Lower Switch Alcove"] = function () return is_child() or (is_adult() and can_dive_small()) end,
+            ["Jabu Jabu Basement Loop to Main Elevator"] = function () return event('JABU_MQ_WATER_SPOUTS') end,
+        },
+        ["locations"] = {
+            ["MQ Jabu-Jabu Second Room B1 Chest"] = function () return true end,
             ["MQ Jabu-Jabu Wonder Item Elevator Cow"] = function () return can_use_slingshot() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Main Elevator Room Lower Switch Alcove"] = {
+        ["events"] = {
+            ["JABU_MQ_UNDERWATER_ALCOVE_SWITCH"] = function () return true end,
+        },
+        ["exits"] = {
+            ["Jabu-Jabu Main Elevator Room Lower"] = function () return is_child() or (is_adult() and can_dive_small()) end,
+        },
+        ["locations"] = {
+            ["MQ Jabu-Jabu Compass Chest"] = function () return can_hit_triggers_distance() or can_hookshot() or has_bombchu() end,
+            ["MQ Jabu-Jabu Pot Underwater Alcove 1"] = function () return true end,
+            ["MQ Jabu-Jabu Pot Underwater Alcove 2"] = function () return true end,
+            ["MQ Jabu-Jabu Rupee Bottom"] = function () return can_dive_big() end,
+            ["MQ Jabu-Jabu Rupee Middle"] = function () return can_dive_small() end,
+            ["MQ Jabu-Jabu Rupee Top"] = function () return is_child() or can_dive_small() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Main Elevator Room Ledge Before Pre-Boss"] = {
+        ["exits"] = {
+            ["Jabu-Jabu Main Elevator Room Upper"] = function () return has_hover_boots() or event('JABU_MQ_LOWER_BIG_OCTO_PLATFORM') or climb_anywhere() end,
+            ["Jabu-Jabu Main Elevator Room Lower"] = function () return true end,
+            ["Jabu-Jabu Pre-Boss Room"] = function () return event('JABU_TENTACLE_RED') end,
+        },
+        ["locations"] = {
+            ["MQ Jabu-Jabu Second Room 1F Chest"] = function () return can_use_slingshot() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Vanilla Ruto Falling Room"] = {
+        ["events"] = {
+            ["JABU_MQ_BACK_UNLOCK"] = function () return can_use_slingshot() and (has_explosives() or (climb_anywhere() and (can_hammer() or can_use_mask_blast()))) end,
+        },
+        ["exits"] = {
+            ["Jabu-Jabu Main Elevator Room Upper"] = function () return true end,
+            ["Jabu-Jabu Vanilla Ruto Falling Room After Wiggling Thing"] = function () return can_boomerang() end,
+            ["Jabu-Jabu Ruto Section Bottom Floor"] = function () return true end,
+            ["Jabu-Jabu Basement Ledge Before Big Octo"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Jabu-Jabu Grass Main Room Top 1"] = function () return can_cut_grass() and has_explosives_or_hammer() end,
+            ["MQ Jabu-Jabu Grass Main Room Top 2"] = function () return can_cut_grass() and has_explosives_or_hammer() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Vanilla Ruto Falling Room After Wiggling Thing"] = {
+        ["exits"] = {
+            ["Jabu-Jabu Vanilla Ruto Falling Room"] = function () return can_boomerang() end,
+            ["Jabu-Jabu Back Forked Paths"] = function () return event('JABU_MQ_BACK_UNLOCK') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Ruto Section Bottom Floor"] = {
+        ["exits"] = {
+            ["Jabu-Jabu Vanilla Ruto Falling Room"] = function () return true end,
+            ["Jabu-Jabu Basement Side Room"] = function () return event('JABU_TENTACLE_RED') end,
+            ["Jabu Jabu Basement Loop to Main Elevator"] = function () return soul_ruto() or can_play_elegy() end,
+            ["Jabu-Jabu Basement Ledge Before Big Octo"] = function () return climb_anywhere() end,
+        },
+        ["locations"] = {
+            ["MQ Jabu-Jabu Third Room West Chest"] = function () return can_use_slingshot() end,
+            ["MQ Jabu-Jabu Third Room East Chest"] = function () return can_use_slingshot() end,
+            ["MQ Jabu-Jabu Grass Main Room Bottom 1"] = function () return can_cut_grass() end,
+            ["MQ Jabu-Jabu Grass Main Room Bottom 2"] = function () return can_cut_grass() end,
+            ["MQ Jabu-Jabu Grass Main Room Bottom 3"] = function () return can_cut_grass() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu Jabu Basement Loop to Main Elevator"] = {
+        ["events"] = {
+            ["JABU_MQ_WATER_SPOUTS"] = function () return soul_lizalfos_dinalfos() and soul_like_like() and soul_enemy(SOUL_ENEMY_STINGER) and has_weapon() end,
+        },
+        ["exits"] = {
+            ["Jabu-Jabu Ruto Section Bottom Floor"] = function () return true end,
+            ["Jabu-Jabu Main Elevator Room Lower"] = function () return event('JABU_MQ_WATER_SPOUTS') end,
+        },
+        ["locations"] = {
+            ["MQ Jabu-Jabu Boomerang Chest"] = function () return event('JABU_MQ_WATER_SPOUTS') end,
+            ["MQ Jabu-Jabu SoT Room Lower Chest"] = function () return true end,
+            ["MQ Jabu-Jabu Pot Boomerang Room 1"] = function () return true end,
+            ["MQ Jabu-Jabu Pot Boomerang Room 2"] = function () return true end,
+            ["MQ Jabu-Jabu GS SoT Block"] = function () return gs() and can_play_time() and can_damage_skull() end,
+            ["MQ Jabu-Jabu Grass Boomerang Room"] = function () return can_cut_grass() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Basement Ledge Before Big Octo"] = {
+        ["exits"] = {
+            ["Jabu-Jabu Ruto Section Bottom Floor"] = function () return true end,
+            ["Jabu-Jabu Basement Ledge Before Big Octo After Green Tentacle"] = function () return event('JABU_TENTACLE_GREEN') end,
+        },
+        ["locations"] = {
             ["MQ Jabu-Jabu Wonder Item Basement Right Cow 1"] = function () return can_use_slingshot() end,
             ["MQ Jabu-Jabu Wonder Item Basement Right Cow 2"] = function () return can_use_slingshot() end,
             ["MQ Jabu-Jabu Wonder Item Basement Right Cow 3"] = function () return can_use_slingshot() end,
             ["MQ Jabu-Jabu Wonder Item Basement Left Cow 1"] = function () return can_use_slingshot() end,
             ["MQ Jabu-Jabu Wonder Item Basement Left Cow 2"] = function () return can_use_slingshot() end,
             ["MQ Jabu-Jabu Wonder Item Basement Left Cow 3"] = function () return can_use_slingshot() end,
-            ["MQ Jabu-Jabu Wonder Item After Big Octo"] = function () return event('JABU_BIG_OCTO') and can_use_slingshot() end,
-            ["MQ Jabu-Jabu Wonder Item Platforms Cow"] = function () return event('JABU_BIG_OCTO') and can_use_slingshot() end,
         },
         ["age_change"] = true,
     },
-    ["Jabu-Jabu Back"] = {
+    ["Jabu-Jabu Basement Ledge Before Big Octo After Green Tentacle"] = {
+        ["exits"] = {
+            ["Jabu-Jabu Basement Ledge Before Big Octo"] = function () return event('JABU_TENTACLE_GREEN') end,
+            ["Jabu-Jabu Big Octo Room"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Big Octo Room"] = {
         ["events"] = {
-            ["JABU_TENTACLE_BLUE"] = function () return (can_use_sticks() and soul_like_like() and can_use_slingshot() or has_fire()) and can_boomerang() and soul_enemy(SOUL_ENEMY_PARASITE) end,
-            ["JABU_TENTACLE_RED"] = function () return can_boomerang() and soul_enemy(SOUL_ENEMY_PARASITE) end,
-            ["JABU_TENTACLE_GREEN"] = function () return event('JABU_TENTACLE_BLUE') end,
+            ["JABU_BIG_OCTO"] = function () return soul_octorok() and (can_use_sticks() or has_weapon()) and soul_ruto() end,
         },
         ["exits"] = {
-            ["Jabu-Jabu Main"] = function () return true end,
+            ["Jabu-Jabu Basement Ledge Before Big Octo After Green Tentacle"] = function () return true end,
+            ["Jabu-Jabu Above Big Octo Fight"] = function () return event('JABU_BIG_OCTO') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Above Big Octo Fight"] = {
+        ["exits"] = {
+            ["Jabu-Jabu Room After Above Big Octo"] = function () return can_use_slingshot() end,
         },
         ["locations"] = {
-            ["MQ Jabu-Jabu Back Chest"] = function () return soul_like_like() and can_use_slingshot() end,
-            ["MQ Jabu-Jabu GS Back"] = function () return gs() and event('JABU_TENTACLE_BLUE') end,
+            ["MQ Jabu-Jabu Grass Big Octo Top 1"] = function () return can_cut_grass() end,
+            ["MQ Jabu-Jabu Grass Big Octo Top 2"] = function () return can_cut_grass() end,
+            ["MQ Jabu-Jabu Wonder Item After Big Octo"] = function () return can_use_slingshot() end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Room After Above Big Octo"] = {
+        ["events"] = {
+            ["MQ_JABU_AFTER_ABOVE_BIG_OCTO_SPAWN_COW_AND_CRATES"] = function () return can_use_slingshot() end,
+        },
+        ["exits"] = {
+            ["Jabu-Jabu Above Big Octo Fight"] = function () return true end,
+            ["Jabu-Jabu Main Elevator Room High Ledge"] = function () return can_play_elegy() and (climb_anywhere() or longshot_anywhere() or can_boomerang()) or (can_boomerang() and event('MQ_JABU_AFTER_ABOVE_BIG_OCTO_SPAWN_COW_AND_CRATES')) end,
+        },
+        ["locations"] = {
+            ["MQ Jabu-Jabu Cow"] = function () return can_play_epona() and event('MQ_JABU_AFTER_ABOVE_BIG_OCTO_SPAWN_COW_AND_CRATES') end,
+            ["MQ Jabu-Jabu Grass Room After Big Octo"] = function () return can_cut_grass() end,
+            ["MQ Jabu-Jabu Wonder Item Platforms Cow"] = function () return event('MQ_JABU_AFTER_ABOVE_BIG_OCTO_SPAWN_COW_AND_CRATES') end,
+            ["MQ Jabu-Jabu Room After Above Big Octo Small Crate 1"] = function () return event('MQ_JABU_AFTER_ABOVE_BIG_OCTO_SPAWN_COW_AND_CRATES') end,
+            ["MQ Jabu-Jabu Room After Above Big Octo Small Crate 2"] = function () return event('MQ_JABU_AFTER_ABOVE_BIG_OCTO_SPAWN_COW_AND_CRATES') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Main Elevator Room High Ledge"] = {
+        ["events"] = {
+            ["JABU_MQ_LOWER_BIG_OCTO_PLATFORM"] = function () return true end,
+        },
+        ["exits"] = {
+            ["Jabu-Jabu Room After Above Big Octo"] = function () return true end,
+            ["Jabu-Jabu Main Elevator Room Upper"] = function () return true end,
+            ["Jabu-Jabu Main Elevator Room Lower"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Back Forked Paths"] = {
+        ["events"] = {
+            ["JABU_MQ_BACK_CENTER_SWITCH"] = function () return has_explosives_or_hammer() end,
+            ["JABU_MQ_BACK_FIRE_WEB"] = function () return has_fire() or (can_use_sticks() and event('JABU_MQ_LIKE_LIKE_ROOM_CLEAR')) end,
+        },
+        ["exits"] = {
+            ["Jabu-Jabu Vanilla Ruto Falling Room After Wiggling Thing"] = function () return true end,
+            ["Jabu-Jabu Back Forked Paths Left 1"] = function () return event('JABU_TENTACLE_BLUE') end,
+            ["Jabu-Jabu Back Forked Paths Left 2"] = function () return event('JABU_TENTACLE_BLUE') end,
+            ["Jabu-Jabu Back Forked Paths Center After Rocks"] = function () return has_explosives_or_hammer() or climb_anywhere() end,
+            ["Jabu-Jabu Back Forked Paths Right 1"] = function () return true end,
+            ["Jabu-Jabu Back Forked Paths After Right 2 Web"] = function () return event('JABU_MQ_BACK_FIRE_WEB') end,
+        },
+        ["locations"] = {
+            ["MQ Jabu-Jabu Back Forked Paths Main Room Small Crate 1"] = function () return true end,
+            ["MQ Jabu-Jabu Back Forked Paths Main Room Small Crate 2"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Back Forked Paths Center After Rocks"] = {
+        ["events"] = {
+            ["JABU_MQ_BACK_CENTER_SWITCH"] = function () return can_play_elegy() end,
+        },
+        ["exits"] = {
+            ["Jabu-Jabu Back Forked Paths"] = function () return has_explosives_or_hammer() or climb_anywhere() end,
+            ["Jabu-Jabu Back Forked Paths Center Room"] = function () return event('JABU_MQ_BACK_CENTER_SWITCH') end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Back Forked Paths Center Room"] = {
+        ["events"] = {
+            ["JABU_TENTACLE_RED"] = function () return can_boomerang() and soul_enemy(SOUL_ENEMY_PARASITE) end,
+        },
+        ["exits"] = {
+            ["Jabu-Jabu Back Forked Paths Center After Rocks"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Back Forked Paths Right 1"] = {
+        ["events"] = {
+            ["JABU_MQ_LIKE_LIKE_ROOM_CLEAR"] = function () return soul_like_like() and can_use_slingshot() end,
+        },
+        ["exits"] = {
+            ["Jabu-Jabu Back Forked Paths"] = function () return event('JABU_MQ_LIKE_LIKE_ROOM_CLEAR') end,
+        },
+        ["locations"] = {
+            ["MQ Jabu-Jabu Back Chest"] = function () return event('JABU_MQ_LIKE_LIKE_ROOM_CLEAR') end,
             ["MQ Jabu-Jabu Pot Like-Like Room 1"] = function () return true end,
             ["MQ Jabu-Jabu Pot Like-Like Room 2"] = function () return true end,
             ["MQ Jabu-Jabu Grass Torch Room"] = function () return can_cut_grass() end,
@@ -9078,26 +10704,64 @@ function _oot_logic()
         },
         ["age_change"] = true,
     },
-    ["Jabu-Jabu Basement Side Room"] = {
+    ["Jabu-Jabu Back Forked Paths After Right 2 Web"] = {
         ["exits"] = {
-            ["Jabu-Jabu Main"] = function () return true end,
-        },
-        ["locations"] = {
-            ["MQ Jabu-Jabu GS Basement Side Room"] = function () return gs() and (has_lens() and soul_keese() and soul_enemy(SOUL_ENEMY_STINGER) or (has_hover_boots() and can_collect_distance()) or (has_fire_arrows() and can_longshot())) end,
+            ["Jabu-Jabu Back Forked Paths"] = function () return true end,
+            ["Jabu-Jabu Back Forked Paths Right 2"] = function () return true end,
         },
         ["age_change"] = true,
     },
-    ["Jabu-Jabu Pre-Boss"] = {
+    ["Jabu-Jabu Back Forked Paths Right 2"] = {
+        ["events"] = {
+            ["JABU_TENTACLE_BLUE"] = function () return can_boomerang() and soul_enemy(SOUL_ENEMY_PARASITE) end,
+        },
+        ["exits"] = {
+            ["Jabu-Jabu Back Forked Paths After Right 2 Web"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Back Forked Paths Left 1"] = {
+        ["events"] = {
+            ["JABU_TENTACLE_GREEN"] = function () return can_boomerang() and soul_enemy(SOUL_ENEMY_PARASITE) end,
+        },
+        ["exits"] = {
+            ["Jabu-Jabu Back Forked Paths"] = function () return true end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Back Forked Paths Left 2"] = {
+        ["exits"] = {
+            ["Jabu-Jabu Back Forked Paths"] = function () return true end,
+        },
+        ["locations"] = {
+            ["MQ Jabu-Jabu GS Back"] = function () return gs() and (climb_anywhere() and (can_hammer() or can_use_mask_blast()) or (has_explosives() and can_collect_distance())) end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Basement Side Room"] = {
+        ["events"] = {
+            ["JABU_MQ_BASEMENT_SIDE_PLATFORM"] = function () return has_lens() and soul_keese() and soul_enemy(SOUL_ENEMY_STINGER) and has_ranged_weapon() end,
+            ["JABU_MQ_BASEMENT_SIDE_BUTTON"] = function () return true end,
+        },
+        ["exits"] = {
+            ["Jabu-Jabu Ruto Section Bottom Floor"] = function () return event('JABU_MQ_BASEMENT_SIDE_BUTTON') end,
+        },
+        ["locations"] = {
+            ["MQ Jabu-Jabu GS Basement Side Room"] = function () return gs() and (event('JABU_MQ_BASEMENT_SIDE_PLATFORM') and can_collect_distance() or (has_hover_boots() and can_collect_distance()) or (has_fire_arrows() and can_longshot()) or (climb_anywhere() and can_damage_skull())) end,
+        },
+        ["age_change"] = true,
+    },
+    ["Jabu-Jabu Pre-Boss Room"] = {
         ["events"] = {
             ["JABU_MQ_END"] = function () return can_use_slingshot() end,
         },
         ["exits"] = {
+            ["Jabu-Jabu Main Elevator Room Ledge Before Pre-Boss"] = function () return true end,
             ["Jabu-Jabu Boss"] = function () return event('JABU_MQ_END') end,
-            ["Jabu-Jabu Main"] = function () return true end,
         },
         ["locations"] = {
             ["MQ Jabu-Jabu Pre-Boss Chest"] = function () return can_use_slingshot() end,
-            ["MQ Jabu-Jabu GS Pre-Boss"] = function () return gs() and can_boomerang() end,
+            ["MQ Jabu-Jabu GS Pre-Boss"] = function () return gs() and can_collect_distance() end,
             ["MQ Jabu-Jabu Pot Before Boss"] = function () return true end,
             ["MQ Jabu-Jabu Grass Before Boss 1"] = function () return can_cut_grass() end,
             ["MQ Jabu-Jabu Grass Before Boss 2"] = function () return can_cut_grass() end,
@@ -9123,6 +10787,12 @@ function _oot_logic()
         ["exits"] = {
             ["Shadow Temple First Locked Door"] = function () return has_explosives() and small_keys_shadow(6) end,
             ["Shadow Temple First Beamos"] = function () return has_fire_arrows() or has_hover_boots() or glitch_megaflip() end,
+        },
+        ["locations"] = {
+            ["MQ Shadow Temple Truth Spinner Room Small Crate 1"] = function () return true end,
+            ["MQ Shadow Temple Truth Spinner Room Small Crate 2"] = function () return true end,
+            ["MQ Shadow Temple Truth Spinner Room Small Crate 3"] = function () return true end,
+            ["MQ Shadow Temple Truth Spinner Room Small Crate 4"] = function () return true end,
         },
         ["age_change"] = true,
     },
@@ -9348,7 +11018,7 @@ function _oot_logic()
         },
         ["locations"] = {
             ["MQ Spirit Temple Map Chest"] = function () return soul_enemy(SOUL_ENEMY_TORCH_SLUG) and (not setting('restoreBrokenActors') or soul_keese()) and (can_use_sticks() or has_weapon() or (has_explosives() and has_nuts())) end,
-            ["MQ Spirit Temple Map Room Back Chest"] = function () return soul_enemy(SOUL_ENEMY_TORCH_SLUG) and (not setting('restoreBrokenActors') or soul_keese()) and soul_redead_gibdo() and soul_enemy(SOUL_ENEMY_STALFOS) and soul_keese() and soul_enemy(SOUL_ENEMY_ANUBIS) and has_weapon() and has_bombchu() and can_use_slingshot() and can_use_din() end,
+            ["MQ Spirit Temple Map Room Back Chest"] = function () return soul_enemy(SOUL_ENEMY_TORCH_SLUG) and (not setting('restoreBrokenActors') or soul_keese()) and soul_redead_gibdo() and soul_enemy(SOUL_ENEMY_STALFOS) and soul_keese() and soul_enemy(SOUL_ENEMY_ANUBIS) and has_weapon() and has_bombchu() and can_use_slingshot() and has_fire() end,
             ["MQ Spirit Temple Paradox Chest"] = function () return event('SPIRIT_PARADOX') end,
             ["MQ Spirit Temple Pot Child Entrance"] = function () return true end,
             ["MQ Spirit Temple Pot Child Boulders 1"] = function () return soul_enemy(SOUL_ENEMY_TORCH_SLUG) and (not setting('restoreBrokenActors') or soul_keese()) and (can_use_sticks() or has_weapon() or (has_explosives() and has_nuts())) and has_bombchu() and can_use_slingshot() end,
@@ -9370,7 +11040,7 @@ function _oot_logic()
             ["Spirit Temple Statue"] = function () return small_keys_spirit(7) end,
         },
         ["locations"] = {
-            ["MQ Spirit Temple Child Upper Ground Chest"] = function () return soul_like_like() and soul_beamos() and soul_enemy(SOUL_ENEMY_BABY_DODONGO) end,
+            ["MQ Spirit Temple Child Upper Ground Chest"] = function () return soul_like_like() and soul_beamos() and soul_enemy(SOUL_ENEMY_BABY_DODONGO) and has_explosives() end,
             ["MQ Spirit Temple Child Upper Ledge Chest"] = function () return can_hookshot() end,
             ["MQ Spirit Temple Pot Child Climb"] = function () return true end,
         },
@@ -9402,6 +11072,9 @@ function _oot_logic()
             ["MQ Spirit Temple Flying Pot Statue Room Upper"] = function () return soul_flying_pot() and (can_play_time() or has_hover_boots()) end,
             ["MQ Spirit Temple Pot Statue Room Upper 1"] = function () return can_play_time() or has_hover_boots() end,
             ["MQ Spirit Temple Pot Statue Room Upper 2"] = function () return can_play_time() or has_hover_boots() end,
+            ["MQ Spirit Temple Giant Statue Room Large Crate 1"] = function () return true end,
+            ["MQ Spirit Temple Giant Statue Room Large Crate 2"] = function () return true end,
+            ["MQ Spirit Temple Giant Statue Room Small Crate"] = function () return true end,
         },
         ["age_change"] = true,
     },
@@ -9429,9 +11102,9 @@ function _oot_logic()
     },
     ["Spirit Temple Adult Lower"] = {
         ["locations"] = {
-            ["MQ Spirit Temple Purple Leever Chest"] = function () return can_collect_distance() and soul_leever() end,
+            ["MQ Spirit Temple Purple Leever Chest"] = function () return can_longshot() and soul_leever() and has_weapon() end,
             ["MQ Spirit Temple Symphony Room Chest"] = function () return small_keys_spirit(7) and can_hammer() and can_play_time() and can_play_epona() and can_play_sun() and can_play_storms() and can_play_zelda() end,
-            ["MQ Spirit Temple GS Leever Room"] = function () return gs() end,
+            ["MQ Spirit Temple GS Leever Room"] = function () return gs() and can_collect_distance() end,
             ["MQ Spirit Temple GS Symphony Room"] = function () return gs() and can_collect_distance() and small_keys_spirit(7) and can_hammer() and can_play_time() and can_play_epona() and can_play_sun() and can_play_storms() and can_play_zelda() end,
             ["MQ Spirit Temple SR Lobby In Water"] = function () return can_hammer() end,
             ["MQ Spirit Temple SR Lobby After Water Near Stairs"] = function () return true end,
@@ -9448,6 +11121,7 @@ function _oot_logic()
         },
         ["locations"] = {
             ["MQ Spirit Temple Beamos Room Chest"] = function () return soul_beamos() end,
+            ["MQ Spirit Temple Beamos Room Small Crate"] = function () return can_play_time() end,
         },
         ["age_change"] = true,
     },
@@ -9504,6 +11178,10 @@ function _oot_logic()
             ["MQ Spirit Temple Pot Top Near Lowering Platform 2"] = function () return can_play_zelda() end,
             ["MQ Spirit Temple Pot Top Near Lowering Platform 3"] = function () return can_play_zelda() end,
             ["MQ Spirit Temple Pot Top Near Lowering Platform 4"] = function () return can_play_zelda() end,
+            ["MQ Spirit Temple Top Near Lowering Platform Large Crate 1"] = function () return can_play_zelda() end,
+            ["MQ Spirit Temple Top Near Lowering Platform Large Crate 2"] = function () return can_play_zelda() end,
+            ["MQ Spirit Temple Top Near Lowering Platform Large Crate 3"] = function () return can_play_zelda() end,
+            ["MQ Spirit Temple Top Near Lowering Platform Large Crate 4"] = function () return can_play_zelda() end,
         },
         ["age_change"] = true,
     },
@@ -9633,6 +11311,17 @@ function _oot_logic()
             ["MQ Water Temple Pot Storage Room 1"] = function () return true end,
             ["MQ Water Temple Pot Storage Room 2"] = function () return true end,
             ["MQ Water Temple Pot Storage Room 3"] = function () return true end,
+            ["MQ Water Temple Storage Room Large Crate 1"] = function () return true end,
+            ["MQ Water Temple Storage Room Large Crate 2"] = function () return true end,
+            ["MQ Water Temple Storage Room Large Crate 3"] = function () return true end,
+            ["MQ Water Temple Storage Room Large Crate 4"] = function () return true end,
+            ["MQ Water Temple Storage Room Large Crate 5"] = function () return true end,
+            ["MQ Water Temple Storage Room Large Crate 6"] = function () return true end,
+            ["MQ Water Temple Storage Room Large Crate 7"] = function () return true end,
+            ["MQ Water Temple Storage Room Small Crate 1"] = function () return true end,
+            ["MQ Water Temple Storage Room Small Crate 2"] = function () return true end,
+            ["MQ Water Temple Storage Room Small Crate 3"] = function () return true end,
+            ["MQ Water Temple Storage Room Small Crate 4"] = function () return true end,
         },
         ["age_change"] = true,
     },
@@ -9730,6 +11419,17 @@ function _oot_logic()
             ["MQ Water Temple Wonder Item Dragon Room Eyes 1"] = function () return has_iron_boots() and can_hookshot() end,
             ["MQ Water Temple Wonder Item Dragon Room Eyes 2"] = function () return has_iron_boots() and can_hookshot() end,
             ["MQ Water Temple Wonder Item Dragon Room Portrait"] = function () return can_dive_small() and has_tunic_zora() and can_hookshot() end,
+            ["MQ Water Temple Dragon Room At Door Large Crate 1"] = function () return true end,
+            ["MQ Water Temple Dragon Room At Door Large Crate 2"] = function () return true end,
+            ["MQ Water Temple Dragon Room Underwater Large Crate 1"] = function () return has_iron_boots() and has_tunic_zora() end,
+            ["MQ Water Temple Dragon Room Underwater Large Crate 2"] = function () return has_iron_boots() and has_tunic_zora() end,
+            ["MQ Water Temple Dragon Room Underwater Large Crate 3"] = function () return has_iron_boots() and has_tunic_zora() end,
+            ["MQ Water Temple Dragon Room Underwater Large Crate 4"] = function () return has_iron_boots() and has_tunic_zora() end,
+            ["MQ Water Temple Dragon Room At Torches Large Crate 1"] = function () return can_dive_small() and has_tunic_zora() end,
+            ["MQ Water Temple Dragon Room At Torches Large Crate 2"] = function () return can_dive_small() and has_tunic_zora() end,
+            ["MQ Water Temple Dragon Room At Torches Small Crate 1"] = function () return can_dive_small() and has_tunic_zora() end,
+            ["MQ Water Temple Dragon Room At Torches Small Crate 2"] = function () return can_dive_small() and has_tunic_zora() end,
+            ["MQ Water Temple Dragon Room At Torches Small Crate 3"] = function () return can_dive_small() and has_tunic_zora() end,
         },
         ["age_change"] = true,
     },
@@ -9740,6 +11440,11 @@ function _oot_logic()
         },
         ["locations"] = {
             ["MQ Water Temple Pot Boss Key Room"] = function () return true end,
+            ["MQ Water Temple Boss Key Room By Switch Large Crate"] = function () return true end,
+            ["MQ Water Temple Boss Key Room In Center Large Crate 1"] = function () return true end,
+            ["MQ Water Temple Boss Key Room In Center Large Crate 2"] = function () return true end,
+            ["MQ Water Temple Boss Key Room In Center Large Crate 3"] = function () return true end,
+            ["MQ Water Temple Boss Key Room In Center Large Crate 4"] = function () return true end,
         },
         ["age_change"] = true,
     },
@@ -9757,16 +11462,28 @@ function _oot_logic()
         ["age_change"] = true,
     },
     ["Water Temple Three Torch Room"] = {
+        ["events"] = {
+            ["WATER_MQ_THREE_TORCH_ROOM_GATE"] = function () return has_fire_arrows() end,
+        },
         ["exits"] = {
             ["Water Temple Main Room Bottom Floor"] = function () return has_iron_boots() and has_tunic_zora_strict() or (longshot_anywhere() and has_tunic_zora_strict()) end,
         },
         ["locations"] = {
-            ["MQ Water Temple GS Three Torch"] = function () return gs() and has_fire_arrows() and (scarecrow_hookshot() or has_hover_boots() or hookshot_anywhere() or climb_anywhere()) end,
-            ["MQ Water Temple Pot Skull Cage 1"] = function () return has_fire_arrows() and (scarecrow_hookshot() or has_hover_boots() or hookshot_anywhere() or climb_anywhere()) end,
-            ["MQ Water Temple Pot Skull Cage 2"] = function () return has_fire_arrows() and (scarecrow_hookshot() or has_hover_boots() or hookshot_anywhere() or climb_anywhere()) end,
-            ["MQ Water Temple Pot Skull Cage 3"] = function () return has_fire_arrows() and (scarecrow_hookshot() or has_hover_boots() or hookshot_anywhere() or climb_anywhere()) end,
-            ["MQ Water Temple Pot Skull Cage 4"] = function () return has_fire_arrows() and (scarecrow_hookshot() or has_hover_boots() or hookshot_anywhere() or climb_anywhere()) end,
-            ["MQ Water Temple Wonder Item Triple Torches"] = function () return has_fire_arrows() and (scarecrow_hookshot() or has_hover_boots() or hookshot_anywhere() or climb_anywhere()) and (can_hookshot() or can_use_bow()) end,
+            ["MQ Water Temple GS Three Torch"] = function () return gs() and event('WATER_MQ_THREE_TORCH_ROOM_GATE') and (scarecrow_hookshot() or has_hover_boots() or hookshot_anywhere() or climb_anywhere()) end,
+            ["MQ Water Temple Pot Skull Cage 1"] = function () return event('WATER_MQ_THREE_TORCH_ROOM_GATE') and (scarecrow_hookshot() or has_hover_boots() or hookshot_anywhere() or climb_anywhere()) end,
+            ["MQ Water Temple Pot Skull Cage 2"] = function () return event('WATER_MQ_THREE_TORCH_ROOM_GATE') and (scarecrow_hookshot() or has_hover_boots() or hookshot_anywhere() or climb_anywhere()) end,
+            ["MQ Water Temple Pot Skull Cage 3"] = function () return event('WATER_MQ_THREE_TORCH_ROOM_GATE') and (scarecrow_hookshot() or has_hover_boots() or hookshot_anywhere() or climb_anywhere()) end,
+            ["MQ Water Temple Pot Skull Cage 4"] = function () return event('WATER_MQ_THREE_TORCH_ROOM_GATE') and (scarecrow_hookshot() or has_hover_boots() or hookshot_anywhere() or climb_anywhere()) end,
+            ["MQ Water Temple Wonder Item Triple Torches"] = function () return event('WATER_MQ_THREE_TORCH_ROOM_GATE') and (scarecrow_hookshot() or has_hover_boots() or hookshot_anywhere() or climb_anywhere()) and (can_hookshot() or can_use_bow()) end,
+            ["MQ Water Temple Three Torch Room Large Crate 1"] = function () return true end,
+            ["MQ Water Temple Three Torch Room Large Crate 2"] = function () return true end,
+            ["MQ Water Temple Three Torch Room Large Crate 3"] = function () return true end,
+            ["MQ Water Temple Three Torch Room Large Crate 4"] = function () return true end,
+            ["MQ Water Temple Three Torch Room Large Crate 5"] = function () return true end,
+            ["MQ Water Temple Three Torch Room Large Crate 6"] = function () return true end,
+            ["MQ Water Temple Three Torch Room Behind Gate Large Crate 1"] = function () return event('WATER_MQ_THREE_TORCH_ROOM_GATE') and (scarecrow_hookshot() or has_hover_boots() or hookshot_anywhere() or climb_anywhere()) end,
+            ["MQ Water Temple Three Torch Room Behind Gate Large Crate 2"] = function () return event('WATER_MQ_THREE_TORCH_ROOM_GATE') and (scarecrow_hookshot() or has_hover_boots() or hookshot_anywhere() or climb_anywhere()) end,
+            ["MQ Water Temple Three Torch Room Behind Gate Large Crate 3"] = function () return event('WATER_MQ_THREE_TORCH_ROOM_GATE') and (scarecrow_hookshot() or has_hover_boots() or hookshot_anywhere() or climb_anywhere()) end,
         },
         ["age_change"] = true,
     },
@@ -9789,6 +11506,16 @@ function _oot_logic()
             ["Water Temple Leading To Side Loop After Spikes"] = function () return true end,
             ["Water Temple Side Loop Scarecrow Alcove"] = function () return scarecrow_hookshot() or (has_hover_boots() and is_adult()) or hookshot_anywhere() or climb_anywhere() end,
             ["Water Temple Side Loop Gate Room Past Gate"] = function () return has_iron_boots() and hookshot_anywhere() or (climb_anywhere() and can_jump_slash()) end,
+        },
+        ["locations"] = {
+            ["MQ Water Temple Side Loop First Room At Door Large Crate 1"] = function () return true end,
+            ["MQ Water Temple Side Loop First Room At Door Large Crate 2"] = function () return true end,
+            ["MQ Water Temple Side Loop First Room Water Large Crate 1"] = function () return has_iron_boots() and has_tunic_zora() end,
+            ["MQ Water Temple Side Loop First Room Water Large Crate 2"] = function () return has_iron_boots() and has_tunic_zora() end,
+            ["MQ Water Temple Side Loop First Room Water Large Crate 3"] = function () return has_iron_boots() and has_tunic_zora() end,
+            ["MQ Water Temple Side Loop First Room Water Large Crate 4"] = function () return has_iron_boots() and has_tunic_zora() end,
+            ["MQ Water Temple Side Loop First Room Water Large Crate 5"] = function () return has_iron_boots() and has_tunic_zora() end,
+            ["MQ Water Temple Side Loop First Room Water Large Crate 6"] = function () return has_iron_boots() and has_tunic_zora() end,
         },
         ["age_change"] = true,
     },
@@ -9830,6 +11557,11 @@ function _oot_logic()
         ["locations"] = {
             ["MQ Water Temple Pot Loop 1"] = function () return true end,
             ["MQ Water Temple Pot Loop 2"] = function () return true end,
+            ["MQ Water Temple Dodongo Room Large Crate 1"] = function () return true end,
+            ["MQ Water Temple Dodongo Room Large Crate 2"] = function () return true end,
+            ["MQ Water Temple Dodongo Room Large Crate 3"] = function () return true end,
+            ["MQ Water Temple Dodongo Room Large Crate 4"] = function () return true end,
+            ["MQ Water Temple Dodongo Room Large Crate 5"] = function () return true end,
         },
         ["age_change"] = true,
     },
@@ -9840,6 +11572,10 @@ function _oot_logic()
         },
         ["locations"] = {
             ["MQ Water Temple GS Side Loop"] = function () return gs() and can_damage_skull() end,
+            ["MQ Water Temple Side Loop First Room In Gate Large Crate 1"] = function () return true end,
+            ["MQ Water Temple Side Loop First Room In Gate Large Crate 2"] = function () return true end,
+            ["MQ Water Temple Side Loop First Room In Gate Large Crate 3"] = function () return true end,
+            ["MQ Water Temple Side Loop First Room In Gate Large Crate 4"] = function () return true end,
         },
         ["age_change"] = true,
     },
@@ -9859,6 +11595,11 @@ function _oot_logic()
             ["MQ Water Temple Pot Stalfos Room 1"] = function () return true end,
             ["MQ Water Temple Pot Stalfos Room 2"] = function () return true end,
             ["MQ Water Temple Wonder Item Freestanding Room"] = function () return can_hookshot() end,
+            ["MQ Water Temple Side Loop Stalfos Room Large Crate 1"] = function () return true end,
+            ["MQ Water Temple Side Loop Stalfos Room Large Crate 2"] = function () return true end,
+            ["MQ Water Temple Side Loop Stalfos Room Large Crate 3"] = function () return true end,
+            ["MQ Water Temple Side Loop Stalfos Room Large Crate 4"] = function () return true end,
+            ["MQ Water Temple Side Loop Stalfos Room Large Crate 5"] = function () return true end,
         },
         ["age_change"] = true,
     },
@@ -9900,6 +11641,10 @@ function _oot_logic()
             ["Water Temple Main Room Middle Floor"] = function () return event('WATER_LEVEL_LOW') or event('WATER_LEVEL_MID') or (event('WATER_LEVEL_HIGH') and has_iron_boots() and has_tunic_zora()) end,
             ["Water Temple Central Tower Lower Door"] = function () return event('WATER_LEVEL_LOW') or ((event('WATER_LEVEL_MID') or event('WATER_LEVEL_HIGH')) and has_iron_boots() and has_tunic_zora()) end,
         },
+        ["locations"] = {
+            ["MQ Water Temple Central Tower Top Large Crate 1"] = function () return event('WATER_LEVEL_HIGH') and (has_iron_boots() or has_explosives_or_hammer()) or ((event('WATER_LEVEL_LOW') or event('WATER_LEVEL_MID')) and (can_longshot() or hookshot_anywhere() or climb_anywhere())) end,
+            ["MQ Water Temple Central Tower Top Large Crate 2"] = function () return event('WATER_LEVEL_HIGH') and (has_iron_boots() or has_explosives_or_hammer()) or ((event('WATER_LEVEL_LOW') or event('WATER_LEVEL_MID')) and (can_longshot() or hookshot_anywhere() or climb_anywhere())) end,
+        },
         ["age_change"] = true,
     },
     ["Water Temple Central Tower Under Gate"] = {
@@ -9909,6 +11654,20 @@ function _oot_logic()
         ["locations"] = {
             ["MQ Water Temple Central Pillar Chest"] = function () return can_hookshot() end,
             ["MQ Water Temple Wonder Item Under Pillar Room"] = function () return can_hookshot() end,
+            ["MQ Water Temple Central Tower Under Gate Large Crate 1"] = function () return true end,
+            ["MQ Water Temple Central Tower Under Gate Large Crate 2"] = function () return true end,
+            ["MQ Water Temple Central Tower Under Gate Large Crate 3"] = function () return true end,
+            ["MQ Water Temple Central Tower Under Gate Large Crate 4"] = function () return true end,
+            ["MQ Water Temple Central Tower Under Gate Large Crate 5"] = function () return true end,
+            ["MQ Water Temple Central Tower Under Gate Large Crate 6"] = function () return true end,
+            ["MQ Water Temple Central Tower Under Gate Large Crate 7"] = function () return true end,
+            ["MQ Water Temple Central Tower Under Gate Large Crate 8"] = function () return true end,
+            ["MQ Water Temple Central Tower Under Gate Large Crate 9"] = function () return true end,
+            ["MQ Water Temple Central Tower Under Gate Large Crate 10"] = function () return true end,
+            ["MQ Water Temple Central Tower Under Gate Large Crate 11"] = function () return true end,
+            ["MQ Water Temple Central Tower Under Gate Large Crate 12"] = function () return true end,
+            ["MQ Water Temple Central Tower Under Gate Large Crate 13"] = function () return true end,
+            ["MQ Water Temple Central Tower Under Gate Large Crate 14"] = function () return true end,
         },
         ["age_change"] = true,
     },
@@ -9924,6 +11683,16 @@ function _oot_logic()
             ["MQ Water Temple Pot Twisted Room Cage 1"] = function () return (event('WATER_LEVEL_LOW') or event('WATER_LEVEL_MID')) and can_use_din() end,
             ["MQ Water Temple Pot Twisted Room Cage 2"] = function () return (event('WATER_LEVEL_LOW') or event('WATER_LEVEL_MID')) and can_use_din() end,
             ["MQ Water Temple Wonder Item Lizalfos Hallway"] = function () return can_hookshot() end,
+            ["MQ Water Temple Lizalfos Hallway Behind Gate Large Crate 1"] = function () return (event('WATER_LEVEL_LOW') or event('WATER_LEVEL_MID')) and can_use_din() end,
+            ["MQ Water Temple Lizalfos Hallway Behind Gate Large Crate 2"] = function () return (event('WATER_LEVEL_LOW') or event('WATER_LEVEL_MID')) and can_use_din() end,
+            ["MQ Water Temple Lizalfos Hallway Large Crate 1"] = function () return (event('WATER_LEVEL_LOW') or event('WATER_LEVEL_MID')) or (event('WATER_LEVEL_HIGH') and has_iron_boots() and has_tunic_zora()) end,
+            ["MQ Water Temple Lizalfos Hallway Large Crate 2"] = function () return (event('WATER_LEVEL_LOW') or event('WATER_LEVEL_MID')) or (event('WATER_LEVEL_HIGH') and has_iron_boots() and has_tunic_zora()) end,
+            ["MQ Water Temple Lizalfos Hallway Large Crate 3"] = function () return (event('WATER_LEVEL_LOW') or event('WATER_LEVEL_MID')) or (event('WATER_LEVEL_HIGH') and has_iron_boots() and has_tunic_zora()) end,
+            ["MQ Water Temple Lizalfos Hallway Large Crate 4"] = function () return (event('WATER_LEVEL_LOW') or event('WATER_LEVEL_MID')) or (event('WATER_LEVEL_HIGH') and has_iron_boots() and has_tunic_zora()) end,
+            ["MQ Water Temple Lizalfos Hallway Large Crate 5"] = function () return (event('WATER_LEVEL_LOW') or event('WATER_LEVEL_MID')) or (event('WATER_LEVEL_HIGH') and has_iron_boots() and has_tunic_zora()) end,
+            ["MQ Water Temple Lizalfos Hallway Large Crate 6"] = function () return (event('WATER_LEVEL_LOW') or event('WATER_LEVEL_MID')) or (event('WATER_LEVEL_HIGH') and has_iron_boots() and has_tunic_zora()) end,
+            ["MQ Water Temple Lizalfos Hallway Large Crate 7"] = function () return (event('WATER_LEVEL_LOW') or event('WATER_LEVEL_MID')) or (event('WATER_LEVEL_HIGH') and has_iron_boots() and has_tunic_zora()) end,
+            ["MQ Water Temple Lizalfos Hallway Large Crate 8"] = function () return (event('WATER_LEVEL_LOW') or event('WATER_LEVEL_MID')) or (event('WATER_LEVEL_HIGH') and has_iron_boots() and has_tunic_zora()) end,
         },
         ["age_change"] = true,
     },
@@ -9949,6 +11718,13 @@ function _oot_logic()
             ["MQ Water Temple Pot Room Before High Water 2"] = function () return true end,
             ["MQ Water Temple Pot Room Before High Water 3"] = function () return true end,
             ["MQ Water Temple Wonder Item Above 2F West Room"] = function () return can_hookshot() end,
+            ["MQ Water Temple Room Before High Water Lower Large Crate 1"] = function () return true end,
+            ["MQ Water Temple Room Before High Water Lower Large Crate 2"] = function () return true end,
+            ["MQ Water Temple Room Before High Water Lower Large Crate 3"] = function () return true end,
+            ["MQ Water Temple Room Before High Water Lower Large Crate 4"] = function () return true end,
+            ["MQ Water Temple Room Before High Water Lower Large Crate 5"] = function () return true end,
+            ["MQ Water Temple Room Before High Water Lower Large Crate 6"] = function () return true end,
+            ["MQ Water Temple Room Before High Water Lower Small Crate"] = function () return true end,
         },
         ["age_change"] = true,
     },
@@ -9959,6 +11735,9 @@ function _oot_logic()
         },
         ["locations"] = {
             ["MQ Water Temple GS High Water Changer"] = function () return gs() and can_damage_skull() end,
+            ["MQ Water Temple Room Before High Water Upper Large Crate 1"] = function () return true end,
+            ["MQ Water Temple Room Before High Water Upper Large Crate 2"] = function () return true end,
+            ["MQ Water Temple Room Before High Water Upper Small Crate"] = function () return true end,
         },
         ["age_change"] = true,
     },

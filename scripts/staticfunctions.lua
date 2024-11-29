@@ -178,6 +178,12 @@ local function deep_copy_table(t)
     return copy
 end
 
+-- Connect OoT and MM for the default OoTMM experience (ignoring the "games" setting):
+OOTMM.oot.state.override_place_attribute("Market", "exits", "Market Mask Shop", nil)
+OOTMM.oot.state.override_place_attribute("Market", "exits", "MM Clock Town From Clock Tower", "is_child() and (is_day() or setting('openMaskShop'))")
+OOTMM.mm.state.override_place_attribute("Clock Town Near Clock Tower", "exits", "Clock Tower", nil)
+OOTMM.mm.state.override_place_attribute("Clock Town Near Clock Tower", "exits", "OOT Market", "true")
+
 -- Prepare local copies of the original logic so we can reset later for MQ and/or ER
 OOTMM.original_logic = {}
 OOTMM.original_logic.oot = deep_copy_table(OOTMM.oot.state.logic)
