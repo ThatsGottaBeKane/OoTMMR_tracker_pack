@@ -4709,6 +4709,9 @@
                     "access_rules": [
                       "$mm|Zora Cape Owl Statue"
                     ],
+                    "visibility_rules": [
+                      "setting_owlShuffle_anywhere"
+                    ],
                     "item_count": 1
                   },
                   {
@@ -4727,9 +4730,6 @@
                 "map_locations": [
                   {
                     "map": "termina",
-                    "force_invisibility_rules": [
-                      "setting_owlShuffle_none"
-                    ],
                     "x": 208,
                     "y": 410
                   }
