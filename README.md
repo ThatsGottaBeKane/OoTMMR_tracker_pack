@@ -60,3 +60,5 @@ Green markings indicate that a check is logically reachable. Yellow markings mea
 Big thanks to [Hamsda](https://github.com/Hamsda/EmoTrackerPacks) and Pink Switch who let me use their OOTR/MMR tracker packs as the base for this tracker pack.
 
 Thanks to [ThatsGottaBeKane](https://github.com/ThatsGottaBeKane) for help with locations and the item grid.
+
+*PLEASE NOTE THIS MAP TRACKER IS NO LONGER BEING WORKED ON AS THE ORIGINAL MAP CREATORS ARE BACK WORKING ON THEIR MAP, USE THEIR MAP INSTEAD AS THEY KEEP THEIR'S MORE UP TO DATE.*
