@@ -5638,43 +5638,57 @@
                     "name": "Stone Tower",
                     "children": [
                       {
-                        "name": "Climb Pots",
-                        "access_rules": [
-                          "$mm|Stone Tower Pot Climb 1"
+                        "name": "Stone Tower",
+                        "chest_unopened_img": "images/system/chest_brown_closed.png",
+                        "chest_opened_img": "images/system/chest_brown_open.png",
+                        "sections": [
+                          {
+                            "name": "Climb Pots",
+                            "access_rules": [
+                              "$mm|Stone Tower Pot Climb 1"
+                            ],
+                            "visibility_rules": [
+                              "setting_shufflePotsMm_true"
+                            ],
+                            "chest_unopened_img": "images/pot.png",
+                            "chest_opened_img": "images/pot_grey.png",
+                            "item_count": 2
+                          },                      
+                          {
+                            "name": "Lower Scarecrow Pots",
+                            "access_rules": [
+                              "$mm|Stone Tower Pot Lower Scarecrow 01"
+                            ],
+                            "visibility_rules": [
+                              "setting_shufflePotsMm_true"
+                            ],
+                            "chest_unopened_img": "images/pot.png",
+                            "chest_opened_img": "images/pot_grey.png",
+                            "item_count": 12
+                          },
+                          {
+                            "name": "Upper Scarecrow Pots",
+                            "access_rules": [
+                              "$mm|Stone Tower Pot Higher Scarecrow 1"
+                            ],
+                            "visibility_rules": [
+                              "setting_shufflePotsMm_true"
+                            ],
+                            "chest_unopened_img": "images/pot.png",
+                            "chest_opened_img": "images/pot_grey.png",
+                            "item_count": 9
+                          }
                         ],
-                        "visibility_rules": [
-                          "setting_shufflePotsMm_true"
-                        ],
-                        "chest_unopened_img": "images/pot.png",
-                        "chest_opened_img": "images/pot_grey.png",
-                        "item_count": 2
-                      },                      
-                      {
-                        "name": "Lower Scarecrow Pots",
-                        "access_rules": [
-                          "$mm|Stone Tower Pot Lower Scarecrow 01"
-                        ],
-                        "visibility_rules": [
-                          "setting_shufflePotsMm_true"
-                        ],
-                        "chest_unopened_img": "images/pot.png",
-                        "chest_opened_img": "images/pot_grey.png",
-                        "item_count": 12
+                        "map_locations": [
+                          {
+                            "map": "termina",
+                            "x": 967,
+                            "y": 240
+                          }
+                        ]
                       },
                       {
-                        "name": "Upper Scarecrow Pots",
-                        "access_rules": [
-                          "$mm|Stone Tower Pot Higher Scarecrow 1"
-                        ],
-                        "visibility_rules": [
-                          "setting_shufflePotsMm_true"
-                        ],
-                        "chest_unopened_img": "images/pot.png",
-                        "chest_opened_img": "images/pot_grey.png",
-                        "item_count": 9
-                      },
-                      {
-                        "name": "Inverted Stone Tower Chests",
+                        "name": "Inverted Stone Tower",
                         "chest_unopened_img": "images/system/chest_brown_closed.png",
                         "chest_opened_img": "images/system/chest_brown_open.png",
                         "short_name": "Stone Tower Chests",
