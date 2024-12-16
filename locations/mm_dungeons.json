@@ -2042,18 +2042,6 @@
         "item_count": 1
       },
       {
-        "name": "Main Room Underwater Pot",
-        "access_rules": [
-          "$mm|Great Bay Temple SF Central Room Underwater Pot"
-        ],
-        "visibility_rules": [
-          "setting_shufflePotsMm_true"
-        ],
-        "chest_unopened_img": "images/pot.png",
-        "chest_opened_img": "images/pot_grey.png",
-        "item_count": 1
-      },
-      {
         "name": "Main Room Surface Pots",
         "access_rules": [
           "$mm|Great Bay Temple Pot Central Room 1"
