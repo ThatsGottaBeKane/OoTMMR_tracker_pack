@@ -28,6 +28,12 @@ local OOTMM_LOCATION_CHEST_LINKS = {
         "@Milk Road Keaton Grass Circle/Keaton Quiz Reward",
         "@Mountain Village Keaton Grass Circle/Keaton Quiz Reward"
     },
+    musical_stones = {
+        "@Gossip Stones Puzzle Grotto North/Play a Dungeon Song in all four grottos",
+        "@Gossip Stones Puzzle Grotto East/Play a Dungeon Song in all four grottos",
+        "@Gossip Stones Puzzle Grotto West/Play a Dungeon Song in all four grottos",
+        "@Gossip Stones Puzzle Grotto South/Play a Dungeon Song in all four grottos"
+    },
 }
 local OOTMM_LOCATION_CHEST_LINKS_PREV = {}
 function on_update_location_chest_link()
