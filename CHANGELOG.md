@@ -15,6 +15,8 @@ Bugfixes:
 
 - Some logic changes to avoid problems with unsupported region states and stay rules
 - Fix a bug where some silver rupees were counted twice
+- Fixed Ocarina Button images so they are consistant sizes with all other images
+- Extended item grid in prep for adding new items in next update
 
 ## v24.1.2
 
