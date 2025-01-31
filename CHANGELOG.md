@@ -6,7 +6,7 @@ Bugfixes:
 
 - Fixed Ocarina Button images so they are consistant sizes with all other images
 - Extended item grid in prep for adding new items in next update
-- Fixed dungeon keys setting so they are in order and not messy any more
+- Fixed dungeon keys item grid setting so they are in order and not messy any more
 - Moved a couple of item grid items to keep similar items grouped
 
 ## v25.0.1
