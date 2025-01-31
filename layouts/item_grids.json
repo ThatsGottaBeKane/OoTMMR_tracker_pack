@@ -419,13 +419,6 @@
                 "canvas_top": 16,
                 "width": 14,
                 "height": 14
-              },
-              {
-                "type": "item",
-                "item": "free",
-                "margin": "1,1",
-                "width": 28,
-                "height": 28
               }
             ]
           },
@@ -555,11 +548,26 @@
                 ]
               },
               {
-                "type": "item",
-                "item": "free_label",
-                "margin": "1,1",
+                "type": "canvas",
                 "width": 28,
-                "height": 28
+                "height": 28,
+                "margin": "1,1",
+                "content": [
+                  {
+                    "type": "item",
+                    "item": "free",
+                    "margin": "1,1",
+                    "width": 28,
+                    "height": 28
+                  },
+                  {
+                    "type": "item",
+                    "item": "free_label",
+                    "margin": "1,1",
+                    "width": 28,
+                    "height": 28
+                  }
+                ]
               }
             ]
           }
