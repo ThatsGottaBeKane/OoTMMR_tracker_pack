@@ -1,5 +1,14 @@
 # Releases
 
+## v25.0.2
+
+Bugfixes:
+
+- Fixed Ocarina Button images so they are consistant sizes with all other images
+- Extended item grid in prep for adding new items in next update
+- Fixed dungeon keys setting so they are in order and not messy any more
+- Moved a couple of item grid items to keep similar items grouped
+
 ## v25.0.1
 
 Logic updated to version v25.0 of the OOTMM Randomizer.
@@ -15,9 +24,6 @@ Bugfixes:
 
 - Some logic changes to avoid problems with unsupported region states and stay rules
 - Fix a bug where some silver rupees were counted twice
-- Fixed Ocarina Button images so they are consistant sizes with all other images
-- Extended item grid in prep for adding new items in next update
-- Fixed dungeon keys setting so they are in order and not messy any more
 
 ## v24.1.2
 
