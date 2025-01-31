@@ -52,7 +52,7 @@ Green markings indicate that a check is logically reachable. Yellow markings mea
 
 ## TODOs:
 
-Add missing items from both games
+Add missing items from both games &
 Add unsupported settings
 
 ## Credits
