@@ -52,10 +52,8 @@ Green markings indicate that a check is logically reachable. Yellow markings mea
 
 ## TODOs:
 
-- [ ] Add Silver Rupees to the item grid (jupiterfire)
-- [ ] Add Map Locations for non-supported settings (jupiterfire)
-- [ ] Implement flags for cleared/uncleared dungeon states (wbsch)
-- [ ] Adjust Tree Search for ER Options (wbsch)
+Add missing items from both games
+Add unsupported settings
 
 ## Credits
 
