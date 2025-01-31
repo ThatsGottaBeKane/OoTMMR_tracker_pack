@@ -17,6 +17,7 @@ Bugfixes:
 - Fix a bug where some silver rupees were counted twice
 - Fixed Ocarina Button images so they are consistant sizes with all other images
 - Extended item grid in prep for adding new items in next update
+- Fixed dungeon keys setting so they are in order and not messy any more
 
 ## v24.1.2
 
