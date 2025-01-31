@@ -548,10 +548,9 @@
                 ]
               },
               {
-                "type": "canvas",
-                "width": 28,
-                "height": 28,
-                "margin": "1,1",
+                "type": "array",
+                "orientation": "horizontal",
+                "margin": "0,0",
                 "content": [
                   {
                     "type": "item",
@@ -559,7 +558,14 @@
                     "margin": "1,1",
                     "width": 28,
                     "height": 28
-                  },
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "orientation": "horizontal",
+                "margin": "0,0",
+                "content": [
                   {
                     "type": "item",
                     "item": "free_label",
