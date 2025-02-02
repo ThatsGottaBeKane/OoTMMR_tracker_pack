@@ -58,4 +58,6 @@ Add missing items from both games & add unsupported settings
 
 Big thanks to [Hamsda](https://github.com/Hamsda/EmoTrackerPacks) and Pink Switch who let me use their OOTR/MMR tracker packs as the base for this tracker pack.
 
+[Jupiter0fire](https://github.com/jupiter0fire) & [Wbsch](https://github.com/wbsch) for their support and use of their tracker versions.
+
 Thanks to BusinessAlex for providing us with pictures for items that weren't included in the base tracker packs.
