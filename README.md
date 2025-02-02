@@ -52,13 +52,10 @@ Green markings indicate that a check is logically reachable. Yellow markings mea
 
 ## TODOs:
 
-Add missing items from both games &
-Add unsupported settings
+Add missing items from both games & add unsupported settings
 
 ## Credits
 
 Big thanks to [Hamsda](https://github.com/Hamsda/EmoTrackerPacks) and Pink Switch who let me use their OOTR/MMR tracker packs as the base for this tracker pack.
-
-Thanks to [ThatsGottaBeKane](https://github.com/ThatsGottaBeKane) for help with locations and the item grid.
 
 Thanks to BusinessAlex for providing us with pictures for items that weren't included in the base tracker packs.
